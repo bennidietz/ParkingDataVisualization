@@ -7,7 +7,7 @@ require_once('CSVAnalyzer.php');
 
 // read latest files from data directory
 
-$amountFiles = 14;
+$amountFiles = 14; // adjust to your needs
 $files = [];
 $path = __DIR__ . '/data';
 $dir = opendir($path);
@@ -40,13 +40,20 @@ $csvAnalyzer = new CSVAnalyzer();
 
 $meanData = $csvAnalyzer->calculateMeanValues();
 
-// write mean values to new csv
+  if (isset($_GET['format']) && $_GET['format'] == 'JSON') {
+    // return JSON
 
-$newFile = __DIR__ . '/data/_mean.csv';
-$fp = fopen($newFile, 'w');
+    header('Content-type: application/json');
+    echo json_encode($meanData);
+  } else {
+    // write mean values to new csv
 
-  foreach ($meanData as $line) {
-    fputcsv($fp, $line);
+    $newFile = __DIR__ . '/data/_mean.csv';
+    $fp = fopen($newFile, 'w');
+
+      foreach ($meanData as $line) {
+        fputcsv($fp, $line);
+      }
+
+    fclose($fp);
   }
-
-fclose($fp);
