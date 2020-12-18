@@ -2,41 +2,148 @@
 var map = L.map("map", {}).setView([51.97, 7.63], 14);
 L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
 	attribution:
-		'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-	maxZoom: 14,
-	minZoom:14
+		'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 }).addTo(map);
 
-// SVG overlay for mapB
-L.svg().addTo(map);
-
-var overlay = d3.select(map.getPanes().overlayPane);
-var svg = overlay.select("svg");
-
-
-d3.json('https://www.stadt-muenster.de/ows/mapserv706/poiserv?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&TYPENAME=ms%3Abehoerden&OUTPUTFORMAT=GEOJSON&EXCEPTIONS=XML&MAXFEATURES=1000&SRSNAME=EPSG%3A4326').then(function(bb) {
-	let width = 200, height = 200;
-	let projection = d3.geoEqualEarth();
-	projection.fitSize([width, height], bb);
-	var transform = d3.geoTransform({point: projectPoint})
-	let geoGenerator = d3.geoPath()
-		.projection(transform);
-
-	g = svg.append('g');
-	feature = g.selectAll('path')
-		.data(bb.features)
-		.join('path')
-		.attr('d', geoGenerator)
-		.attr('fill', 'transparent')
-		.attr('stroke', '#000');
-
-	const update = () => feature
-		.attr("cx", d => map.latLngToLayerPoint([d.geometry.coordinates[1],d.geometry.coordinates[0]]).x)
-		.attr("cy", d => map.latLngToLayerPoint([d.geometry.coordinates[1],d.geometry.coordinates[0]]).y)
-	map.on("zoomend", update);
+const fontAwesomeIcon = L.divIcon({
+	html: '<i class="fas fa-parking fa-2x"></i>',
+	iconSize: [20, 20],
+	className: 'myDivIcon'
 });
 
-function projectPoint(x, y) {
-	var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-	this.stream.point(point.x, point.y);
+var features = { "type":"featureCollection", features: [
+		{
+			"type":"Feature",
+			"properties":{data:[10,12,16,20,25,30,30,29,13,10,7,6],title:"Injuries Due to Swan Bite by Month"},
+			"geometry":{
+				"type":"Point",
+				"coordinates":[7.626812,51.965812]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.632062,51.964437]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7,616812,51,965688]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.616938,51.964437]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.617313,51.962688]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.622580,51.960840]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.619438,51.959437]
+			}
+		}
+		,
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.626313,51.959812]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.630062,51.960812]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.630187,51.959812]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.637812,51.957563]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.631312,51.955813]
+			}
+		}
+		,
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.632938,51.955562]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.636313,51.949687]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {data:[100,112,130,200,210,190,170,160,150,140,110,100],title:"Some Statistic"},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [7.639812,51.949188]
+			}
+		}
+	]};
+
+function onEachFeature(feature, layer) {
+	layer.bindPopup(feature.properties.name);
 }
+
+L.geoJSON(features,{
+	pointToLayer: function (feature, latlng) {
+		return L.marker(latlng, {icon: fontAwesomeIcon});
+	},
+	onEachFeature: onEachFeature
+})
+	.addTo(map);
