@@ -1,3 +1,5 @@
 # intellij stuff
 .idea/
 *.iml
+
+.DS_Store
