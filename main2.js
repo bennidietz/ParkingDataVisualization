@@ -1,14 +1,17 @@
-var map = L.map("map", {}).setView([51.97, 7.63], 13);
-L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-	attribution:
-		'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-}).addTo(map);
+var map = L.map('map').setView([51.97, 7.63], 13);
+mapLink =
+	'<a href="http://openstreetmap.org">OpenStreetMap</a>';
+L.tileLayer(
+	'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; ' + mapLink + ' Contributors',
+		maxZoom: 18,
+	}).addTo(map);
 
 // Add an SVG element to Leaflet’s overlay pane
 var svg = d3.select(map.getPanes().overlayPane).append("svg"),
 	g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
-d3.json("https://www.stadt-muenster.de/ows/mapserv706/odalkisserv?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&TYPENAME=ms%3Agemarkungen&OUTPUTFORMAT=GEOJSON&EXCEPTIONS=XML&MAXFEATURES=1000&SRSNAME=EPSG%3A4326", function(geoShape) {
+d3.json("https://www.stadt-muenster.de/ows/mapserv706/poiserv?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&TYPENAME=ms%3Abehoerden&OUTPUTFORMAT=GEOJSON&EXCEPTIONS=XML&MAXFEATURES=1000&SRSNAME=EPSG%3A4326", function(geoShape) {
 
 	//  create a d3.geo.path to convert GeoJSON to SVG
 	var transform = d3.geo.transform({point: projectPoint}),
@@ -41,9 +44,8 @@ d3.json("https://www.stadt-muenster.de/ows/mapserv706/odalkisserv?REQUEST=GetFea
 
 		// initialize the path data
 		d3_features.attr("d", path)
-			.attr('fill', 'transparent')
-			.attr('stroke', '#000');
-		console.dir(svg);
+			.style("fill-opacity", 0.7)
+			.attr('fill','blue');
 	}
 
 	// Use Leaflet to implement a D3 geometric transformation.
