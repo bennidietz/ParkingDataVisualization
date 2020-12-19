@@ -43,7 +43,7 @@ function loadCarParks() {
 				if (this.responseText.length === 0) {
 					reject("The URL field or the content of the field is emtpy.");
 				}
-				resolve(JSON.parse(this.responseText));
+				resolve(JSON.parse(this.responseText["0"]));
 			}
 		};
 		xhttp.open("GET", "/api?type=basedata", true);
@@ -53,13 +53,17 @@ function loadCarParks() {
 
 function constructGeoJSON(carParksArray) {
 	let resultingGeoJSON = {"type":"featureCollection", features: []};
-	carParksArray.forEach((carPark) => {
-		resultingGeoJSON.features.append({"type":"Feature",
-			"properties":{title:"Im a car park!"},
-			"geometry":{
-				"type":"Point",
-				"coordinates":[carPark[25],carPark[24]]
-			}})
+	carParksArray.forEach((carPark, i) => {
+		if (i>0) {
+			resultingGeoJSON.features.push({
+				"type": "Feature",
+				"properties": {title: "Im a car park!"},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [carPark[25], carPark[24]]
+				}
+			})
+		}
 	})
 	return resultingGeoJSON;
 }
