@@ -43,7 +43,7 @@ function loadCarParks() {
 				if (this.responseText.length === 0) {
 					reject("The URL field or the content of the field is emtpy.");
 				}
-				resolve(JSON.parse(this.responseText["0"]));
+				resolve(JSON.parse(this.responseText)["0"]);
 			}
 		};
 		xhttp.open("GET", "/api?type=basedata", true);
