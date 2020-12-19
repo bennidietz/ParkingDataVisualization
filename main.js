@@ -6,13 +6,13 @@ L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
 }).addTo(map);
 // set the icon for car parks
 const parkingIcon = L.divIcon({
-	html: '<i class="fas fa-parking fa-2x"></i>',
+	html: '<i class="fas fa-parking fa-2x" style="color:var(--has-capacity)"></i>',
 	iconSize: [20, 20],
 	className: 'myDivIcon'
 });
 
 /**
- * When the window is loaded the parking date is retrieved from the server
+ * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 window.onload = () => {
 	loadCarParks()
@@ -31,8 +31,8 @@ window.onload = () => {
 
 
 /**
- * Load and interpret the trees from the geoJson file.
- * @returns promise to return a list of trees
+ * Load the carparks from the server
+ * @returns promise to return a list of a list
  */
 function loadCarParks() {
 	return new Promise(function(resolve, reject) {
@@ -46,28 +46,38 @@ function loadCarParks() {
 				resolve(JSON.parse(this.responseText)["0"]);
 			}
 		};
-		xhttp.open("GET", "/api?type=basedata", true);
+		xhttp.open("GET", "https://gins.christian-terbeck.de/api?type=basedata", true);
 		xhttp.send();
 	});
 }
 
 function constructGeoJSON(carParksArray) {
 	let resultingGeoJSON = {"type":"featureCollection", features: []};
+	let names = carParksArray[0];
 	carParksArray.forEach((carPark, i) => {
 		if (i>0) {
-			resultingGeoJSON.features.push({
+			let temp = {
 				"type": "Feature",
-				"properties": {title: "Im a car park!"},
+				"properties": {},
 				"geometry": {
 					"type": "Point",
 					"coordinates": [carPark[25], carPark[24]]
 				}
+			}
+			names.forEach((name,j) => {
+				temp.properties[name] = carPark[j];
 			})
+			resultingGeoJSON.features.push(temp)
 		}
 	})
 	return resultingGeoJSON;
 }
 
+/**
+ * bind a popup to a given feature
+ * @param feature
+ * @param layer
+ */
 function onEachFeature(feature, layer) {
 	layer.bindPopup(feature.properties.name);
 }

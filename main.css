@@ -1,3 +1,7 @@
+:root {
+  --has-capacity: #25cc00;
+  --no-capacity: #cc0000;
+}
 body {
   padding: 0;
   margin: 0;
