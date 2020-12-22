@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ParkingLotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/parking-lot', [ParkingLotController::class, 'showAll']);
+Route::get('/parking-lot/{id}', [ParkingLotController::class, 'showOne']);
