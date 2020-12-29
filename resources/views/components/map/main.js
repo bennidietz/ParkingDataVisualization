@@ -5,11 +5,6 @@ L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
 		'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 }).addTo(map);
 // set the icon for car parks
-const parkingIcon = L.divIcon({
-	html: '<i class="fas fa-parking fa-2x" style="color:var(--has-capacity)"></i>',
-	iconSize: [20, 20],
-	className: 'myDivIcon'
-});
 
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
@@ -19,9 +14,23 @@ window.onload = () => {
 		.then(function(carParksArray) {
 			// save the extracted trees into the global variabel, so that future access is easier
 			let carParksGeoJSON = constructGeoJSON(carParksArray);
+            var rainbow = new Rainbow();
+            var style = getComputedStyle(document.body);
+            // Set start and end colors
+            rainbow.setSpectrum(style.getPropertyValue('--has-capacity'), style.getPropertyValue('--no-capacity'));
+
+            // Set the min/max range
+            rainbow.setNumberRange(0, 793);
+
 			L.geoJSON(carParksGeoJSON,{
 				pointToLayer: function (feature, latlng) {
-					return L.marker(latlng, {icon: parkingIcon});
+                    let parkingIcon = L.divIcon({
+                        //TODO: the color should be set according to current percentage/amount of free parking spaces
+                        html: '<i class="fas fa-parking fa-2x" style="color:#' + rainbow.colourAt(feature.properties.capacity) + '"></i>',
+                        iconSize: [20, 20],
+                        className: 'myDivIcon'
+                    });
+				    return L.marker(latlng, {icon: parkingIcon});
 				},
 				onEachFeature: onEachFeature
 			})
