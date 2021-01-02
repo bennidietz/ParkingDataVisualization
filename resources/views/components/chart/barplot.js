@@ -25,9 +25,10 @@ lineChart = new ParkingChart("line", false)
 barChart = new ParkingChart("bar", true)
 
 class ParkingLot {
-    constructor(name) {
+    constructor(name, capacity=1000) {
         this.name = name;
         this.data = {};
+        this.capacity = capacity
     }
 
     getDataForHours() {
@@ -53,17 +54,27 @@ function findParkingLotByName(name) {
     return null
 }
 
-function getDayChart(ctx, parkingLot, parkingChart) {
+function getDayChart(ctx, parkingLot, parkingChart, reversed) {
+    hourlyData = parkingLot.getDataForHours()
+    if (reversed) {
+        for (i in hourlyData) {
+            hourlyData[i] = parkingLot.capacity - hourlyData[i]
+        }
+    }
+    var label = (reversed) ? 'Number of free parking lots' : 'Number of occupied parking lots'
+    var backgroundColor = (reversed) ? 'rgba(0, 153, 76, 0.2)' : 'rgba(255, 159, 64, 0.2)'
+    var borderColor = (reversed) ? 'rgba(0, 153, 76, 1)' : 'rgba(255, 159, 64, 1)'
+    console.log(hourlyData)
     return new Chart(ctx, {
         type: parkingChart.type,
         data: {
             labels: keys,
             datasets: [{
-                label: 'Number of parking lots occupied',
+                label: label,
                 data: Object.values(hourlyData),
                 fill: parkingChart.backgroundFill,
-                backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                borderColor: 'rgba(255, 159, 64, 1)',
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
                 borderWidth: 1
             }]
         },
@@ -71,8 +82,10 @@ function getDayChart(ctx, parkingLot, parkingChart) {
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true, 
-                    }, stacked:true
+                        beginAtZero: true,
+                        stepSize: Math.round(parkingLot.capacity / 5 / 50) * 50,
+                        max: parkingLot.capacity
+                    },
                 }]
             },
             title: {
@@ -81,7 +94,7 @@ function getDayChart(ctx, parkingLot, parkingChart) {
                 fontSize: 18
             },
             'onClick' : function (evt) {
-                var activePoints = barChart.getElementsAtEvent(evt);
+                var activePoints = this.getElementsAtEvent(evt);
                 if (activePoints[0]) {
                     var selectedIndex = activePoints[0]._index;
                     pieChart(parkingLot, selectedIndex)
@@ -91,31 +104,42 @@ function getDayChart(ctx, parkingLot, parkingChart) {
     });
 }
 
-function barPlotTimeLine(parkingLot, parkingChart) {
-    hourlyData = parkingLot.getDataForHours()
-    var id = "bar-chart" + chartNumber
+function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
+    var chartType = barChart
+    var id = "day-chart" + chartNumber
     chartNumber++
     keys = []
     for (i = 0; i < 24; i++) keys.push(i + ":00 - " + (i+1) + ":00")
-    $("#barPlotArea").append('<div><input type="radio" id="barChart' + chartNumber + '"checked><label for="barChart' + chartNumber + '">Bar Chart</label>' + 
-    '<input type="radio" id="lineChart' + chartNumber + '"><label for="lineChart' + chartNumber + '">Line Chart</label></div>');
+    $("#barPlotArea").append('<div class="header"><input type="radio" id="barChart' + chartNumber + '"checked><label for="barChart' + chartNumber + '">Bar Chart</label>' + 
+    '<input type="radio" id="lineChart' + chartNumber + '"><label for="lineChart' + chartNumber + '">Line Chart</label></div>' + 
+    '<div class="header right"><input type="checkbox" id="reverse' + chartNumber + '"><label for="reverse' + chartNumber + '">Reverse</label>');
     $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
     var ctx = document.getElementById(id).getContext('2d');
+    var fixedChartNumber = chartNumber
     $("#" + id).css("max-width", "1000px")
-    var domChart = getDayChart(ctx, parkingLot, parkingChart)
-    $("#barChart" + chartNumber).click(function() {
-        $("#lineChart" + chartNumber).prop("checked", false)
+    var domChart = getDayChart(ctx, parkingLot, parkingChart, reverse)
+    $("#barChart" + fixedChartNumber).click(function() {
+        chartType = barChart
+        $("#lineChart" + fixedChartNumber).prop("checked", false)
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, barChart)
+        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
     })
-    $("#lineChart" + chartNumber).click(function() {
-        $("#barChart" + chartNumber).prop("checked", false)
+    $("#lineChart" + fixedChartNumber).click(function() {
+        chartType = lineChart
+        $("#barChart" + fixedChartNumber).prop("checked", false)
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, lineChart)
+        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+    })
+    $("#reverse" + fixedChartNumber).click(function() {
+        reverse = this.checked
+        $("#canvasBarPlot").empty()
+        $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
+        var ctx = document.getElementById(id).getContext('2d');
+        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
     })
 }
 
@@ -176,10 +200,11 @@ window.onload = () => {
     $("#piePlotArea").append("<h3>Please click on one of the bars to show a pie chart for that hour...</h3>")
     $("#parkingLots").on("change", function() {
         $("#barPlotArea").empty()
+        $("#canvasBarPlot").empty()
         $("#piePlotArea").empty()
         $("#piePlotArea").append("<h3>Please click on one of the bars to show a pie chart for that hour...</h3>")
         lotName = $(this).find('option:selected').attr("value")
         lot = findParkingLotByName(lotName)
-        barPlotTimeLine(lot)
+        barPlotTimeLine(lot, barChart)
     })
 };
