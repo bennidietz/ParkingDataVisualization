@@ -8,3 +8,11 @@ label {
     margin-left: 5px;;
     margin-right: 10px;;
 }
+
+.header {
+    display: inline;
+}
+
+.right {
+    float: right;
+}
