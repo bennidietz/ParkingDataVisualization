@@ -14,6 +14,16 @@ class DateInTime {
     }
 }
 
+class ParkingChart {
+    constructor(type, backgroundFill) {
+        this.type = type
+        this.backgroundFill = backgroundFill
+    }
+}
+
+lineChart = new ParkingChart("line", false)
+barChart = new ParkingChart("bar", true)
+
 class ParkingLot {
     constructor(name) {
         this.name = name;
@@ -43,22 +53,15 @@ function findParkingLotByName(name) {
     return null
 }
 
-function barPlotTimeLine(parkingLot) {
-    hourlyData = parkingLot.getDataForHours()
-    var id = "bar-chart" + chartNumber
-    chartNumber++
-    keys = []
-    for (i = 0; i < 24; i++) keys.push(i + ":00 - " + (i+1) + ":00")
-    $("#barPlotArea").append('<canvas id="' + id + '"></canvas>');
-    var ctx = document.getElementById(id).getContext('2d');
-    $("#" + id).css("max-width", "1000px")
-    var barChart = new Chart(ctx, {
-        type: 'bar',
+function getDayChart(ctx, parkingLot, parkingChart) {
+    return new Chart(ctx, {
+        type: parkingChart.type,
         data: {
             labels: keys,
             datasets: [{
                 label: 'Number of parking lots occupied',
                 data: Object.values(hourlyData),
+                fill: parkingChart.backgroundFill,
                 backgroundColor: 'rgba(255, 159, 64, 0.2)',
                 borderColor: 'rgba(255, 159, 64, 1)',
                 borderWidth: 1
@@ -68,8 +71,8 @@ function barPlotTimeLine(parkingLot) {
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
-                    }
+                        beginAtZero: true, 
+                    }, stacked:true
                 }]
             },
             title: {
@@ -86,7 +89,34 @@ function barPlotTimeLine(parkingLot) {
             }
         }
     });
-      
+}
+
+function barPlotTimeLine(parkingLot, parkingChart) {
+    hourlyData = parkingLot.getDataForHours()
+    var id = "bar-chart" + chartNumber
+    chartNumber++
+    keys = []
+    for (i = 0; i < 24; i++) keys.push(i + ":00 - " + (i+1) + ":00")
+    $("#barPlotArea").append('<div><input type="radio" id="barChart' + chartNumber + '"checked><label for="barChart' + chartNumber + '">Bar Chart</label>' + 
+    '<input type="radio" id="lineChart' + chartNumber + '"><label for="lineChart' + chartNumber + '">Line Chart</label></div>');
+    $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
+    var ctx = document.getElementById(id).getContext('2d');
+    $("#" + id).css("max-width", "1000px")
+    var domChart = getDayChart(ctx, parkingLot, parkingChart)
+    $("#barChart" + chartNumber).click(function() {
+        $("#lineChart" + chartNumber).prop("checked", false)
+        $("#canvasBarPlot").empty()
+        $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
+        var ctx = document.getElementById(id).getContext('2d');
+        domChart = getDayChart(ctx, parkingLot, barChart)
+    })
+    $("#lineChart" + chartNumber).click(function() {
+        $("#barChart" + chartNumber).prop("checked", false)
+        $("#canvasBarPlot").empty()
+        $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
+        var ctx = document.getElementById(id).getContext('2d');
+        domChart = getDayChart(ctx, parkingLot, lineChart)
+    })
 }
 
 function pieChart(parkingLot, hour) {
@@ -142,7 +172,7 @@ window.onload = () => {
         pName = parkingLots[index].name
         $("#parkingLots").append('<option value="' + pName + '">' + pName + '</option>')
     }
-    barPlotTimeLine(parkingLots[0])
+    barPlotTimeLine(parkingLots[0], barChart)
     $("#piePlotArea").append("<h3>Please click on one of the bars to show a pie chart for that hour...</h3>")
     $("#parkingLots").on("change", function() {
         $("#barPlotArea").empty()
