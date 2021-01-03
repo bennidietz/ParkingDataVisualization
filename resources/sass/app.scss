@@ -1,0 +1,117 @@
+/*---------- Fonts ----------*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+
+/*---------- Variables ----------*/
+
+@import 'variables';
+
+/*---------- Global settings ----------*/
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background: $bgColor;
+  font-family: $fontFamily;
+  color: $white;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/*---------- Dummy map ----------*/
+
+.map {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  & img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/*---------- Sidebar ----------*/
+
+.sidebar {
+  height: 100%;
+  width: 400px;
+  max-width: 25vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: $transparentOverlay;
+  backdrop-filter: blur(20px);
+  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.sidebar__tabs {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  & > li {
+    padding: 10px;
+    flex: 1 1 0px;
+    text-align: center;
+    @extend .h-clickable;
+    @extend .h-transition-fast;
+    color: $gray;
+    background: rgba(0, 0, 0, 0.4);
+
+    &.active {
+      color: $white;
+      background: none;
+
+      & > span {
+        color: $aspectColor;
+      }
+    }
+
+    &:not(.active):hover {
+      color: $white;
+    }
+
+    & > span {
+      margin-right: 10px;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+/*---------- Helper classes ----------*/
+
+.h-readonly {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.h-clickable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+.h-transition-fast {
+  transition: 0.25s;
+  -moz-transition: 0.25s;
+  -webkit-transition: 0.25s;
+  -o-transition: 0.25s;
+}
+
+.h-transition-slow {
+  transition: 0.75s;
+  -moz-transition: 0.75s;
+  -webkit-transition: 0.75s;
+  -o-transition: 0.75s;
+}
