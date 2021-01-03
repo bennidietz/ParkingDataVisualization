@@ -45,7 +45,8 @@ body {
   top: 0;
   left: 0;
   background: $transparentOverlay;
-  backdrop-filter: blur(20px);
+  /*backdrop-filter: blur(20px);
+  background-clip: padding-box;*/
   box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
