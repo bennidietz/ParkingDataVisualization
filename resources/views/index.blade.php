@@ -13,13 +13,13 @@
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://unpkg.com/d3-simple-slider"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
 
     <!-- Component scripts and styles -->
 
     <script src="{{ asset('js/map/index.js') }}" defer></script>
     <script src="{{ asset('js/chart/index.js') }}" defer></script>
-    <script src="{{ asset('js/table/index.js') }}" defer></script>
+    <!--<script src="{{ asset('js/table/index.js') }}" defer></script>-->
     <script src="{{ asset('js/slider/index.js') }}" defer></script>
 
     <link href="{{ asset('css/map/index.css') }}" rel="stylesheet">
