@@ -9,6 +9,14 @@
     <!-- Main script and styles -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Component scripts -->
+
+    <script src="{{ asset('js/map/index.js') }}"></script>
+    <script src="{{ asset('js/chart/index.js') }}"></script>
+    <script src="{{ asset('js/table/index.js') }}"></script>
+    <script src="{{ asset('js/slider/index.js') }}"></script>
+
   </head>
   <body>
 

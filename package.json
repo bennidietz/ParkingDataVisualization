@@ -20,9 +20,10 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "chart.js": "^2.9.4",
         "@fortawesome/fontawesome-free": "^5.15.1",
+        "chart.js": "^2.9.4",
         "jquery": "^3.5.1",
-        "leaflet": "^1.7.1"
+        "leaflet": "^1.7.1",
+        "moment": "^2.29.1"
     }
 }
