@@ -82044,6 +82044,7 @@ module.exports = function(module) {
 global.$ = global.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 window.L = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
 window.chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
+window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),

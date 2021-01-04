@@ -13,12 +13,14 @@
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://unpkg.com/d3-simple-slider"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
     <!-- Component scripts and styles -->
 
-    <script src="{{ asset('js/map/index.js') }}"></script>
-    <script src="{{ asset('js/chart/index.js') }}"></script>
-    <script src="{{ asset('js/table/index.js') }}"></script>
-    <script src="{{ asset('js/slider/index.js') }}"></script>
+    <script src="{{ asset('js/map/index.js') }}" defer></script>
+    <script src="{{ asset('js/chart/index.js') }}" defer></script>
+    <script src="{{ asset('js/table/index.js') }}" defer></script>
+    <script src="{{ asset('js/slider/index.js') }}" defer></script>
 
     <link href="{{ asset('css/map/index.css') }}" rel="stylesheet">
     <link href="{{ asset('css/chart/index.css') }}" rel="stylesheet">
@@ -30,7 +32,7 @@
 
     <!-- map component -->
 
-    <div id="map" class="map">
+    <div class="map">
       @include('components.map.index')
     </div>
 
@@ -50,22 +52,26 @@
 
       </ul>
 
-      <!-- slider component -->
+      <div class="sidebar__main">
 
-      <div id="slider" class="slider">
-        @include('components.slider.index')
-      </div>
+        <!-- slider component -->
 
-      <!-- chart component -->
+        <div class="slider">
+          @include('components.slider.index')
+        </div>
 
-      <div id="chart" class="chart">
-        @include('components.chart.index')
-      </div>
+        <!-- chart component -->
 
-      <!-- table component -->
+        <div class="chart">
+          @include('components.chart.index')
+        </div>
 
-      <div id="table" class="table">
-        @include('components.table.index')
+        <!-- table component -->
+
+        <div class="table">
+          @include('components.table.index')
+        </div>
+
       </div>
 
     <aside>
