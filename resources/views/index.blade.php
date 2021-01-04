@@ -10,12 +10,17 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Component scripts -->
+    <!-- Component scripts and styles -->
 
     <script src="{{ asset('js/map/index.js') }}"></script>
     <script src="{{ asset('js/chart/index.js') }}"></script>
     <script src="{{ asset('js/table/index.js') }}"></script>
     <script src="{{ asset('js/slider/index.js') }}"></script>
+
+    <link href="{{ asset('css/map/index.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/chart/index.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/table/index.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/slider/index.css') }}" rel="stylesheet">
 
   </head>
   <body>
