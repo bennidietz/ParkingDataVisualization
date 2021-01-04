@@ -40,7 +40,7 @@ body {
 .sidebar {
   height: 100%;
   width: 400px;
-  max-width: 25vw;
+  max-width: 30vw;
   position: fixed;
   top: 0;
   left: 0;
@@ -49,6 +49,8 @@ body {
   background-clip: padding-box;*/
   box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
   z-index: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar__tabs {
@@ -87,6 +89,14 @@ body {
       font-size: 0.9rem;
     }
   }
+}
+
+.sidebar__main {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /*---------- Helper classes ----------*/

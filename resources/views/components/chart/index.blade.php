@@ -6,5 +6,3 @@
     <div id="canvasBarPlot"></div>
     <div id="piePlotArea"></div>
 </div>
-
-<script type="text/javascript" src="js/chart/moment.js"></script>
