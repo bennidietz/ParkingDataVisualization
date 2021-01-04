@@ -6146,7 +6146,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.9);
   /*backdrop-filter: blur(20px);
   background-clip: padding-box;*/
   box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
