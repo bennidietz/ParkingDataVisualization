@@ -10,6 +10,9 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+
     <!-- Component scripts and styles -->
 
     <script src="{{ asset('js/map/index.js') }}"></script>
