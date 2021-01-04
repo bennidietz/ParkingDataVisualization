@@ -15,7 +15,7 @@
     <!-- map component -->
 
     <div id="map" class="map">
-      <img src="{{ asset('img/demo-map.PNG') }}" />
+      @include('components.map.index')
     </div>
 
     <!-- side bar -->
@@ -36,15 +36,21 @@
 
       <!-- slider component -->
 
-      <div id="slider" class="slider"></div>
+      <div id="slider" class="slider">
+        @include('components.slider.index')
+      </div>
 
       <!-- chart component -->
 
-      <div id="chart" class="chart"></div>
+      <div id="chart" class="chart">
+        @include('components.chart.index')
+      </div>
 
-      <!-- list component -->
+      <!-- table component -->
 
-      <div id="list" class="list"></div>
+      <div id="table" class="table">
+        @include('components.table.index')
+      </div>
 
     <aside>
 
