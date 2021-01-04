@@ -33,51 +33,54 @@
   </head>
   <body>
 
-    <!-- map component -->
+    <div id="main">
 
-    <div class="map">
-      @include('components.map.index')
-    </div>
+      <!-- map component -->
 
-    <!-- side bar -->
-
-    <aside class="sidebar">
-
-      <ul class="sidebar__tabs">
-
-        <li class="active">
-          <span class="fas fa-chart-line"></span> Analyst view
-        </li>
-
-        <li>
-          <span class="fas fa-user"></span> Basic user view
-        </li>
-
-      </ul>
-
-      <div class="sidebar__main">
-
-        <!-- slider component -->
-
-        <div class="slider">
-          @include('components.slider.index')
-        </div>
-
-        <!-- chart component -->
-
-        <div class="chart">
-          @include('components.chart.index')
-        </div>
-
-        <!-- table component -->
-
-        <div class="table">
-          @include('components.table.index')
-        </div>
-
+      <div class="map">
+        @include('components.map.index')
       </div>
 
-    <aside>
+      <!-- side bar -->
+
+      <aside id="preferences" class="sidebar">
+
+        <ul class="sidebar__tabs">
+          <li :class="{'active': view == 'analyst'}" @click="view = 'analyst'">
+            <span class="fas fa-chart-line"></span> Analyst view
+          </li>
+
+          <li :class="{'active': view == 'user'}" @click="view = 'user'">
+            <span class="fas fa-user"></span> Basic user view
+          </li>
+
+        </ul>
+
+        <div class="sidebar__main">
+
+          <!-- slider component -->
+
+          <div class="slider">
+            @include('components.slider.index')
+          </div>
+
+          <!-- chart component -->
+
+          <div class="chart">
+            @include('components.chart.index')
+          </div>
+
+          <!-- table component -->
+
+          <div class="table">
+            @include('components.table.index')
+          </div>
+
+        </div>
+
+      <aside>
+
+    </div>
 
   </body>
 </html>
