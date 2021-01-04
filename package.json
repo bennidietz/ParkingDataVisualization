@@ -22,6 +22,8 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
         "chart.js": "^2.9.4",
+        "d3": "^6.3.1",
+        "d3-simple-slider": "^1.10.3",
         "jquery": "^3.5.1",
         "leaflet": "^1.7.1",
         "moment": "^2.29.1"
