@@ -55,6 +55,8 @@ function findParkingLotByName(name) {
     return null
 }
 
+alert(preferences.view)
+
 function getDayChart(ctx, parkingLot, parkingChart, reversed) {
     hourlyData = parkingLot.getDataForHours()
     if (reversed) {
