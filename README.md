@@ -15,6 +15,6 @@ The app should also work on a mobile device so that a car driver can plan their 
 
 In order to *debug* the app and develop it on your own machine, php and npm are required.
 Once installed, you need to execute the following commands in the project directory:
-`php install`
-`npm install`
+`php install`\
+`npm install`\
 `php artisan serve`
