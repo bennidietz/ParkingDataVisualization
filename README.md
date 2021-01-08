@@ -12,3 +12,9 @@ Two user groups can benefit from our application:
 
 We have divided our application into four components. The main component is the map that visualizes the location of the parking lots in Münster. On a side bar we have a chart components that visualizes statistics of the occupancy with line, bar and pie charts. Below that a overview table gives detailed semantic information about each parking lot. Each of the components are intended to interact with each other, so that the user's interaction on one component also have an effect on the others. With a temporal slider the user can change the time and weekday where the visualized data should be related to.
 The app should also work on a mobile device so that a car driver can plan their trip according to their current position and desired destination (Please don't use the app while driving!).
+
+In order to *debug* the app and develop it on your own machine, php and npm are required.
+Once installed, you need to execute the following commands in the project directory:
+`php install`
+`npm install`
+`php artisan serve`
