@@ -68,7 +68,7 @@ function getDayChart(ctx, parkingLot, parkingChart, reversed) {
     var backgroundColor = (reversed) ? 'rgba(0, 153, 76, 0.4)' : 'rgba(255, 159, 64, 0.4)'
     var borderColor = (reversed) ? 'rgba(0, 153, 76, 1)' : 'rgba(255, 159, 64, 1)'
     console.log(hourlyData)
-    return new Chart(ctx, {
+    var chart = new Chart(ctx, {
         type: parkingChart.type,
         data: {
             labels: keys,
@@ -109,12 +109,19 @@ function getDayChart(ctx, parkingLot, parkingChart, reversed) {
             }
         }
     });
+    console.log(chart)
+
+    // change color of first bar
+    //chart.data.datasets[0].bars[0].fillColor = "rgba(255,0,0,1)";
+    //chart.update();
+    
+    return chart
 }
 
 function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
     var chartType = barChart
     var id = "day-chart" + chartNumber
-    chartNumber++
+    
     keys = []
     for (i = 0; i < 24; i++) keys.push(i + ":00 - " + (i+1) + ":00")
     $("#barPlotArea").append('<div class="header"><input type="radio" id="barChart' + chartNumber + '"checked><label for="barChart' + chartNumber + '">Bar Chart</label>' + 
@@ -150,6 +157,7 @@ function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
         var ctx = document.getElementById(id).getContext('2d');
         domChart = getDayChart(ctx, parkingLot, chartType, reverse)
     })
+    chartNumber++
 }
 
 function pieChart(parkingLot, hour) {
