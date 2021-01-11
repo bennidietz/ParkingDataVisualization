@@ -1,0 +1,9 @@
+:root {
+    --has-capacity:#1B9935;
+    --no-capacity:#990218;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}

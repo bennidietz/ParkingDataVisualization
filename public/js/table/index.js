@@ -1,4 +1,3 @@
-console.log("START");
 // This file helps to display the parking lots as an accordion
 window.onload = () => {
   const container = document.getElementById('accordion');
