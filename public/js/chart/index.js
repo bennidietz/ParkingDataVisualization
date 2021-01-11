@@ -33,7 +33,7 @@ class ParkingLot {
     }
 
     getDataForHours() {
-        var hoursData = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 
+        var hoursData = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [],
                             11: [], 12: [], 13: [], 14: [], 15: [], 16: [], 17: [], 18: [], 19: [], 20: [],
                             21: [], 22: [], 23: [], 24: [] }
         var hour_counter = 0
@@ -55,7 +55,7 @@ function findParkingLotByName(name) {
     return null
 }
 
-alert(preferences.view)
+//alert(preferences.view)
 
 function getDayChart(ctx, parkingLot, parkingChart, reversed) {
     hourlyData = parkingLot.getDataForHours()
@@ -117,8 +117,8 @@ function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
     chartNumber++
     keys = []
     for (i = 0; i < 24; i++) keys.push(i + ":00 - " + (i+1) + ":00")
-    $("#barPlotArea").append('<div class="header"><input type="radio" id="barChart' + chartNumber + '"checked><label for="barChart' + chartNumber + '">Bar Chart</label>' + 
-    '<input type="radio" id="lineChart' + chartNumber + '"><label for="lineChart' + chartNumber + '">Line Chart</label></div>' + 
+    $("#barPlotArea").append('<div class="header"><input type="radio" id="barChart' + chartNumber + '"checked><label for="barChart' + chartNumber + '">Bar Chart</label>' +
+    '<input type="radio" id="lineChart' + chartNumber + '"><label for="lineChart' + chartNumber + '">Line Chart</label></div>' +
     '<div class="header right"><input type="checkbox" id="reverse' + chartNumber + '"><label for="reverse' + chartNumber + '">Reverse</label>');
     $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
     var ctx = document.getElementById(id).getContext('2d');
