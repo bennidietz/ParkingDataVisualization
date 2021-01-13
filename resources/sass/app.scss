@@ -20,6 +20,10 @@ body {
   overflow-y: auto;
 }
 
+[v-cloak] {
+  display: none !important;
+}
+
 /*---------- Dummy map ----------*/
 
 .map {
@@ -125,4 +129,85 @@ body {
   -moz-transition: 0.75s;
   -webkit-transition: 0.75s;
   -o-transition: 0.75s;
+}
+
+/*---------- Slider ----------*/
+
+.slider {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > .slider__output {
+    background: $white;
+    color: $bgColor;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+
+    & > .slider__output-day {
+      padding: 10px;
+      background: $red;
+      color: $white;
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    & > .slider__output-hour {
+      padding: 10px;
+      font-weight: bold;
+    }
+  }
+
+  & > .slider__controls {
+    min-width: 60%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+    overflow: hidden;
+
+    & > select, & > input {
+      margin-bottom: 10px;
+    }
+
+    & > .slider__buttons {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > .slider__button {
+        width: 48%;
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        box-sizing: border-box;
+
+        & > .slider__button-icon {
+          margin-right: 5px;
+          font-size: 0.8rem;
+        }
+
+        &:hover > .slider__button-icon {
+          color: $aspectColor;
+        }
+
+        & > .slider__button-label {
+          width: 100%;
+          font-size: 0.9rem;
+          text-align: center;
+        }
+      }
+    }
+  }
 }

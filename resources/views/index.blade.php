@@ -14,14 +14,13 @@
      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
      crossorigin=""/>
     <script src="https://d3js.org/d3.v6.js"></script>
-    <script src="https://unpkg.com/d3-simple-slider"></script>
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
 
     <!-- Component scripts and styles -->
 
     <script src="{{ asset('js/map/index.js') }}" defer></script>
-    <script src="{{ asset('js/chart/index.js') }}" defer></script>
+    <!--<script src="{{ asset('js/chart/index.js') }}" defer></script>-->
     <!--<script src="{{ asset('js/table/index.js') }}" defer></script>-->
     <script src="{{ asset('js/slider/index.js') }}" defer></script>
 
@@ -43,7 +42,7 @@
 
       <!-- side bar -->
 
-      <aside id="preferences" class="sidebar">
+      <aside id="preferences" class="sidebar" v-cloak>
 
         <ul class="sidebar__tabs">
           <li :class="{'active': view == 'analyst'}" @click="view = 'analyst'">
@@ -67,7 +66,7 @@
           <!-- chart component -->
 
           <div class="chart">
-            @include('components.chart.index')
+            <!--@include('components.chart.index')-->
           </div>
 
           <!-- table component -->
