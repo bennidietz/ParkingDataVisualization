@@ -6138,6 +6138,16 @@ h6 {
   font-size: 1.2rem;
 }
 
+table {
+  width: 100%;
+}
+
+th,
+td {
+  padding: 10px;
+  word-wrap: break-word;
+}
+
 /*---------- Dummy map ----------*/
 
 .map {

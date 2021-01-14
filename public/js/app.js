@@ -94643,6 +94643,8 @@ $(document).ready(function () {
       this.resetDate();
       axios.get('/api/parking-lot').then(function (response) {
         return _this.parkingLots = response.data;
+      })["finally"](function () {
+        return init_map();
       });
     },
     computed: {

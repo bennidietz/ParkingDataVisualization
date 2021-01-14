@@ -22,7 +22,7 @@ $(document).ready(function() {
     },
     mounted() {
       this.resetDate();
-      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data));
+      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data)).finally(() => init_map());
     },
     computed: {
       date: function() {
