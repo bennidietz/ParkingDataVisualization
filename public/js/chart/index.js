@@ -93,7 +93,7 @@ function getDayChart(ctx, parkingLot, parkingChart, reversed) {
             },
             title: {
                 display: true,
-                text: (reversed) ? 'Free parking lots of ' + parkingLot.name : 'Occupied parking lots of ' + parkingLot.name,
+                text: (reversed) ? 'Free parking' : 'Occupied parking',
                 fontColor: borderColor,
                 padding: 10,
                 fontSize: 17
@@ -204,7 +204,6 @@ window.onload = () => {
         $("#parkingLots").append('<option value="' + pName + '">' + pName + '</option>')
     }
     barPlotTimeLine(parkingLots[0], barChart)
-    $("#piePlotArea").append("<h3>Please click on one of the bars to show a pie chart for that hour...</h3>")
     $("#parkingLots").on("change", function() {
         $("#barPlotArea").empty()
         $("#canvasBarPlot").empty()
