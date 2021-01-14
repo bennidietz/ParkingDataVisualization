@@ -6212,6 +6212,7 @@ body {
 }
 
 .h-clickable,
+.slider > .slider__controls > .slider__days > .slider__day,
 .sidebar__tabs > li {
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -6237,14 +6238,13 @@ body {
 
 .slider {
   width: 100%;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .slider > .slider__output {
-  background: #FFFFFF;
-  color: #444444;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6256,7 +6256,7 @@ body {
 
 .slider > .slider__output > .slider__output-day {
   padding: 10px;
-  background: #D20000;
+  background: rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
   font-size: 1.6rem;
   font-weight: bold;
@@ -6265,11 +6265,13 @@ body {
 
 .slider > .slider__output > .slider__output-hour {
   padding: 10px;
+  background: #FFFFFF;
+  color: #444444;
   font-weight: bold;
 }
 
 .slider > .slider__controls {
-  min-width: 60%;
+  min-width: 65%;
   padding: 10px;
   background: rgba(255, 255, 255, 0.2);
   display: flex;
@@ -6278,7 +6280,32 @@ body {
   overflow: hidden;
 }
 
-.slider > .slider__controls > select,
+.slider > .slider__controls > .slider__days {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider > .slider__controls > .slider__days > .slider__day {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.slider > .slider__controls > .slider__days > .slider__day:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.slider > .slider__controls > .slider__days > .slider__day.active {
+  background: #54ff45;
+  color: #444444;
+}
+
 .slider > .slider__controls > input {
   margin-bottom: 10px;
 }

@@ -135,13 +135,12 @@ body {
 
 .slider {
   width: 100%;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   & > .slider__output {
-    background: $white;
-    color: $bgColor;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -152,7 +151,7 @@ body {
 
     & > .slider__output-day {
       padding: 10px;
-      background: $red;
+      background: rgba(255, 255, 255, 0.2);
       color: $white;
       font-size: 1.6rem;
       font-weight: bold;
@@ -161,12 +160,14 @@ body {
 
     & > .slider__output-hour {
       padding: 10px;
+      background: $white;
+      color: $bgColor;
       font-weight: bold;
     }
   }
 
   & > .slider__controls {
-    min-width: 60%;
+    min-width: 65%;
     padding: 10px;
     background: rgba(255, 255, 255, 0.2);
     display: flex;
@@ -174,7 +175,34 @@ body {
     border-radius: 3px;
     overflow: hidden;
 
-    & > select, & > input {
+    & > .slider__days {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & > .slider__day {
+        height: 30px;
+        width: 30px;
+        @extend .h-clickable;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+
+        &:not(.active):hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        &.active {
+          background: $aspectColor;
+          color: $bgColor;
+        }
+      }
+    }
+
+    & > input {
       margin-bottom: 10px;
     }
 
