@@ -35,33 +35,31 @@ L.control.layers({
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
-window.onload = () => {
-    loadCarParks()
-        .then(function(carParksArray) {
-            // save the extracted trees into the global variabel, so that future access is easier
-            let carParksGeoJSON = constructGeoJSON(carParksArray);
-            var rainbow = new Rainbow();
-            var style = getComputedStyle(document.body);
-            // Set start and end colors
-            rainbow.setSpectrum(style.getPropertyValue('--has-capacity'), style.getPropertyValue('--no-capacity'));
+function init_map() {
+    let carParksArray = this.preferences.parkingLots;
+    // save the extracted trees into the global variabel, so that future access is easier
+    let carParksGeoJSON = constructGeoJSON(carParksArray);
+    var rainbow = new Rainbow();
+    var style = getComputedStyle(document.body);
+    // Set start and end colors
+    rainbow.setSpectrum(style.getPropertyValue('--has-capacity'), style.getPropertyValue('--no-capacity'));
 
-            // Set the min/max range
-            rainbow.setNumberRange(0, 793);
+    // Set the min/max range
+    rainbow.setNumberRange(0, 793);
 
-            L.geoJSON(carParksGeoJSON,{
-                pointToLayer: function (feature, latlng) {
-                    let parkingIcon = L.divIcon({
-                        //TODO: the color should be set according to current percentage/amount of free parking spaces
-                        html: '<i class="fas fa-parking fa-2x" style="color:#' + rainbow.colourAt(feature.properties.capacity) + '"></i>',
-                        iconSize: [20, 20],
-                        className: 'myDivIcon'
-                    });
-                    return L.marker(latlng, {icon: parkingIcon});
-                },
-                onEachFeature: onEachFeature
-            })
-                .addTo(map);
-        });
+    L.geoJSON(carParksGeoJSON,{
+        pointToLayer: function (feature, latlng) {
+            let parkingIcon = L.divIcon({
+                //TODO: the color should be set according to current percentage/amount of free parking spaces
+                html: '<i class="fas fa-parking fa-2x" style="color:#' + rainbow.colourAt(feature.properties.capacity) + '"></i>',
+                iconSize: [20, 20],
+                className: 'myDivIcon'
+            });
+            return L.marker(latlng, {icon: parkingIcon});
+        },
+        onEachFeature: onEachFeature
+    })
+        .addTo(map);
 };
 
 

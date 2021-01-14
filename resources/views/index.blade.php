@@ -21,7 +21,7 @@
 
     <script src="{{ asset('js/map/index.js') }}" defer></script>
     <script src="{{ asset('js/chart/index.js') }}" defer></script>
-    <script src="{{ asset('js/table/index.js') }}" defer></script>
+    <!--<script src="{{ asset('js/table/index.js') }}" defer></script>-->
     <script src="{{ asset('js/slider/index.js') }}" defer></script>
 
     <link href="{{ asset('css/map/index.css') }}" rel="stylesheet">
@@ -66,7 +66,7 @@
           <!-- chart component -->
 
           <div class="chart">
-            <!--@include('components.chart.index')-->
+            @include('components.chart.index')
           </div>
 
           <!-- table component -->
