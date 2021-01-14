@@ -94455,8 +94455,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
