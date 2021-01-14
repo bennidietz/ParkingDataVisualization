@@ -21,6 +21,7 @@ $(document).ready(function() {
     },
     mounted() {
       this.resetDate();
+      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data));
     },
     computed: {
       date: function() {

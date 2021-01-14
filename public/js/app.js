@@ -94318,7 +94318,12 @@ $(document).ready(function () {
       selectedParkingLot: null
     },
     mounted: function mounted() {
+      var _this = this;
+
       this.resetDate();
+      axios.get('/api/parking-lot').then(function (response) {
+        return _this.parkingLots = response.data;
+      });
     },
     computed: {
       date: function date() {
@@ -94450,8 +94455,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\terbeckc\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\terbeckc\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
