@@ -12,7 +12,8 @@ var streets_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}
 });
 let dark = L.tileLayer("https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png", {
     attribution:
-        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    apikey: '98088fb3-64c2-4cd2-99e7-2be49ff0722d'
 });
 var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
     maxZoom: 17,
@@ -57,7 +58,7 @@ function init_map() {
             });
             return L.marker(latlng, {icon: parkingIcon});
         },
-        onEachFeature: onEachFeature
+        onEachFeature: onEachFeature.bind(this)
     })
         .addTo(map);
 };
@@ -77,6 +78,7 @@ function constructGeoJSON(carParksArray) {
         for (const [key, value] of Object.entries(carPark)) {
             temp.properties[key] = value;
         }
+        temp.properties.index = i;
         resultingGeoJSON.features.push(temp)
     })
     return resultingGeoJSON;
@@ -88,5 +90,15 @@ function constructGeoJSON(carParksArray) {
  * @param layer
  */
 function onEachFeature(feature, layer) {
-    layer.bindPopup(feature.properties.name);
+    layer.bindPopup(
+        '<h2>' + feature.properties.name+'</h2>' +
+        '<p>maximum capacity: ' + feature.properties.capacity + '</p>'
+    );
+    //bind click
+    layer.on({
+        click: whenClicked.bind(this)
+    });
+}
+function whenClicked(e) {
+    this.preferences.selectedParkingLot = e.target.feature.properties.index;
 }
