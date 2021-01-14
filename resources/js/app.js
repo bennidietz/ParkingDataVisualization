@@ -2,6 +2,7 @@ require('./bootstrap');
 
 global.$ = global.jQuery = require('jquery');
 window.L = require('leaflet');
+window.Rainbow = require('rainbowvis.js');
 window.chart = require('chart.js');
 window.moment = require('moment');
 
