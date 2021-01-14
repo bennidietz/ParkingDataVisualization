@@ -24,6 +24,13 @@ body {
   display: none !important;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 35px;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-size: 1.2rem;
+}
+
 /*---------- Dummy map ----------*/
 
 .map {
@@ -43,7 +50,7 @@ body {
 
 .sidebar {
   height: 100%;
-  width: 400px;
+  width: 450px;
   max-width: 30vw;
   position: fixed;
   top: 0;
