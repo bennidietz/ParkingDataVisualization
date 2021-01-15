@@ -18,4 +18,9 @@ Once installed, you need to execute the following commands in the project direct
 \
 `composer install`\
 `npm install`\
+And once installed the necessary packages, starting php locally is done by this command:
 `php artisan serve`
+
+When updating laravel scripts:
+\
+`npm run watch`

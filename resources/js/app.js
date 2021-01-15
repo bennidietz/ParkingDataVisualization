@@ -7,6 +7,8 @@ window.chart = require('chart.js');
 window.moment = require('moment');
 
 window.Vue = require('vue');
+Vue.component("line-chart", () => import("./components/LineChart.vue"));
+
 
 $(document).ready(function() {
   window.preferences = new Vue({
