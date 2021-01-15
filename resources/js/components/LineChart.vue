@@ -1,5 +1,10 @@
 
   <div>
+    <div id="plotArea">
+        <div id="barPlotArea"></div>
+        <div id="canvasBarPlot"></div>
+        <div id="piePlotArea"></div>
+    </div>
     <canvas></canvas>
   </div>
 
@@ -18,7 +23,7 @@ export default {
       type: Object,
       default: null
     },
-    selectedPLot: {
+    selectedparkinglot: {
       type: Number,
       default: null
     },
@@ -28,11 +33,11 @@ export default {
     }
   },
   mounted () {
-    console.log(this.selectedPLot)
-    if (this.selectedPLot) {
-      console.log(this.selectedPLot)
-      this.chartdata.backgroundColor[this.selectedPLot] = 'rgba(255, 99, 132, 1)'
+
+    if (this.selectedparkinglot && this.selectedparkinglot < this.chartdata.datasets[0].backgroundColor.length) {
+      this.chartdata.datasets[0].backgroundColor[this.selectedparkinglot] = 'rgba(255, 255, 255, 1)';
     }
+
     this.renderChart(this.chartdata, this.options)
   }
 }

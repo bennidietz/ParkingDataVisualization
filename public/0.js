@@ -16,6 +16,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Line"],
@@ -28,7 +33,7 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       "default": null
     },
-    selectedPLot: {
+    selectedparkinglot: {
       type: Number,
       "default": null
     },
@@ -38,11 +43,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    console.log(this.selectedPLot);
-
-    if (this.selectedPLot) {
-      console.log(this.selectedPLot);
-      this.chartdata.backgroundColor[this.selectedPLot] = 'rgba(255, 99, 132, 1)';
+    if (this.selectedparkinglot && this.selectedparkinglot < this.chartdata.datasets[0].backgroundColor.length) {
+      this.chartdata.datasets[0].backgroundColor[this.selectedparkinglot] = 'rgba(255, 255, 255, 1)';
     }
 
     this.renderChart(this.chartdata, this.options);
