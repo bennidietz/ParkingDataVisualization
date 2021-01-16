@@ -10,6 +10,12 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 //
 //
 //
@@ -22,13 +28,126 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+var ParkingLot = /*#__PURE__*/function () {
+  function ParkingLot(name) {
+    var capacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
+
+    _classCallCheck(this, ParkingLot);
+
+    this.name = name;
+    this.data = {};
+    this.capacity = capacity;
+  }
+
+  _createClass(ParkingLot, [{
+    key: "getDataForHours",
+    value: function getDataForHours() {
+      var hoursData = {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+        10: [],
+        11: [],
+        12: [],
+        13: [],
+        14: [],
+        15: [],
+        16: [],
+        17: [],
+        18: [],
+        19: [],
+        20: [],
+        21: [],
+        22: [],
+        23: [],
+        24: []
+      };
+      var hour_counter = 0;
+
+      var average = function average(arr) {
+        return Math.round(arr.reduce(function (p, c) {
+          return p + c;
+        }, 0) / arr.length);
+      };
+
+      for (var i in this.data) {
+        hoursData[new Date(i).getHours()].push(this.data[i]);
+      }
+
+      for (var _i in hoursData) {
+        hoursData[_i] = average(hoursData[_i]);
+      }
+
+      return hoursData;
+    }
+  }, {
+    key: "getDataForHoursAsArray",
+    value: function getDataForHoursAsArray() {
+      var output = [];
+      var hData = this.getDataForHours();
+
+      for (var key in Object.keys(hData)) {
+        if (!Number.isNaN(hData[key])) {
+          output.push(hData[key]);
+        }
+      }
+
+      return output;
+    }
+  }]);
+
+  return ParkingLot;
+}();
+
+var parkingLots = [];
+var days = [];
+
+for (var i = 0; i < testdata["0"].length; i++) {
+  var element = testdata["0"][i];
+
+  if (i == 0) {
+    // header of the data
+    for (var j = 1; j < element.length; j++) {
+      parkingLots.push(new ParkingLot(element[j]));
+    }
+  } else {
+    var date = moment(element[0]).toDate();
+    days.push(date);
+
+    for (var _j = 0; _j < parkingLots.length; _j++) {
+      parkingLots[_j].data[date] = element[_j + 1];
+    }
+  }
+}
+
+var hourlyData = parkingLots[1].getDataForHoursAsArray();
+var chartdata = {
+  datasets: [{
+    label: 'Fee parking places',
+    fill: false,
+    backgroundColor: 'rgba(255, 165, 0, 1)',
+    borderColor: 'rgba(255, 165, 0, 1)',
+    borderWidth: 1,
+    radius: 4
+  }]
+};
+chartdata.labels = Array.from({
+  length: Object.keys(hourlyData).length
+}, function (v, k) {
+  return k + ":00 - " + (k + 1) + ":00";
+});
+chartdata.datasets[0].data = hourlyData;
 /* harmony default export */ __webpack_exports__["default"] = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Line"],
   props: {
-    chartdata: {
-      type: Object,
-      "default": null
-    },
     options: {
       type: Object,
       "default": null
@@ -43,11 +162,21 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    if (this.selectedparkinglot && this.selectedparkinglot < this.chartdata.datasets[0].backgroundColor.length) {
-      this.chartdata.datasets[0].backgroundColor[this.selectedparkinglot] = 'rgba(255, 255, 255, 1)';
+    console.log(this.selectedparkinglot);
+
+    if (this.selectedparkinglot && this.selectedparkinglot < chartdata.datasets[0].backgroundColor.length) {
+      var log = this.selectedparkinglot;
+
+      var selectedColor = function selectedColor(context) {
+        var index = context.dataIndex;
+        return index == log ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 165, 0, 1)';
+      };
+
+      chartdata.datasets[0].pointBackgroundColor = selectedColor;
+      chartdata.datasets[0].pointBorderColor = selectedColor;
     }
 
-    this.renderChart(this.chartdata, this.options);
+    this.renderChart(chartdata, this.options);
   }
 });
 

@@ -55,7 +55,7 @@ function findParkingLotByName(name) {
     return null
 }
 
-function getDayChart(ctx, parkingLot, parkingChart, reversed) {
+function getDayChart(ctx, parkingLot, parkingChart, reversed=false) {
     hourlyData = parkingLot.getDataForHours()
     if (reversed) {
         for (i in hourlyData) {
@@ -139,14 +139,14 @@ function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
     $("#" + id).css("max-width", "100%")
     $("#" + id).css("max-height", absoulte_height/5 + "px")
     $("#" + id).css("height", absoulte_height/5 + "px")
-    var domChart = getDayChart(ctx, parkingLot, parkingChart, reverse)
+    var domChart = getDayChart(ctx, parkingLot, parkingChart, false)
     $("#barChart" + fixedChartNumber).click(function() {
         chartType = barChart
         $("#lineChart" + fixedChartNumber).prop("checked", false)
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+        domChart = getDayChart(ctx, parkingLot, chartType, false)
     })
     $("#lineChart" + fixedChartNumber).click(function() {
         chartType = lineChart
@@ -154,14 +154,14 @@ function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+        domChart = getDayChart(ctx, parkingLot, chartType, false)
     })
     $("#reverse" + fixedChartNumber).click(function() {
         reverse = this.checked
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+        domChart = getDayChart(ctx, parkingLot, chartType, false)
     })
 }
 
@@ -230,6 +230,7 @@ window.onload = () => {
     })
 };
 
+/*
 
 options = {
 legend: {
@@ -246,7 +247,7 @@ scales: {
 },
 title: {
     display: true,
-    text: (reversed) ? 'Free parking' : 'Occupied parking',
+    text: (false) ? 'Free parking' : 'Occupied parking',
     fontColor: 'rgba(0, 153, 76, 1)',
     padding: 10,
     fontSize: 17
@@ -278,3 +279,4 @@ export default {
     this.renderChart(this.chartdata, options)
   }
 }
+*/
