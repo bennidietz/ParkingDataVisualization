@@ -1,6 +1,8 @@
 <?php
 
-class CSVAnalyzer {
+namespace App\Services;
+
+class CSVAnalysisService {
   public array $datasets;
 
   function __construct()
