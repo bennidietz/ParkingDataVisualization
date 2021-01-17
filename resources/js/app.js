@@ -21,10 +21,12 @@ $(document).ready(function() {
       visualizing: false,
       parkingLots: null,
       selectedParkingLot: null,
+      occupancy: null,
     },
     mounted() {
       this.resetDate();
-      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data)).finally(() => init_map());
+      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data));
+      axios.get('/api/occupancy').then(response => (this.occupancy = response.data)).finally(() => init_map());
     },
     computed: {
       date: function() {
