@@ -6126,6 +6126,28 @@ body {
   display: none !important;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 35px;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-size: 1.2rem;
+}
+
+table {
+  width: 100%;
+}
+
+th,
+td {
+  padding: 10px;
+  word-wrap: break-word;
+}
+
 /*---------- Dummy map ----------*/
 
 .map {
@@ -6145,7 +6167,7 @@ body {
 
 .sidebar {
   height: 100%;
-  width: 400px;
+  width: 450px;
   max-width: 30vw;
   position: fixed;
   top: 0;
@@ -6212,6 +6234,8 @@ body {
 }
 
 .h-clickable,
+.table > .table__row > .table__heading,
+.slider > .slider__controls > .slider__days > .slider__day,
 .sidebar__tabs > li {
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -6219,6 +6243,7 @@ body {
 }
 
 .h-transition-fast,
+.table > .table__row > .table__heading,
 .sidebar__tabs > li {
   transition: 0.25s;
   -moz-transition: 0.25s;
@@ -6237,14 +6262,13 @@ body {
 
 .slider {
   width: 100%;
+  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .slider > .slider__output {
-  background: #FFFFFF;
-  color: #444444;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6256,7 +6280,7 @@ body {
 
 .slider > .slider__output > .slider__output-day {
   padding: 10px;
-  background: #D20000;
+  background: rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
   font-size: 1.6rem;
   font-weight: bold;
@@ -6265,11 +6289,13 @@ body {
 
 .slider > .slider__output > .slider__output-hour {
   padding: 10px;
+  background: #FFFFFF;
+  color: #444444;
   font-weight: bold;
 }
 
 .slider > .slider__controls {
-  min-width: 60%;
+  min-width: 65%;
   padding: 10px;
   background: rgba(255, 255, 255, 0.2);
   display: flex;
@@ -6278,7 +6304,32 @@ body {
   overflow: hidden;
 }
 
-.slider > .slider__controls > select,
+.slider > .slider__controls > .slider__days {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider > .slider__controls > .slider__days > .slider__day {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.slider > .slider__controls > .slider__days > .slider__day:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.slider > .slider__controls > .slider__days > .slider__day.active {
+  background: #54ff45;
+  color: #444444;
+}
+
 .slider > .slider__controls > input {
   margin-bottom: 10px;
 }
@@ -6313,5 +6364,45 @@ body {
   width: 100%;
   font-size: 0.9rem;
   text-align: center;
+}
+
+/*---------- Table ----------*/
+
+.table {
+  width: 100%;
+}
+
+.table > .table__row {
+  width: 100%;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.table > .table__row > .table__heading {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.table > .table__row > .table__heading:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.table > .table__row.active {
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.table > .table__row.active > .table__heading {
+  background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.table > .table__row > .table__data {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 0.8rem;
 }
 

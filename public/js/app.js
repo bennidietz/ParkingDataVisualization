@@ -1,6 +1,50 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 	};
+/******/
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"/js/app": 0
+/******/ 	};
+/******/
+/******/
+/******/
+/******/ 	// script path function
+/******/ 	function jsonpScriptSrc(chunkId) {
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +70,67 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// JSONP chunk loading for javascript
+/******/
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
+/******/
+/******/ 			// a Promise means "currently loading".
+/******/ 			if(installedChunkData) {
+/******/ 				promises.push(installedChunkData[2]);
+/******/ 			} else {
+/******/ 				// setup Promise in chunk cache
+/******/ 				var promise = new Promise(function(resolve, reject) {
+/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 				});
+/******/ 				promises.push(installedChunkData[2] = promise);
+/******/
+/******/ 				// start chunk loading
+/******/ 				var script = document.createElement('script');
+/******/ 				var onScriptComplete;
+/******/
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.src = jsonpScriptSrc(chunkId);
+/******/
+/******/ 				// create error before stack unwound to get useful stacktrace later
+/******/ 				var error = new Error();
+/******/ 				onScriptComplete = function (event) {
+/******/ 					// avoid mem leaks in IE.
+/******/ 					script.onerror = script.onload = null;
+/******/ 					clearTimeout(timeout);
+/******/ 					var chunk = installedChunks[chunkId];
+/******/ 					if(chunk !== 0) {
+/******/ 						if(chunk) {
+/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 							var realSrc = event && event.target && event.target.src;
+/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 							error.name = 'ChunkLoadError';
+/******/ 							error.type = errorType;
+/******/ 							error.request = realSrc;
+/******/ 							chunk[1](error);
+/******/ 						}
+/******/ 						installedChunks[chunkId] = undefined;
+/******/ 					}
+/******/ 				};
+/******/ 				var timeout = setTimeout(function(){
+/******/ 					onScriptComplete({ type: 'timeout', target: script });
+/******/ 				}, 120000);
+/******/ 				script.onerror = script.onload = onScriptComplete;
+/******/ 				document.head.appendChild(script);
+/******/ 			}
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -79,6 +184,16 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
 /******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
@@ -109,6 +224,7 @@ module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/li
 
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 var settle = __webpack_require__(/*! ./../core/settle */ "./node_modules/axios/lib/core/settle.js");
+var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
 var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
 var buildFullPath = __webpack_require__(/*! ../core/buildFullPath */ "./node_modules/axios/lib/core/buildFullPath.js");
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
@@ -129,7 +245,7 @@ module.exports = function xhrAdapter(config) {
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = config.auth.password || '';
+      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
@@ -210,8 +326,6 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
-
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
         cookies.read(config.xsrfCookieName) :
@@ -277,7 +391,7 @@ module.exports = function xhrAdapter(config) {
       });
     }
 
-    if (requestData === undefined) {
+    if (!requestData) {
       requestData = null;
     }
 
@@ -345,6 +459,9 @@ axios.all = function all(promises) {
   return Promise.all(promises);
 };
 axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
+
+// Expose isAxiosError
+axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
 
 module.exports = axios;
 
@@ -554,9 +671,10 @@ Axios.prototype.getUri = function getUri(config) {
 utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
+    return this.request(mergeConfig(config || {}, {
       method: method,
-      url: url
+      url: url,
+      data: (config || {}).data
     }));
   };
 });
@@ -564,7 +682,7 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
 utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
+    return this.request(mergeConfig(config || {}, {
       method: method,
       url: url,
       data: data
@@ -824,7 +942,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   error.response = response;
   error.isAxiosError = true;
 
-  error.toJSON = function() {
+  error.toJSON = function toJSON() {
     return {
       // Standard
       message: this.message,
@@ -873,59 +991,73 @@ module.exports = function mergeConfig(config1, config2) {
   config2 = config2 || {};
   var config = {};
 
-  var valueFromConfig2Keys = ['url', 'method', 'params', 'data'];
-  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy'];
+  var valueFromConfig2Keys = ['url', 'method', 'data'];
+  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy', 'params'];
   var defaultToConfig2Keys = [
-    'baseURL', 'url', 'transformRequest', 'transformResponse', 'paramsSerializer',
-    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
-    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress',
-    'maxContentLength', 'validateStatus', 'maxRedirects', 'httpAgent',
-    'httpsAgent', 'cancelToken', 'socketPath'
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'timeoutMessage', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'decompress',
+    'maxContentLength', 'maxBodyLength', 'maxRedirects', 'transport', 'httpAgent',
+    'httpsAgent', 'cancelToken', 'socketPath', 'responseEncoding'
   ];
+  var directMergeKeys = ['validateStatus'];
+
+  function getMergedValue(target, source) {
+    if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
+      return utils.merge(target, source);
+    } else if (utils.isPlainObject(source)) {
+      return utils.merge({}, source);
+    } else if (utils.isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+
+  function mergeDeepProperties(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(config1[prop], config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  }
 
   utils.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(undefined, config2[prop]);
     }
   });
 
-  utils.forEach(mergeDeepPropertiesKeys, function mergeDeepProperties(prop) {
-    if (utils.isObject(config2[prop])) {
-      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
-    } else if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (utils.isObject(config1[prop])) {
-      config[prop] = utils.deepMerge(config1[prop]);
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
+  utils.forEach(mergeDeepPropertiesKeys, mergeDeepProperties);
 
   utils.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(undefined, config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  });
+
+  utils.forEach(directMergeKeys, function merge(prop) {
+    if (prop in config2) {
+      config[prop] = getMergedValue(config1[prop], config2[prop]);
+    } else if (prop in config1) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
     }
   });
 
   var axiosKeys = valueFromConfig2Keys
     .concat(mergeDeepPropertiesKeys)
-    .concat(defaultToConfig2Keys);
+    .concat(defaultToConfig2Keys)
+    .concat(directMergeKeys);
 
   var otherKeys = Object
-    .keys(config2)
+    .keys(config1)
+    .concat(Object.keys(config2))
     .filter(function filterAxiosKeys(key) {
       return axiosKeys.indexOf(key) === -1;
     });
 
-  utils.forEach(otherKeys, function otherKeysDefaultToConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
+  utils.forEach(otherKeys, mergeDeepProperties);
 
   return config;
 };
@@ -954,7 +1086,7 @@ var createError = __webpack_require__(/*! ./createError */ "./node_modules/axios
  */
 module.exports = function settle(resolve, reject, response) {
   var validateStatus = response.config.validateStatus;
-  if (!validateStatus || validateStatus(response.status)) {
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
     resolve(response);
   } else {
     reject(createError(
@@ -1086,6 +1218,7 @@ var defaults = {
   xsrfHeaderName: 'X-XSRF-TOKEN',
 
   maxContentLength: -1,
+  maxBodyLength: -1,
 
   validateStatus: function validateStatus(status) {
     return status >= 200 && status < 300;
@@ -1149,7 +1282,6 @@ var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/util
 
 function encode(val) {
   return encodeURIComponent(val).
-    replace(/%40/gi, '@').
     replace(/%3A/gi, ':').
     replace(/%24/g, '$').
     replace(/%2C/gi, ',').
@@ -1330,6 +1462,29 @@ module.exports = function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the payload is an error thrown by Axios
+ *
+ * @param {*} payload The value to test
+ * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
+ */
+module.exports = function isAxiosError(payload) {
+  return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
 
@@ -1659,6 +1814,21 @@ function isObject(val) {
 }
 
 /**
+ * Determine if a value is a plain Object
+ *
+ * @param {Object} val The value to test
+ * @return {boolean} True if value is a plain Object, otherwise false
+ */
+function isPlainObject(val) {
+  if (toString.call(val) !== '[object Object]') {
+    return false;
+  }
+
+  var prototype = Object.getPrototypeOf(val);
+  return prototype === null || prototype === Object.prototype;
+}
+
+/**
  * Determine if a value is a Date
  *
  * @param {Object} val The value to test
@@ -1814,34 +1984,12 @@ function forEach(obj, fn) {
 function merge(/* obj1, obj2, obj3, ... */) {
   var result = {};
   function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
       result[key] = merge(result[key], val);
-    } else {
-      result[key] = val;
-    }
-  }
-
-  for (var i = 0, l = arguments.length; i < l; i++) {
-    forEach(arguments[i], assignValue);
-  }
-  return result;
-}
-
-/**
- * Function equal to merge with the difference being that no reference
- * to original objects is kept.
- *
- * @see merge
- * @param {Object} obj1 Object to merge
- * @returns {Object} Result of all merge properties
- */
-function deepMerge(/* obj1, obj2, obj3, ... */) {
-  var result = {};
-  function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
-      result[key] = deepMerge(result[key], val);
-    } else if (typeof val === 'object') {
-      result[key] = deepMerge({}, val);
+    } else if (isPlainObject(val)) {
+      result[key] = merge({}, val);
+    } else if (isArray(val)) {
+      result[key] = val.slice();
     } else {
       result[key] = val;
     }
@@ -1872,6 +2020,19 @@ function extend(a, b, thisArg) {
   return a;
 }
 
+/**
+ * Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
+ *
+ * @param {string} content with BOM
+ * @return {string} content value without BOM
+ */
+function stripBOM(content) {
+  if (content.charCodeAt(0) === 0xFEFF) {
+    content = content.slice(1);
+  }
+  return content;
+}
+
 module.exports = {
   isArray: isArray,
   isArrayBuffer: isArrayBuffer,
@@ -1881,6 +2042,7 @@ module.exports = {
   isString: isString,
   isNumber: isNumber,
   isObject: isObject,
+  isPlainObject: isPlainObject,
   isUndefined: isUndefined,
   isDate: isDate,
   isFile: isFile,
@@ -1891,9 +2053,9 @@ module.exports = {
   isStandardBrowserEnv: isStandardBrowserEnv,
   forEach: forEach,
   merge: merge,
-  deepMerge: deepMerge,
   extend: extend,
-  trim: trim
+  trim: trim,
+  stripBOM: stripBOM
 };
 
 
@@ -81968,6 +82130,325 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/rainbowvis.js/rainbowvis.js":
+/*!**************************************************!*\
+  !*** ./node_modules/rainbowvis.js/rainbowvis.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+RainbowVis-JS 
+Released under Eclipse Public License - v 1.0
+*/
+
+function Rainbow()
+{
+	"use strict";
+	var gradients = null;
+	var minNum = 0;
+	var maxNum = 100;
+	var colours = ['ff0000', 'ffff00', '00ff00', '0000ff']; 
+	setColours(colours);
+	
+	function setColours (spectrum) 
+	{
+		if (spectrum.length < 2) {
+			throw new Error('Rainbow must have two or more colours.');
+		} else {
+			var increment = (maxNum - minNum)/(spectrum.length - 1);
+			var firstGradient = new ColourGradient();
+			firstGradient.setGradient(spectrum[0], spectrum[1]);
+			firstGradient.setNumberRange(minNum, minNum + increment);
+			gradients = [ firstGradient ];
+			
+			for (var i = 1; i < spectrum.length - 1; i++) {
+				var colourGradient = new ColourGradient();
+				colourGradient.setGradient(spectrum[i], spectrum[i + 1]);
+				colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1)); 
+				gradients[i] = colourGradient; 
+			}
+
+			colours = spectrum;
+		}
+	}
+
+	this.setSpectrum = function () 
+	{
+		setColours(arguments);
+		return this;
+	}
+
+	this.setSpectrumByArray = function (array)
+	{
+		setColours(array);
+		return this;
+	}
+
+	this.colourAt = function (number)
+	{
+		if (isNaN(number)) {
+			throw new TypeError(number + ' is not a number');
+		} else if (gradients.length === 1) {
+			return gradients[0].colourAt(number);
+		} else {
+			var segment = (maxNum - minNum)/(gradients.length);
+			var index = Math.min(Math.floor((Math.max(number, minNum) - minNum)/segment), gradients.length - 1);
+			return gradients[index].colourAt(number);
+		}
+	}
+
+	this.colorAt = this.colourAt;
+
+	this.setNumberRange = function (minNumber, maxNumber)
+	{
+		if (maxNumber > minNumber) {
+			minNum = minNumber;
+			maxNum = maxNumber;
+			setColours(colours);
+		} else {
+			throw new RangeError('maxNumber (' + maxNumber + ') is not greater than minNumber (' + minNumber + ')');
+		}
+		return this;
+	}
+}
+
+function ColourGradient() 
+{
+	"use strict";
+	var startColour = 'ff0000';
+	var endColour = '0000ff';
+	var minNum = 0;
+	var maxNum = 100;
+
+	this.setGradient = function (colourStart, colourEnd)
+	{
+		startColour = getHexColour(colourStart);
+		endColour = getHexColour(colourEnd);
+	}
+
+	this.setNumberRange = function (minNumber, maxNumber)
+	{
+		if (maxNumber > minNumber) {
+			minNum = minNumber;
+			maxNum = maxNumber;
+		} else {
+			throw new RangeError('maxNumber (' + maxNumber + ') is not greater than minNumber (' + minNumber + ')');
+		}
+	}
+
+	this.colourAt = function (number)
+	{
+		return calcHex(number, startColour.substring(0,2), endColour.substring(0,2)) 
+			+ calcHex(number, startColour.substring(2,4), endColour.substring(2,4)) 
+			+ calcHex(number, startColour.substring(4,6), endColour.substring(4,6));
+	}
+	
+	function calcHex(number, channelStart_Base16, channelEnd_Base16)
+	{
+		var num = number;
+		if (num < minNum) {
+			num = minNum;
+		}
+		if (num > maxNum) {
+			num = maxNum;
+		} 
+		var numRange = maxNum - minNum;
+		var cStart_Base10 = parseInt(channelStart_Base16, 16);
+		var cEnd_Base10 = parseInt(channelEnd_Base16, 16); 
+		var cPerUnit = (cEnd_Base10 - cStart_Base10)/numRange;
+		var c_Base10 = Math.round(cPerUnit * (num - minNum) + cStart_Base10);
+		return formatHex(c_Base10.toString(16));
+	}
+
+	function formatHex(hex) 
+	{
+		if (hex.length === 1) {
+			return '0' + hex;
+		} else {
+			return hex;
+		}
+	} 
+	
+	function isHexColour(string)
+	{
+		var regex = /^#?[0-9a-fA-F]{6}$/i;
+		return regex.test(string);
+	}
+
+	function getHexColour(string)
+	{
+		if (isHexColour(string)) {
+			return string.substring(string.length - 6, string.length);
+		} else {
+			var name = string.toLowerCase();
+			if (colourNames.hasOwnProperty(name)) {
+				return colourNames[name];
+			}
+			throw new Error(string + ' is not a valid colour.');
+		}
+	}
+	
+	// Extended list of CSS colornames s taken from
+	// http://www.w3.org/TR/css3-color/#svg-color
+	var colourNames = {
+		aliceblue: "F0F8FF",
+		antiquewhite: "FAEBD7",
+		aqua: "00FFFF",
+		aquamarine: "7FFFD4",
+		azure: "F0FFFF",
+		beige: "F5F5DC",
+		bisque: "FFE4C4",
+		black: "000000",
+		blanchedalmond: "FFEBCD",
+		blue: "0000FF",
+		blueviolet: "8A2BE2",
+		brown: "A52A2A",
+		burlywood: "DEB887",
+		cadetblue: "5F9EA0",
+		chartreuse: "7FFF00",
+		chocolate: "D2691E",
+		coral: "FF7F50",
+		cornflowerblue: "6495ED",
+		cornsilk: "FFF8DC",
+		crimson: "DC143C",
+		cyan: "00FFFF",
+		darkblue: "00008B",
+		darkcyan: "008B8B",
+		darkgoldenrod: "B8860B",
+		darkgray: "A9A9A9",
+		darkgreen: "006400",
+		darkgrey: "A9A9A9",
+		darkkhaki: "BDB76B",
+		darkmagenta: "8B008B",
+		darkolivegreen: "556B2F",
+		darkorange: "FF8C00",
+		darkorchid: "9932CC",
+		darkred: "8B0000",
+		darksalmon: "E9967A",
+		darkseagreen: "8FBC8F",
+		darkslateblue: "483D8B",
+		darkslategray: "2F4F4F",
+		darkslategrey: "2F4F4F",
+		darkturquoise: "00CED1",
+		darkviolet: "9400D3",
+		deeppink: "FF1493",
+		deepskyblue: "00BFFF",
+		dimgray: "696969",
+		dimgrey: "696969",
+		dodgerblue: "1E90FF",
+		firebrick: "B22222",
+		floralwhite: "FFFAF0",
+		forestgreen: "228B22",
+		fuchsia: "FF00FF",
+		gainsboro: "DCDCDC",
+		ghostwhite: "F8F8FF",
+		gold: "FFD700",
+		goldenrod: "DAA520",
+		gray: "808080",
+		green: "008000",
+		greenyellow: "ADFF2F",
+		grey: "808080",
+		honeydew: "F0FFF0",
+		hotpink: "FF69B4",
+		indianred: "CD5C5C",
+		indigo: "4B0082",
+		ivory: "FFFFF0",
+		khaki: "F0E68C",
+		lavender: "E6E6FA",
+		lavenderblush: "FFF0F5",
+		lawngreen: "7CFC00",
+		lemonchiffon: "FFFACD",
+		lightblue: "ADD8E6",
+		lightcoral: "F08080",
+		lightcyan: "E0FFFF",
+		lightgoldenrodyellow: "FAFAD2",
+		lightgray: "D3D3D3",
+		lightgreen: "90EE90",
+		lightgrey: "D3D3D3",
+		lightpink: "FFB6C1",
+		lightsalmon: "FFA07A",
+		lightseagreen: "20B2AA",
+		lightskyblue: "87CEFA",
+		lightslategray: "778899",
+		lightslategrey: "778899",
+		lightsteelblue: "B0C4DE",
+		lightyellow: "FFFFE0",
+		lime: "00FF00",
+		limegreen: "32CD32",
+		linen: "FAF0E6",
+		magenta: "FF00FF",
+		maroon: "800000",
+		mediumaquamarine: "66CDAA",
+		mediumblue: "0000CD",
+		mediumorchid: "BA55D3",
+		mediumpurple: "9370DB",
+		mediumseagreen: "3CB371",
+		mediumslateblue: "7B68EE",
+		mediumspringgreen: "00FA9A",
+		mediumturquoise: "48D1CC",
+		mediumvioletred: "C71585",
+		midnightblue: "191970",
+		mintcream: "F5FFFA",
+		mistyrose: "FFE4E1",
+		moccasin: "FFE4B5",
+		navajowhite: "FFDEAD",
+		navy: "000080",
+		oldlace: "FDF5E6",
+		olive: "808000",
+		olivedrab: "6B8E23",
+		orange: "FFA500",
+		orangered: "FF4500",
+		orchid: "DA70D6",
+		palegoldenrod: "EEE8AA",
+		palegreen: "98FB98",
+		paleturquoise: "AFEEEE",
+		palevioletred: "DB7093",
+		papayawhip: "FFEFD5",
+		peachpuff: "FFDAB9",
+		peru: "CD853F",
+		pink: "FFC0CB",
+		plum: "DDA0DD",
+		powderblue: "B0E0E6",
+		purple: "800080",
+		red: "FF0000",
+		rosybrown: "BC8F8F",
+		royalblue: "4169E1",
+		saddlebrown: "8B4513",
+		salmon: "FA8072",
+		sandybrown: "F4A460",
+		seagreen: "2E8B57",
+		seashell: "FFF5EE",
+		sienna: "A0522D",
+		silver: "C0C0C0",
+		skyblue: "87CEEB",
+		slateblue: "6A5ACD",
+		slategray: "708090",
+		slategrey: "708090",
+		snow: "FFFAFA",
+		springgreen: "00FF7F",
+		steelblue: "4682B4",
+		tan: "D2B48C",
+		teal: "008080",
+		thistle: "D8BFD8",
+		tomato: "FF6347",
+		turquoise: "40E0D0",
+		violet: "EE82EE",
+		wheat: "F5DEB3",
+		white: "FFFFFF",
+		whitesmoke: "F5F5F5",
+		yellow: "FFFF00",
+		yellowgreen: "9ACD32"
+	}
+}
+
+if (true) {
+  module.exports = Rainbow;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/setimmediate/setImmediate.js":
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
@@ -94302,9 +94783,13 @@ module.exports = function(module) {
 
 global.$ = global.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 window.L = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
+window.Rainbow = __webpack_require__(/*! rainbowvis.js */ "./node_modules/rainbowvis.js/rainbowvis.js");
 window.chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+Vue.component("line-chart", function () {
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/LineChart.vue */ "./resources/js/components/LineChart.vue"));
+});
 $(document).ready(function () {
   window.preferences = new Vue({
     el: '#preferences',
@@ -94323,6 +94808,8 @@ $(document).ready(function () {
       this.resetDate();
       axios.get('/api/parking-lot').then(function (response) {
         return _this.parkingLots = response.data;
+      })["finally"](function () {
+        return init_map();
       });
     },
     computed: {
@@ -94455,8 +94942,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

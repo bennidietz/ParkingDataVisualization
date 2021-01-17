@@ -2,10 +2,13 @@ require('./bootstrap');
 
 global.$ = global.jQuery = require('jquery');
 window.L = require('leaflet');
+window.Rainbow = require('rainbowvis.js');
 window.chart = require('chart.js');
 window.moment = require('moment');
 
 window.Vue = require('vue');
+Vue.component("line-chart", () => import("./components/LineChart.vue"));
+
 
 $(document).ready(function() {
   window.preferences = new Vue({
@@ -21,7 +24,7 @@ $(document).ready(function() {
     },
     mounted() {
       this.resetDate();
-      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data));
+      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data)).finally(() => init_map());
     },
     computed: {
       date: function() {
