@@ -20,14 +20,7 @@
     <!-- Component scripts and styles -->
 
     <script src="{{ asset('js/map/index.js') }}" defer></script>
-    <script src="{{ asset('js/chart/index.js') }}" defer></script>
-    <script src="{{ asset('js/table/index.js') }}" defer></script>
-    <script src="{{ asset('js/slider/index.js') }}" defer></script>
-
     <link href="{{ asset('css/map/index.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/chart/index.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/table/index.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/slider/index.css') }}" rel="stylesheet">
 
   </head>
   <body>

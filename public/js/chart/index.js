@@ -55,7 +55,7 @@ function findParkingLotByName(name) {
     return null
 }
 
-function getDayChart(ctx, parkingLot, parkingChart, reversed) {
+function getDayChart(ctx, parkingLot, parkingChart, reversed=false) {
     hourlyData = parkingLot.getDataForHours()
     if (reversed) {
         for (i in hourlyData) {
@@ -65,6 +65,7 @@ function getDayChart(ctx, parkingLot, parkingChart, reversed) {
     var label = (reversed) ? 'Number of free parking lots' : 'Number of occupied parking lots'
     var backgroundColor = (reversed) ? 'rgba(0, 153, 76, 0.4)' : 'rgba(255, 159, 64, 0.4)'
     var borderColor = (reversed) ? 'rgba(0, 153, 76, 1)' : 'rgba(255, 159, 64, 1)'
+    var grey = 'rgb(211,211,211)'
     console.log(hourlyData)
     return new Chart(ctx, {
         type: parkingChart.type,
@@ -73,9 +74,23 @@ function getDayChart(ctx, parkingLot, parkingChart, reversed) {
             datasets: [{
                 data: Object.values(hourlyData),
                 fill: parkingChart.backgroundFill,
-                backgroundColor: backgroundColor,
-                borderColor: borderColor,
-                borderWidth: 1
+                borderWidth: 1,
+                borderColor: grey,
+                pointRadius: function(context) {
+                    var index = context.dataIndex;
+                    var value = context.dataset.data[index];
+                    return index == 5 ? 5 : 2.5;
+                },
+                pointBorderColor: function(context) {
+                    var index = context.dataIndex;
+                    var value = context.dataset.data[index];
+                    return index == 5 ? 'red' : grey;
+                },
+                pointBackgroundColor: function(context) {
+                    var index = context.dataIndex;
+                    var value = context.dataset.data[index];
+                    return index == 5 ? 'red' : grey;
+                }
             }]
         },
         options: {
@@ -93,7 +108,7 @@ function getDayChart(ctx, parkingLot, parkingChart, reversed) {
             },
             title: {
                 display: true,
-                text: (reversed) ? 'Free parking lots of ' + parkingLot.name : 'Occupied parking lots of ' + parkingLot.name,
+                text: (reversed) ? 'Free parking' : 'Occupied parking',
                 fontColor: borderColor,
                 padding: 10,
                 fontSize: 17
@@ -124,14 +139,14 @@ function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
     $("#" + id).css("max-width", "100%")
     $("#" + id).css("max-height", absoulte_height/5 + "px")
     $("#" + id).css("height", absoulte_height/5 + "px")
-    var domChart = getDayChart(ctx, parkingLot, parkingChart, reverse)
+    var domChart = getDayChart(ctx, parkingLot, parkingChart, false)
     $("#barChart" + fixedChartNumber).click(function() {
         chartType = barChart
         $("#lineChart" + fixedChartNumber).prop("checked", false)
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+        domChart = getDayChart(ctx, parkingLot, chartType, false)
     })
     $("#lineChart" + fixedChartNumber).click(function() {
         chartType = lineChart
@@ -139,14 +154,14 @@ function barPlotTimeLine(parkingLot, parkingChart, reverse=false) {
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+        domChart = getDayChart(ctx, parkingLot, chartType, false)
     })
     $("#reverse" + fixedChartNumber).click(function() {
         reverse = this.checked
         $("#canvasBarPlot").empty()
         $("#canvasBarPlot").append('<canvas id="' + id + '"></canvas>');
         var ctx = document.getElementById(id).getContext('2d');
-        domChart = getDayChart(ctx, parkingLot, chartType, reverse)
+        domChart = getDayChart(ctx, parkingLot, chartType, false)
     })
 }
 
@@ -204,7 +219,6 @@ window.onload = () => {
         $("#parkingLots").append('<option value="' + pName + '">' + pName + '</option>')
     }
     barPlotTimeLine(parkingLots[0], barChart)
-    $("#piePlotArea").append("<h3>Please click on one of the bars to show a pie chart for that hour...</h3>")
     $("#parkingLots").on("change", function() {
         $("#barPlotArea").empty()
         $("#canvasBarPlot").empty()
@@ -215,3 +229,54 @@ window.onload = () => {
         barPlotTimeLine(lot, barChart)
     })
 };
+
+/*
+
+options = {
+legend: {
+    display: false
+    },
+scales: {
+    yAxes: [{
+        ticks: {
+            beginAtZero: true,
+            stepSize: Math.round(10 / 5 / 50) * 50,
+            max: 10
+        },
+    }]
+},
+title: {
+    display: true,
+    text: (false) ? 'Free parking' : 'Occupied parking',
+    fontColor: 'rgba(0, 153, 76, 1)',
+    padding: 10,
+    fontSize: 17
+},
+'onClick' : function (evt) {
+    var activePoints = this.getElementsAtEvent(evt);
+    if (activePoints[0]) {
+        var selectedIndex = activePoints[0]._index;
+        pieChart(parkingLot, selectedIndex)
+    }
+}
+}
+
+import { Line } from 'vue-chartjs'
+
+export default {
+  extends: Line,
+  props: {
+    chartdata: {
+      type: Object,
+      default: null
+    },
+    options: {
+      type: Object,
+      default: null
+    }
+  },
+  mounted () {
+    this.renderChart(this.chartdata, options)
+  }
+}
+*/

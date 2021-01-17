@@ -3,9 +3,9 @@
   <div class="slider__output-hour">@{{ date.hour }}</div>
 </div>
 <div class="slider__controls">
-  <select id="day" class="slider__day" name="day" v-model="day" size="1">
-    <option :value="index" v-for="(day, index) in days" v-if="index > 0">@{{ day }}</option>
-  </select>
+  <div class="slider__days">
+    <div class="slider__day" :class="{'active': day == index}" v-for="(tmpDay, index) in days" v-if="index > 0" :title="tmpDay" @click="day = index">@{{ tmpDay.substring(0, 2) }}</div>
+  </div>
   <input id="hour" class="slider__hour" name="hour" v-model="hour" type="range" min="0" max="23" step="1" />
   <div class="slider__buttons">
     <div class="slider__button h-clickable h-transition-fast" @click="resetDate()">
