@@ -289,11 +289,12 @@ th, td {
     }
 
     &.active {
-      border: 1px solid $darkGray;
+      border: 1px solid $gray;
       background: rgba(0, 0, 0, 0.25);
 
       & > .table__heading {
-        background: $darkGray !important;
+        background: $gray !important;
+        color: $darkGray;
       }
     }
 

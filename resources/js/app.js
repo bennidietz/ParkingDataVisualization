@@ -17,6 +17,7 @@ $(document).ready(function() {
       'chart': chart,
     },
     data: {
+      aspectColor: '#54ff45',
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
