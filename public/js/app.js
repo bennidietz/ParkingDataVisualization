@@ -94788,7 +94788,7 @@ window.chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 var chart = Vue.component("chart", function () {
-  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
+  return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
 });
 $(document).ready(function () {
   window.preferences = new Vue({
@@ -94892,6 +94892,23 @@ $(document).ready(function () {
           }
         }
       }
+    },
+    watch: {
+      'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'day': function day(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'hour': function hour(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(false);
+        }
+      }
     }
   });
 });
@@ -94949,8 +94966,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

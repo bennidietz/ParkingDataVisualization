@@ -14,7 +14,7 @@ $(document).ready(function() {
   window.preferences = new Vue({
     el: '#preferences',
     components: {
-      'chart' : chart,
+      'chart': chart,
     },
     data: {
       view: 'citizen',
@@ -103,6 +103,23 @@ $(document).ready(function() {
           if (this.visualizing) {
             setTimeout('window.preferences.runVisualization()', interval);
           }
+        }
+      }
+    },
+    watch: {
+      'selectedParkingLot': function (newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'day': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'hour': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(false);
         }
       }
     }
