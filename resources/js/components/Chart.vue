@@ -54,7 +54,6 @@ export default {
         }
         output.push(occupancyHour)
       }
-      console.log(output)
       return output
     }, getAllCapacities: function() {
       var output = 0
@@ -82,12 +81,10 @@ export default {
         this.getAverageOccupancies(reversed)
         capacity = this.getAllCapacities()
       }
-      console.log(capacity)
       chartdata.datasets[0].data = data
-      console.log(preferences.hour)
       if (reversed) {
-        chartdata.datasets[0].backgroundColor = this.dayColor('rgba(255, 255, 255, 1)', 'rgba(255,130,0,1)')
-        chartdata.datasets[0].borderColor = this.dayColor('rgba(255, 255, 255, 1)', 'rgba(255,130,0,1)')
+        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.redColorLight, preferences.redColor)
+        chartdata.datasets[0].borderColor = this.dayColor(preferences.redColorLight, preferences.redColor)
       } else {
         chartdata.datasets[0].backgroundColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor)
         chartdata.datasets[0].borderColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor)
@@ -101,6 +98,9 @@ export default {
             stepSize: 20
         }
       }]
+      this.options["onClick"] = function (e) {
+        preferences.hour = this.getElementsAtEvent(e)[0]._index
+      }
       chartdata.datasets[0]["label"] = (reversed) ? 'Occupied parking places' : 'Free parking places'
       this.options.yAxes[0].ticks["max"] = capacity
       preferences.view
