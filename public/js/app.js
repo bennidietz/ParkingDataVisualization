@@ -94800,6 +94800,8 @@ $(document).ready(function () {
       aspectColor: 'rgba(84, 255, 69, 1)',
       //#54ff45
       aspectColorLight: 'rgba(84, 255, 69, 0.1)',
+      redColor: 'rgba(255, 69, 69, 1)',
+      redColorLight: 'rgba(255, 69, 69, 0.1)',
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
