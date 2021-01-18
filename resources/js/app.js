@@ -32,8 +32,9 @@ $(document).ready(function() {
     },
     mounted() {
       this.resetDate();
-      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data));
-      axios.get('/api/occupancy').then(response => (this.occupancy = response.data)).finally(() => init_map());
+      axios.get('/api/parking-lot')
+      .then(response => (this.parkingLots = response.data))
+      .finally(axios.get('/api/occupancy').then(response => (preferences.occupancy = response.data)).finally(() => preferences.init()));
     },
     computed: {
       date: function() {
@@ -68,6 +69,10 @@ $(document).ready(function() {
       }
     },
     methods: {
+      init: function() {
+        init_map();
+        this.$refs.chart.render(true);
+      },
       resetDate: function() {
         if (!this.visualizing) {
           var date = new Date();
