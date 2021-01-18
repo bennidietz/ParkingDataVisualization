@@ -113,7 +113,7 @@ $(document).ready(function() {
         }
       },
       'day': function(newVal, oldVal) {
-        if (this.parkingLots && this.occupancy) {
+        if (this.parkingLots && this.occupancy && !this.visualizing) {
           this.$refs.chart.render(true);
         }
       },
