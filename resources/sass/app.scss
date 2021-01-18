@@ -208,12 +208,17 @@ th, td {
       & > .slider__day {
         height: 30px;
         width: 30px;
+        margin-right: 5px;
         @extend .h-clickable;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 50%;
         overflow: hidden;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
 
         &:not(.active):hover {
           background: rgba(255, 255, 255, 0.1);

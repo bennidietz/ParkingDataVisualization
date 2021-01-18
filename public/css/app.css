@@ -6324,11 +6324,16 @@ td {
 .slider > .slider__controls > .slider__days > .slider__day {
   height: 30px;
   width: 30px;
+  margin-right: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
+}
+
+.slider > .slider__controls > .slider__days > .slider__day:last-of-type {
+  margin-right: 0;
 }
 
 .slider > .slider__controls > .slider__days > .slider__day:not(.active):hover {
