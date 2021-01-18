@@ -29,4 +29,14 @@ class ParkingLotController extends Controller
   {
     return $this->parkingLotService->getParkingLots();
   }
+
+  /**
+   * Returns the occupancy data.
+   *
+   * @return array
+   */
+  public function showOccupancy(): array
+  {
+    return $this->parkingLotService->getOccupancy();
+  }
 }

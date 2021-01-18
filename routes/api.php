@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/parking-lot', [ParkingLotController::class, 'showAll']);
-Route::get('/parking-lot/{id}', [ParkingLotController::class, 'showOne']);
+Route::get('/occupancy', [ParkingLotController::class, 'showOccupancy']);

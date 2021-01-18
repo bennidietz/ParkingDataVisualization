@@ -94800,7 +94800,8 @@ $(document).ready(function () {
       hour: null,
       visualizing: false,
       parkingLots: null,
-      selectedParkingLot: null
+      selectedParkingLot: null,
+      occupancy: null
     },
     mounted: function mounted() {
       var _this = this;
@@ -94808,6 +94809,9 @@ $(document).ready(function () {
       this.resetDate();
       axios.get('/api/parking-lot').then(function (response) {
         return _this.parkingLots = response.data;
+      });
+      axios.get('/api/occupancy').then(function (response) {
+        return _this.occupancy = response.data;
       })["finally"](function () {
         return init_map();
       });
