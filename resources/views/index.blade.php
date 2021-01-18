@@ -70,7 +70,7 @@
 
           <!-- popup component -->
 
-          <div class="popup" :class="{'active': selectedParkingLot}">
+          <div class="popup" :class="{'active': selectedParkingLot != null}">
             @include('components.popup.index')
           </div>
 
