@@ -34,7 +34,8 @@ $(document).ready(function() {
       this.resetDate();
       axios.get('/api/parking-lot')
       .then(response => (this.parkingLots = response.data))
-      .finally(axios.get('/api/occupancy').then(response => (preferences.occupancy = response.data)).finally(() => preferences.init()));
+      .finally(axios.get('/api/occupancy').then(response => (preferences.occupancy = response.data))
+      .finally(() => preferences.init()));
     },
     computed: {
       date: function() {
