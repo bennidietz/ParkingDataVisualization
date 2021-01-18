@@ -94794,7 +94794,7 @@ $(document).ready(function () {
   window.preferences = new Vue({
     el: '#preferences',
     data: {
-      view: 'analyst',
+      view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
       hour: null,

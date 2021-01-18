@@ -6148,14 +6148,14 @@ td {
   word-wrap: break-word;
 }
 
-/*---------- Dummy map ----------*/
+/*---------- Map ----------*/
 
 .map {
   height: 100%;
-  width: 100%;
+  width: 60%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 40%;
 }
 
 .map img {
@@ -6167,15 +6167,13 @@ td {
 
 .sidebar {
   height: 100%;
-  width: 450px;
-  max-width: 30vw;
+  width: 40%;
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: #333333;
   /*backdrop-filter: blur(20px);
   background-clip: padding-box;*/
-  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -6242,6 +6240,13 @@ td {
   cursor: pointer;
 }
 
+.h-box-shadow,
+.slider > .slider__controls,
+.slider > .slider__output,
+.sidebar {
+  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
+}
+
 .h-transition-fast,
 .table > .table__row > .table__heading,
 .sidebar__tabs > li {
@@ -6261,11 +6266,14 @@ td {
 /*---------- Slider ----------*/
 
 .slider {
-  width: 100%;
-  margin-bottom: 30px;
+  position: fixed;
+  top: 0;
+  left: 40%;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
 }
 
 .slider > .slider__output {
@@ -6274,13 +6282,13 @@ td {
   justify-content: center;
   align-items: stretch;
   text-align: center;
+  background: #333333;
   border-radius: 8px;
   overflow: hidden;
 }
 
 .slider > .slider__output > .slider__output-day {
   padding: 10px;
-  background: rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
   font-size: 1.6rem;
   font-weight: bold;
@@ -6297,7 +6305,7 @@ td {
 .slider > .slider__controls {
   min-width: 65%;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.2);
+  background: #333333;
   display: flex;
   flex-direction: column;
   border-radius: 3px;
@@ -6391,12 +6399,12 @@ td {
 }
 
 .table > .table__row.active {
-  border: 1px solid rgba(0, 0, 0, 0.9);
+  border: 1px solid #333333;
   background: rgba(0, 0, 0, 0.25);
 }
 
 .table > .table__row.active > .table__heading {
-  background: rgba(0, 0, 0, 0.9) !important;
+  background: #333333 !important;
 }
 
 .table > .table__row > .table__data {
