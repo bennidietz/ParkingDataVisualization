@@ -68,6 +68,12 @@
             @include('components.table.index')
           </div>
 
+          <!-- popup component -->
+
+          <div class="popup" :class="{'active': selectedParkingLot}">
+            @include('components.popup.index')
+          </div>
+
         </div>
 
       <aside>

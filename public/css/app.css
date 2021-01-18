@@ -6241,6 +6241,7 @@ td {
 }
 
 .h-box-shadow,
+.popup,
 .slider > .slider__controls,
 .slider > .slider__output,
 .sidebar {
@@ -6248,6 +6249,7 @@ td {
 }
 
 .h-transition-fast,
+.popup,
 .table > .table__row > .table__heading,
 .sidebar__tabs > li {
   transition: 0.25s;
@@ -6413,5 +6415,26 @@ td {
   padding: 10px;
   box-sizing: border-box;
   font-size: 0.8rem;
+}
+
+/*---------- Popup ----------*/
+
+.popup {
+  max-height: 50vh;
+  max-width: 30%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background: #333333;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  transform: scale(0);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.popup.active {
+  transform: none;
 }
 

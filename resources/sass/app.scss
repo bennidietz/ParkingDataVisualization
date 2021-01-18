@@ -306,3 +306,26 @@ th, td {
     }
   }
 }
+
+/*---------- Popup ----------*/
+
+.popup {
+  max-height: 50vh;
+  max-width: 30%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background: $darkGray;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  @extend .h-box-shadow;
+  @extend .h-transition-fast;
+  transform: scale(0);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &.active {
+    transform: none;
+  }
+}
