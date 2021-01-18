@@ -10,12 +10,6 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 //
 //
 //
@@ -28,117 +22,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var ParkingLot = /*#__PURE__*/function () {
-  function ParkingLot(name) {
-    var capacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
-
-    _classCallCheck(this, ParkingLot);
-
-    this.name = name;
-    this.data = {};
-    this.capacity = capacity;
-  }
-
-  _createClass(ParkingLot, [{
-    key: "getDataForHours",
-    value: function getDataForHours() {
-      var hoursData = {
-        0: [],
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-        9: [],
-        10: [],
-        11: [],
-        12: [],
-        13: [],
-        14: [],
-        15: [],
-        16: [],
-        17: [],
-        18: [],
-        19: [],
-        20: [],
-        21: [],
-        22: [],
-        23: [],
-        24: []
-      };
-      var hour_counter = 0;
-
-      var average = function average(arr) {
-        return Math.round(arr.reduce(function (p, c) {
-          return p + c;
-        }, 0) / arr.length);
-      };
-
-      for (var i in this.data) {
-        hoursData[new Date(i).getHours()].push(this.data[i]);
-      }
-
-      for (var _i in hoursData) {
-        hoursData[_i] = average(hoursData[_i]);
-      }
-
-      return hoursData;
-    }
-  }, {
-    key: "getDataForHoursAsArray",
-    value: function getDataForHoursAsArray() {
-      var output = [];
-      var hData = this.getDataForHours();
-
-      for (var key in Object.keys(hData)) {
-        if (!Number.isNaN(hData[key])) {
-          output.push(hData[key]);
-        }
-      }
-
-      return output;
-    }
-  }]);
-
-  return ParkingLot;
-}();
-
-var parkingLots = [];
-var days = [];
-
-for (var i = 0; i < testdata["0"].length; i++) {
-  var element = testdata["0"][i];
-
-  if (i == 0) {
-    // header of the data
-    for (var j = 1; j < element.length; j++) {
-      parkingLots.push(new ParkingLot(element[j]));
-    }
-  } else {
-    var date = moment(element[0]).toDate();
-    days.push(date);
-
-    for (var _j = 0; _j < parkingLots.length; _j++) {
-      parkingLots[_j].data[date] = element[_j + 1];
-    }
-  }
-}
-
-var hourlyData = parkingLots[1].getDataForHoursAsArray();
 var chartdata = {
   datasets: [{
-    label: 'Fee parking places',
     fill: false,
     borderWidth: 1,
     radius: 4
   }]
 };
 chartdata.labels = Array.from({
-  length: Object.keys(hourlyData).length
+  length: 24
 }, function (v, k) {
   return k + ":00 - " + (k + 1) + ":00";
 });
@@ -151,12 +43,12 @@ chartdata.labels = Array.from({
     }
   },
   methods: {
-    dayColor: function dayColor(color) {
+    dayColor: function dayColor(color, secondColor) {
       var output = [];
 
       for (var i = 0; i <= 24; i++) {
-        if (i == preferences.hour) {
-          output.push('rgba(255,130,0,1)');
+        if (preferences.hour && i == preferences.hour) {
+          output.push(secondColor);
         } else {
           output.push(color);
         }
@@ -164,26 +56,71 @@ chartdata.labels = Array.from({
 
       return output;
     },
-    render: function render(animated) {
-      var parkingLot = preferences.selectedParkingLot ? preferences.parkingLots[preferences.selectedParkingLot] : null;
-      console.log(parkingLot);
+    getAverageOccupancies: function getAverageOccupancies(reversed) {
+      var output = [];
       var dayData = preferences.occupancy[preferences.days[preferences.day]];
-      console.log(dayData);
-      var data = [];
 
-      if (parkingLot) {
-        for (var hr in dayData) {
-          data.push(dayData[hr][parkingLot.name]);
+      for (var h in dayData) {
+        var occupancyHour = 0;
+
+        for (var p in preferences.parkingLots) {
+          var d = dayData[h][preferences.parkingLots[p].name];
+          occupancyHour += d;
         }
-      } else {//TODO: average
+
+        if (reversed) {
+          var c = this.getAllCapacities();
+          occupancyHour = c - occupancyHour;
+        }
+
+        output.push(occupancyHour);
       }
 
+      console.log(output);
+      return output;
+    },
+    getAllCapacities: function getAllCapacities() {
+      var output = 0;
+
+      for (var p in preferences.parkingLots) {
+        var c = Number(preferences.parkingLots[p].capacity);
+        output += c;
+      }
+
+      return output;
+    },
+    render: function render(animated) {
+      var reversed = preferences.view == "citizen";
+      var parkingLot = preferences.selectedParkingLot != null ? preferences.parkingLots[preferences.selectedParkingLot] : null;
+      var dayData = preferences.occupancy[preferences.days[preferences.day]];
+      var data = [];
+      var capacity = 0;
+
+      if (parkingLot != null) {
+        for (var hr in dayData) {
+          capacity = Number(parkingLot.capacity);
+
+          if (reversed) {
+            data.push(capacity - dayData[hr][parkingLot.name]);
+          } else {
+            data.push(dayData[hr][parkingLot.name]);
+          }
+        }
+      } else {
+        this.getAverageOccupancies(reversed);
+        capacity = this.getAllCapacities();
+      }
+
+      console.log(capacity);
       chartdata.datasets[0].data = data;
       console.log(preferences.hour);
 
-      if (preferences.hour) {
-        chartdata.datasets[0].backgroundColor = this.dayColor('rgba(255, 255, 255, 1)'); //chartdata.datasets[0].backgroundColor[preferences.hour] = 'rgba(255, 255, 255, 1)'
-        //chartdata.datasets[0].pointBorderColor = selectedColor
+      if (reversed) {
+        chartdata.datasets[0].backgroundColor = this.dayColor('rgba(255, 255, 255, 1)', 'rgba(255,130,0,1)');
+        chartdata.datasets[0].borderColor = this.dayColor('rgba(255, 255, 255, 1)', 'rgba(255,130,0,1)');
+      } else {
+        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor);
+        chartdata.datasets[0].borderColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor);
       }
 
       if (!animated) {
@@ -192,6 +129,15 @@ chartdata.labels = Array.from({
         };
       }
 
+      this.options["yAxes"] = [{
+        ticks: {
+          min: 0,
+          stepSize: 20
+        }
+      }];
+      chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places' : 'Free parking places';
+      this.options.yAxes[0].ticks["max"] = capacity;
+      preferences.view;
       this.renderChart(chartdata, this.options);
     }
   }

@@ -94788,7 +94788,7 @@ window.chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 var chart = Vue.component("chart", function () {
-  return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
 });
 $(document).ready(function () {
   window.preferences = new Vue({
