@@ -65,11 +65,11 @@ for (let i = 0; i < testdata["0"].length; i++) {
 
 var hourlyData = parkingLots[1].getDataForHoursAsArray()
 var chartdata = {datasets: [{
-            label: 'Fee parking places',
-            fill: false,
-            borderWidth: 1,
-            radius: 4
-        }]}
+    label: 'Fee parking places',
+    fill: false,
+    borderWidth: 1,
+    radius: 4
+}]}
 chartdata.labels = Array.from({length: Object.keys(hourlyData).length}, (v, k) => k + ":00 - " + (k+1) + ":00")
 
 export default {
@@ -110,6 +110,9 @@ export default {
           chartdata.datasets[0].backgroundColor = this.dayColor('rgba(255, 255, 255, 1)')
           //chartdata.datasets[0].backgroundColor[preferences.hour] = 'rgba(255, 255, 255, 1)'
           //chartdata.datasets[0].pointBorderColor = selectedColor
+      }
+      if (!animated) {
+          this.options["animation"] = { duration: 0 }
       }
       this.renderChart(chartdata, this.options)
     }

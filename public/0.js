@@ -186,6 +186,12 @@ chartdata.labels = Array.from({
         //chartdata.datasets[0].pointBorderColor = selectedColor
       }
 
+      if (!animated) {
+        this.options["animation"] = {
+          duration: 0
+        };
+      }
+
       this.renderChart(chartdata, this.options);
     }
   }
