@@ -18,6 +18,7 @@ $(document).ready(function() {
     },
     data: {
       aspectColor: 'rgba(84, 255, 69, 1)', //#54ff45
+      aspectColorLight: 'rgba(84, 255, 69, 0.8)',
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
