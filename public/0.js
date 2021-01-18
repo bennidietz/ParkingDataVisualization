@@ -106,7 +106,7 @@ chartdata.labels = Array.from({
           }
         }
       } else {
-        this.getAverageOccupancies(reversed);
+        data = this.getAverageOccupancies(reversed);
         capacity = this.getAllCapacities();
       }
 

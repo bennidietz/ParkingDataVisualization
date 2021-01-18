@@ -78,7 +78,7 @@ export default {
           }
         }
       } else {
-        this.getAverageOccupancies(reversed)
+        data = this.getAverageOccupancies(reversed)
         capacity = this.getAllCapacities()
       }
       chartdata.datasets[0].data = data
