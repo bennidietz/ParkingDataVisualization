@@ -94897,6 +94897,11 @@ $(document).ready(function () {
       }
     },
     watch: {
+      'view': function view(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);

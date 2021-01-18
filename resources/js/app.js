@@ -109,6 +109,11 @@ $(document).ready(function() {
       }
     },
     watch: {
+      'view': function (newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
       'selectedParkingLot': function (newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
