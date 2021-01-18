@@ -1,3 +1,3 @@
-<chart ref="chart" :data="occupancy" :options="{}" :selectedparkinglot="3" :hour="hour" />
+<chart ref="chart" :options="{}"  />
 
 <!--<script type="text/javascript" src="js/testdata.js"></script>-->

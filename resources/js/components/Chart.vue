@@ -67,48 +67,52 @@ var hourlyData = parkingLots[1].getDataForHoursAsArray()
 var chartdata = {datasets: [{
             label: 'Fee parking places',
             fill: false,
-            backgroundColor: 'rgba(255, 165, 0, 1)',
-            borderColor: 'rgba(255, 165, 0, 1)',
             borderWidth: 1,
             radius: 4
         }]}
 chartdata.labels = Array.from({length: Object.keys(hourlyData).length}, (v, k) => k + ":00 - " + (k+1) + ":00")
-chartdata.datasets[0].data = hourlyData
 
 export default {
   extends: Bar,
   props: {
-    data: {
-      type: Object,
-      default: null
-    },
     options: {
       type: Object,
-      default: null
-    },
-    selectedparkinglot: {
-      type: Number,
-      default: null
-    },
-    hour: {
-      type: Number,
       default: null
     }
   },
   methods: {
-    render: function(animated) {
-      console.log(preferences.day)
-      if (this.hour && this.hour < chartdata.datasets[0].backgroundColor.length) {
-        let log = this.selectedparkinglot
-          var selectedColor = function(context) {
-              var index = context.dataIndex;
-              return index == log ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 165, 0, 1)';
-          }
-          chartdata.datasets[0].pointBackgroundColor = selectedColor
-          chartdata.datasets[0].pointBorderColor = selectedColor
+    dayColor: function(color) {
+      var output = []
+      for (var i = 0; i <= 24; i++) {
+        if (i == preferences.hour) {
+          output.push('rgba(255,130,0,1)')
+        } else {
+          output.push(color)
+        }
+      }
+      return output
+    }, render: function(animated) {
+      const parkingLot = (preferences.selectedParkingLot) ? preferences.parkingLots[preferences.selectedParkingLot] : null
+      console.log(parkingLot)
+      const dayData = preferences.occupancy[preferences.days[preferences.day]]
+      console.log(dayData)
+      var data = []
+      if (parkingLot) {
+        for (var hr in dayData) {
+          data.push(dayData[hr][parkingLot.name])
+        }
+      } else {
+        //TODO: average
+      }
+      chartdata.datasets[0].data = data
+      console.log(preferences.hour)
+      if (preferences.hour) {
+          chartdata.datasets[0].backgroundColor = this.dayColor('rgba(255, 255, 255, 1)')
+          //chartdata.datasets[0].backgroundColor[preferences.hour] = 'rgba(255, 255, 255, 1)'
+          //chartdata.datasets[0].pointBorderColor = selectedColor
       }
       this.renderChart(chartdata, this.options)
-      }
+    }
   }
 
 }
