@@ -7,12 +7,15 @@ window.chart = require('chart.js');
 window.moment = require('moment');
 
 window.Vue = require('vue');
-Vue.component("line-chart", () => import("./components/LineChart.vue"));
+const chart = Vue.component("chart", () => import("./components/Chart.vue"));
 
 
 $(document).ready(function() {
   window.preferences = new Vue({
     el: '#preferences',
+    components: {
+      'chart' : chart,
+    },
     data: {
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],

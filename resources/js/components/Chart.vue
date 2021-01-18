@@ -10,7 +10,7 @@
 
 
 <script>
-import { Line } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 
 class ParkingLot {
     constructor(name, capacity=1000) {
@@ -76,8 +76,12 @@ chartdata.labels = Array.from({length: Object.keys(hourlyData).length}, (v, k) =
 chartdata.datasets[0].data = hourlyData
 
 export default {
-  extends: Line,
+  extends: Bar,
   props: {
+    data: {
+      type: Object,
+      default: null
+    },
     options: {
       type: Object,
       default: null
@@ -91,18 +95,21 @@ export default {
       default: null
     }
   },
-  mounted () {
-    console.log(this.selectedparkinglot)
-    if (this.selectedparkinglot && this.selectedparkinglot < chartdata.datasets[0].backgroundColor.length) {
-      let log = this.selectedparkinglot
-        var selectedColor = function(context) {
-            var index = context.dataIndex;
-            return index == log ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 165, 0, 1)';
-        }
-        chartdata.datasets[0].pointBackgroundColor = selectedColor
-        chartdata.datasets[0].pointBorderColor = selectedColor
-    }
-    this.renderChart(chartdata, this.options)
+  methods: {
+    render: function(animated) {
+      console.log(preferences.day)
+      if (this.hour && this.hour < chartdata.datasets[0].backgroundColor.length) {
+        let log = this.selectedparkinglot
+          var selectedColor = function(context) {
+              var index = context.dataIndex;
+              return index == log ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 165, 0, 1)';
+          }
+          chartdata.datasets[0].pointBackgroundColor = selectedColor
+          chartdata.datasets[0].pointBorderColor = selectedColor
+      }
+      this.renderChart(chartdata, this.options)
+      }
   }
+
 }
 </script>

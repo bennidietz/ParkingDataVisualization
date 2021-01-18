@@ -94787,12 +94787,15 @@ window.Rainbow = __webpack_require__(/*! rainbowvis.js */ "./node_modules/rainbo
 window.chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-Vue.component("line-chart", function () {
-  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/LineChart.vue */ "./resources/js/components/LineChart.vue"));
+var chart = Vue.component("chart", function () {
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
 });
 $(document).ready(function () {
   window.preferences = new Vue({
     el: '#preferences',
+    components: {
+      'chart': chart
+    },
     data: {
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -94946,8 +94949,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
