@@ -25,6 +25,10 @@ export default {
     options: {
       type: Object,
       default: null
+    },
+    minimize: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

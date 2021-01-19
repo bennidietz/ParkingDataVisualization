@@ -1,1 +1,3 @@
-@{{ parkingLots[selectedParkingLot] }}
+<button type="button" class="popupBtn" onclick="if(document.getElementById('chart').style.display != 'none'){document.getElementById('chart').style.display = 'none'} else {document.getElementById('chart').style.display = 'block'}">_</button>
+<button type="button" class="popupBtn" onclick="document.getElementById('chart').style.display = 'block'; preferences.selectedParkingLot = null">X</button>
+<chart id="chart" ref="chart" :options="{}"  />

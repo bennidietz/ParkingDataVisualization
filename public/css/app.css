@@ -6163,6 +6163,15 @@ td {
   width: 100%;
 }
 
+.leaflet-control {
+  background: #333333 !important;
+}
+
+.leaflet-control-layers-expanded {
+  background: #333333 !important;
+  color: #FFFFFF !important;
+}
+
 /*---------- Sidebar ----------*/
 
 .sidebar {
@@ -6428,8 +6437,9 @@ td {
   max-height: 50vh;
   max-width: 30%;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  left: 40%;
+  bottom: 0px;
+  margin: 10px;
   padding: 10px;
   background: #333333;
   font-size: 0.8rem;
@@ -6441,5 +6451,10 @@ td {
 
 .popup.active {
   transform: none;
+}
+
+.popupBtn {
+  color: #FFFFFF;
+  background: none;
 }
 

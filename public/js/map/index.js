@@ -90,10 +90,6 @@ function constructGeoJSON(carParksArray) {
  * @param layer
  */
 function onEachFeature(feature, layer) {
-    layer.bindPopup(
-        '<h2>' + feature.properties.name+'</h2>' +
-        '<p>maximum capacity: ' + feature.properties.capacity + '</p>'
-    );
     //bind click
     layer.on({
         click: whenClicked.bind(this)
