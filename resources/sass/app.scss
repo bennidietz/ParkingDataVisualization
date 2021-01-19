@@ -40,14 +40,14 @@ th, td {
   word-wrap: break-word;
 }
 
-/*---------- Dummy map ----------*/
+/*---------- Map ----------*/
 
 .map {
   height: 100%;
-  width: 100%;
+  width: 60%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 40%;
 
   & img {
     height: 100%;
@@ -59,15 +59,14 @@ th, td {
 
 .sidebar {
   height: 100%;
-  width: 450px;
-  max-width: 30vw;
+  width: 40%;
   position: fixed;
   top: 0;
   left: 0;
-  background: $transparentOverlay;
+  background: $darkGray;
   /*backdrop-filter: blur(20px);
   background-clip: padding-box;*/
-  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
+  @extend .h-box-shadow;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -133,6 +132,10 @@ th, td {
   cursor: pointer;
 }
 
+.h-box-shadow {
+  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
+}
+
 .h-transition-fast {
   transition: 0.25s;
   -moz-transition: 0.25s;
@@ -150,11 +153,14 @@ th, td {
 /*---------- Slider ----------*/
 
 .slider {
-  width: 100%;
-  margin-bottom: 30px;
+  position: fixed;
+  top: 0;
+  left: 40%;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
 
   & > .slider__output {
     display: flex;
@@ -162,12 +168,13 @@ th, td {
     justify-content: center;
     align-items: stretch;
     text-align: center;
+    background: $darkGray;
     border-radius: 8px;
+    @extend .h-box-shadow;
     overflow: hidden;
 
     & > .slider__output-day {
       padding: 10px;
-      background: rgba(255, 255, 255, 0.2);
       color: $white;
       font-size: 1.6rem;
       font-weight: bold;
@@ -185,10 +192,11 @@ th, td {
   & > .slider__controls {
     min-width: 65%;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.2);
+    background: $darkGray;
     display: flex;
     flex-direction: column;
     border-radius: 3px;
+    @extend .h-box-shadow;
     overflow: hidden;
 
     & > .slider__days {
@@ -200,12 +208,17 @@ th, td {
       & > .slider__day {
         height: 30px;
         width: 30px;
+        margin-right: 5px;
         @extend .h-clickable;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 50%;
         overflow: hidden;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
 
         &:not(.active):hover {
           background: rgba(255, 255, 255, 0.1);
@@ -281,11 +294,12 @@ th, td {
     }
 
     &.active {
-      border: 1px solid $transparentOverlay;
+      border: 1px solid $gray;
       background: rgba(0, 0, 0, 0.25);
 
       & > .table__heading {
-        background: $transparentOverlay !important;
+        background: $gray !important;
+        color: $darkGray;
       }
     }
 
@@ -295,5 +309,28 @@ th, td {
       box-sizing: border-box;
       font-size: 0.8rem;
     }
+  }
+}
+
+/*---------- Popup ----------*/
+
+.popup {
+  max-height: 50vh;
+  max-width: 30%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background: $darkGray;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  @extend .h-box-shadow;
+  @extend .h-transition-fast;
+  transform: scale(0);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &.active {
+    transform: none;
   }
 }

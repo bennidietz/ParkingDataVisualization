@@ -1,21 +1,15 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[0],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LineChart.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LineChart.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Chart.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Chart.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 //
 //
 //
@@ -28,155 +22,126 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 
-
-var ParkingLot = /*#__PURE__*/function () {
-  function ParkingLot(name) {
-    var capacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
-
-    _classCallCheck(this, ParkingLot);
-
-    this.name = name;
-    this.data = {};
-    this.capacity = capacity;
-  }
-
-  _createClass(ParkingLot, [{
-    key: "getDataForHours",
-    value: function getDataForHours() {
-      var hoursData = {
-        0: [],
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-        9: [],
-        10: [],
-        11: [],
-        12: [],
-        13: [],
-        14: [],
-        15: [],
-        16: [],
-        17: [],
-        18: [],
-        19: [],
-        20: [],
-        21: [],
-        22: [],
-        23: [],
-        24: []
-      };
-      var hour_counter = 0;
-
-      var average = function average(arr) {
-        return Math.round(arr.reduce(function (p, c) {
-          return p + c;
-        }, 0) / arr.length);
-      };
-
-      for (var i in this.data) {
-        hoursData[new Date(i).getHours()].push(this.data[i]);
-      }
-
-      for (var _i in hoursData) {
-        hoursData[_i] = average(hoursData[_i]);
-      }
-
-      return hoursData;
-    }
-  }, {
-    key: "getDataForHoursAsArray",
-    value: function getDataForHoursAsArray() {
-      var output = [];
-      var hData = this.getDataForHours();
-
-      for (var key in Object.keys(hData)) {
-        if (!Number.isNaN(hData[key])) {
-          output.push(hData[key]);
-        }
-      }
-
-      return output;
-    }
-  }]);
-
-  return ParkingLot;
-}();
-
-var parkingLots = [];
-var days = [];
-
-for (var i = 0; i < testdata["0"].length; i++) {
-  var element = testdata["0"][i];
-
-  if (i == 0) {
-    // header of the data
-    for (var j = 1; j < element.length; j++) {
-      parkingLots.push(new ParkingLot(element[j]));
-    }
-  } else {
-    var date = moment(element[0]).toDate();
-    days.push(date);
-
-    for (var _j = 0; _j < parkingLots.length; _j++) {
-      parkingLots[_j].data[date] = element[_j + 1];
-    }
-  }
-}
-
-var hourlyData = parkingLots[1].getDataForHoursAsArray();
 var chartdata = {
   datasets: [{
-    label: 'Fee parking places',
     fill: false,
-    backgroundColor: 'rgba(255, 165, 0, 1)',
-    borderColor: 'rgba(255, 165, 0, 1)',
     borderWidth: 1,
     radius: 4
   }]
 };
 chartdata.labels = Array.from({
-  length: Object.keys(hourlyData).length
+  length: 24
 }, function (v, k) {
   return k + ":00 - " + (k + 1) + ":00";
 });
-chartdata.datasets[0].data = hourlyData;
 /* harmony default export */ __webpack_exports__["default"] = ({
-  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Line"],
+  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Bar"],
   props: {
     options: {
       type: Object,
       "default": null
-    },
-    selectedparkinglot: {
-      type: Number,
-      "default": null
-    },
-    hour: {
-      type: Number,
-      "default": null
     }
   },
-  mounted: function mounted() {
-    console.log(this.selectedparkinglot);
+  methods: {
+    dayColor: function dayColor(color, secondColor) {
+      var output = [];
 
-    if (this.selectedparkinglot && this.selectedparkinglot < chartdata.datasets[0].backgroundColor.length) {
-      var log = this.selectedparkinglot;
+      for (var i = 0; i <= 24; i++) {
+        if (preferences.hour && i == preferences.hour) {
+          output.push(secondColor);
+        } else {
+          output.push(color);
+        }
+      }
 
-      var selectedColor = function selectedColor(context) {
-        var index = context.dataIndex;
-        return index == log ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 165, 0, 1)';
+      return output;
+    },
+    getAverageOccupancies: function getAverageOccupancies(reversed) {
+      var output = [];
+      var dayData = preferences.occupancy[preferences.days[preferences.day]];
+
+      for (var h in dayData) {
+        var occupancyHour = 0;
+
+        for (var p in preferences.parkingLots) {
+          var d = dayData[h][preferences.parkingLots[p].name];
+          occupancyHour += d;
+        }
+
+        if (reversed) {
+          var c = this.getAllCapacities();
+          occupancyHour = c - occupancyHour;
+        }
+
+        output.push(occupancyHour);
+      }
+
+      return output;
+    },
+    getAllCapacities: function getAllCapacities() {
+      var output = 0;
+
+      for (var p in preferences.parkingLots) {
+        var c = Number(preferences.parkingLots[p].capacity);
+        output += c;
+      }
+
+      return output;
+    },
+    render: function render(animated) {
+      var reversed = preferences.view == "citizen";
+      var parkingLot = preferences.selectedParkingLot != null ? preferences.parkingLots[preferences.selectedParkingLot] : null;
+      var dayData = preferences.occupancy[preferences.days[preferences.day]];
+      var data = [];
+      var capacity = 0;
+
+      if (parkingLot != null) {
+        for (var hr in dayData) {
+          capacity = Number(parkingLot.capacity);
+
+          if (reversed) {
+            data.push(capacity - dayData[hr][parkingLot.name]);
+          } else {
+            data.push(dayData[hr][parkingLot.name]);
+          }
+        }
+      } else {
+        data = this.getAverageOccupancies(reversed);
+        capacity = this.getAllCapacities();
+      }
+
+      chartdata.datasets[0].data = data;
+
+      if (reversed) {
+        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.redColorLight, preferences.redColor);
+        chartdata.datasets[0].borderColor = this.dayColor(preferences.redColorLight, preferences.redColor);
+      } else {
+        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor);
+        chartdata.datasets[0].borderColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor);
+      }
+
+      if (!animated) {
+        this.options["animation"] = {
+          duration: 0
+        };
+      }
+
+      this.options["yAxes"] = [{
+        ticks: {
+          min: 0,
+          stepSize: 20
+        }
+      }];
+
+      this.options["onClick"] = function (e) {
+        preferences.hour = this.getElementsAtEvent(e)[0]._index;
       };
 
-      chartdata.datasets[0].pointBackgroundColor = selectedColor;
-      chartdata.datasets[0].pointBorderColor = selectedColor;
+      chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places' : 'Free parking places';
+      this.options.yAxes[0].ticks["max"] = capacity;
+      preferences.view;
+      this.renderChart(chartdata, this.options);
     }
-
-    this.renderChart(chartdata, this.options);
   }
 });
 
@@ -579,19 +544,19 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "./resources/js/components/LineChart.vue":
-/*!***********************************************!*\
-  !*** ./resources/js/components/LineChart.vue ***!
-  \***********************************************/
+/***/ "./resources/js/components/Chart.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Chart.vue ***!
+  \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _LineChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineChart.vue?vue&type=script&lang=js& */ "./resources/js/components/LineChart.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Chart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Chart.vue?vue&type=script&lang=js& */ "./resources/js/components/Chart.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-/* harmony import */ var _LineChart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LineChart.vue?vue&type=custom&index=0&blockType=div */ "./resources/js/components/LineChart.vue?vue&type=custom&index=0&blockType=div");
-/* harmony import */ var _LineChart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_LineChart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Chart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Chart.vue?vue&type=custom&index=0&blockType=div */ "./resources/js/components/Chart.vue?vue&type=custom&index=0&blockType=div");
+/* harmony import */ var _Chart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_Chart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__);
 var render, staticRenderFns
 
 
@@ -600,7 +565,7 @@ var render, staticRenderFns
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  _LineChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _Chart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
   render,
   staticRenderFns,
   false,
@@ -612,19 +577,19 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* custom blocks */
 
-if (typeof _LineChart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default.a === 'function') _LineChart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default()(component)
+if (typeof _Chart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default.a === 'function') _Chart_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default()(component)
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/LineChart.vue"
+component.options.__file = "resources/js/components/Chart.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/LineChart.vue?vue&type=custom&index=0&blockType=div":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/LineChart.vue?vue&type=custom&index=0&blockType=div ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/Chart.vue?vue&type=custom&index=0&blockType=div":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Chart.vue?vue&type=custom&index=0&blockType=div ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -632,17 +597,17 @@ component.options.__file = "resources/js/components/LineChart.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/LineChart.vue?vue&type=script&lang=js&":
-/*!************************************************************************!*\
-  !*** ./resources/js/components/LineChart.vue?vue&type=script&lang=js& ***!
-  \************************************************************************/
+/***/ "./resources/js/components/Chart.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/Chart.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LineChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./LineChart.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LineChart.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LineChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Chart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Chart.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Chart.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Chart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ })
 

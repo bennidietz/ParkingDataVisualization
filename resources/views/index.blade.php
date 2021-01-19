@@ -38,12 +38,12 @@
       <aside id="preferences" class="sidebar" v-cloak>
 
         <ul class="sidebar__tabs">
-          <li :class="{'active': view == 'analyst'}" @click="view = 'analyst'">
-            <span class="fas fa-chart-line"></span> Analyst view
+          <li :class="{'active': view == 'citizen'}" @click="view = 'citizen'">
+            <span class="fas fa-user"></span> Citizen view
           </li>
 
-          <li :class="{'active': view == 'user'}" @click="view = 'user'">
-            <span class="fas fa-user"></span> Basic user view
+          <li :class="{'active': view == 'analyst'}" @click="view = 'analyst'">
+            <span class="fas fa-chart-line"></span> Analyst view
           </li>
 
         </ul>
@@ -66,6 +66,12 @@
 
           <div class="table">
             @include('components.table.index')
+          </div>
+
+          <!-- popup component -->
+
+          <div class="popup" :class="{'active': selectedParkingLot != null}">
+            @include('components.popup.index')
           </div>
 
         </div>

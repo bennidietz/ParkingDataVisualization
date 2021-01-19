@@ -94787,14 +94787,22 @@ window.Rainbow = __webpack_require__(/*! rainbowvis.js */ "./node_modules/rainbo
 window.chart = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-Vue.component("line-chart", function () {
-  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/LineChart.vue */ "./resources/js/components/LineChart.vue"));
+var chart = Vue.component("chart", function () {
+  return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
 });
 $(document).ready(function () {
   window.preferences = new Vue({
     el: '#preferences',
+    components: {
+      'chart': chart
+    },
     data: {
-      view: 'analyst',
+      aspectColor: 'rgba(84, 255, 69, 1)',
+      //#54ff45
+      aspectColorLight: 'rgba(84, 255, 69, 0.1)',
+      redColor: 'rgba(255, 69, 69, 1)',
+      redColorLight: 'rgba(255, 69, 69, 0.1)',
+      view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
       hour: null,
@@ -94809,12 +94817,11 @@ $(document).ready(function () {
       this.resetDate();
       axios.get('/api/parking-lot').then(function (response) {
         return _this.parkingLots = response.data;
-      });
-      axios.get('/api/occupancy').then(function (response) {
-        return _this.occupancy = response.data;
+      })["finally"](axios.get('/api/occupancy').then(function (response) {
+        return preferences.occupancy = response.data;
       })["finally"](function () {
-        return init_map();
-      });
+        return preferences.init();
+      }));
     },
     computed: {
       date: function date() {
@@ -94849,6 +94856,10 @@ $(document).ready(function () {
       }
     },
     methods: {
+      init: function init() {
+        init_map();
+        this.$refs.chart.render(true);
+      },
       resetDate: function resetDate() {
         if (!this.visualizing) {
           var date = new Date();
@@ -94887,6 +94898,28 @@ $(document).ready(function () {
           if (this.visualizing) {
             setTimeout('window.preferences.runVisualization()', interval);
           }
+        }
+      }
+    },
+    watch: {
+      'view': function view(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'day': function day(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy && !this.visualizing) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'hour': function hour(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(false);
         }
       }
     }
@@ -94946,8 +94979,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

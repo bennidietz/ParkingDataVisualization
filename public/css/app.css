@@ -6148,14 +6148,14 @@ td {
   word-wrap: break-word;
 }
 
-/*---------- Dummy map ----------*/
+/*---------- Map ----------*/
 
 .map {
   height: 100%;
-  width: 100%;
+  width: 60%;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 40%;
 }
 
 .map img {
@@ -6167,15 +6167,13 @@ td {
 
 .sidebar {
   height: 100%;
-  width: 450px;
-  max-width: 30vw;
+  width: 40%;
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: #333333;
   /*backdrop-filter: blur(20px);
   background-clip: padding-box;*/
-  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -6242,7 +6240,16 @@ td {
   cursor: pointer;
 }
 
+.h-box-shadow,
+.popup,
+.slider > .slider__controls,
+.slider > .slider__output,
+.sidebar {
+  box-shadow: 3px 3px 5px -1px rgba(0, 0, 0, 0.5);
+}
+
 .h-transition-fast,
+.popup,
 .table > .table__row > .table__heading,
 .sidebar__tabs > li {
   transition: 0.25s;
@@ -6261,11 +6268,14 @@ td {
 /*---------- Slider ----------*/
 
 .slider {
-  width: 100%;
-  margin-bottom: 30px;
+  position: fixed;
+  top: 0;
+  left: 40%;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
 }
 
 .slider > .slider__output {
@@ -6274,13 +6284,13 @@ td {
   justify-content: center;
   align-items: stretch;
   text-align: center;
+  background: #333333;
   border-radius: 8px;
   overflow: hidden;
 }
 
 .slider > .slider__output > .slider__output-day {
   padding: 10px;
-  background: rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
   font-size: 1.6rem;
   font-weight: bold;
@@ -6297,7 +6307,7 @@ td {
 .slider > .slider__controls {
   min-width: 65%;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.2);
+  background: #333333;
   display: flex;
   flex-direction: column;
   border-radius: 3px;
@@ -6314,11 +6324,16 @@ td {
 .slider > .slider__controls > .slider__days > .slider__day {
   height: 30px;
   width: 30px;
+  margin-right: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
+}
+
+.slider > .slider__controls > .slider__days > .slider__day:last-of-type {
+  margin-right: 0;
 }
 
 .slider > .slider__controls > .slider__days > .slider__day:not(.active):hover {
@@ -6391,12 +6406,13 @@ td {
 }
 
 .table > .table__row.active {
-  border: 1px solid rgba(0, 0, 0, 0.9);
+  border: 1px solid #CCCCCC;
   background: rgba(0, 0, 0, 0.25);
 }
 
 .table > .table__row.active > .table__heading {
-  background: rgba(0, 0, 0, 0.9) !important;
+  background: #CCCCCC !important;
+  color: #333333;
 }
 
 .table > .table__row > .table__data {
@@ -6404,5 +6420,26 @@ td {
   padding: 10px;
   box-sizing: border-box;
   font-size: 0.8rem;
+}
+
+/*---------- Popup ----------*/
+
+.popup {
+  max-height: 50vh;
+  max-width: 30%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background: #333333;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  transform: scale(0);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.popup.active {
+  transform: none;
 }
 

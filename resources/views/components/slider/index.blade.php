@@ -1,8 +1,8 @@
-<div class="slider__output">
+<div class="slider__output" v-if="view == 'citizen'">
   <div class="slider__output-day">@{{ date.day }}</div>
   <div class="slider__output-hour">@{{ date.hour }}</div>
 </div>
-<div class="slider__controls">
+<div class="slider__controls" v-if="view == 'analyst'">
   <div class="slider__days">
     <div class="slider__day" :class="{'active': day == index}" v-for="(tmpDay, index) in days" v-if="index > 0" :title="tmpDay" @click="day = index">@{{ tmpDay.substring(0, 2) }}</div>
   </div>

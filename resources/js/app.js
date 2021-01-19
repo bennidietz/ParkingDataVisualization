@@ -7,14 +7,21 @@ window.chart = require('chart.js');
 window.moment = require('moment');
 
 window.Vue = require('vue');
-Vue.component("line-chart", () => import("./components/LineChart.vue"));
+const chart = Vue.component("chart", () => import("./components/Chart.vue"));
 
 
 $(document).ready(function() {
   window.preferences = new Vue({
     el: '#preferences',
+    components: {
+      'chart': chart,
+    },
     data: {
-      view: 'analyst',
+      aspectColor: 'rgba(84, 255, 69, 1)', //#54ff45
+      aspectColorLight: 'rgba(84, 255, 69, 0.1)',
+      redColor: 'rgba(255, 69, 69, 1)',
+      redColorLight: 'rgba(255, 69, 69, 0.1)',
+      view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
       hour: null,
@@ -25,8 +32,10 @@ $(document).ready(function() {
     },
     mounted() {
       this.resetDate();
-      axios.get('/api/parking-lot').then(response => (this.parkingLots = response.data));
-      axios.get('/api/occupancy').then(response => (this.occupancy = response.data)).finally(() => init_map());
+      axios.get('/api/parking-lot')
+      .then(response => (this.parkingLots = response.data))
+      .finally(axios.get('/api/occupancy').then(response => (preferences.occupancy = response.data))
+      .finally(() => preferences.init()));
     },
     computed: {
       date: function() {
@@ -61,6 +70,10 @@ $(document).ready(function() {
       }
     },
     methods: {
+      init: function() {
+        init_map();
+        this.$refs.chart.render(true);
+      },
       resetDate: function() {
         if (!this.visualizing) {
           var date = new Date();
@@ -100,6 +113,28 @@ $(document).ready(function() {
           if (this.visualizing) {
             setTimeout('window.preferences.runVisualization()', interval);
           }
+        }
+      }
+    },
+    watch: {
+      'view': function (newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'selectedParkingLot': function (newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'day': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy && !this.visualizing) {
+          this.$refs.chart.render(true);
+        }
+      },
+      'hour': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          this.$refs.chart.render(false);
         }
       }
     }
