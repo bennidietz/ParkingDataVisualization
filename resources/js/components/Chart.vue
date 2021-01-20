@@ -21,21 +21,13 @@ chartdata.labels = Array.from({length: 24}, (v, k) => k + ":00 - " + (k+1) + ":0
 
 export default {
   extends: Bar,
-  props: {
-    options: {
-      type: Object,
-      default: null
-    },
-    minimize: {
-      type: Boolean,
-      default: false
-    }
-  },
   methods: {
-    dayColor: function(color, secondColor) {
+    dayColor: function(data, capacity, color, secondColor) {
+      console.log(data)
+      console.log(capacity)
       var output = []
-      for (var i = 0; i <= 24; i++) {
-        if (preferences.hour && i == preferences.hour - 1) {
+      for (var i = 0; i < 24; i++) {
+        if (preferences.hour && i == preferences.hour) {
           output.push(secondColor)
         } else {
           output.push(color)
@@ -67,7 +59,7 @@ export default {
       }
       return output
     }, render: function(animated) {
-      var reversed = preferences.view == "citizen"
+      var reversed = preferences.view != "citizen"
       const parkingLot = (preferences.selectedParkingLot != null) ? preferences.parkingLots[preferences.selectedParkingLot] : null
       const dayData = preferences.occupancy[preferences.days[preferences.day]]
       var data = []
@@ -86,29 +78,25 @@ export default {
         capacity = this.getAllCapacities()
       }
       chartdata.datasets[0].data = data
-      if (reversed) {
-        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.redColorLight, preferences.redColor)
-        chartdata.datasets[0].borderColor = this.dayColor(preferences.redColorLight, preferences.redColor)
-      } else {
-        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor)
-        chartdata.datasets[0].borderColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor)
-      }
+      chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor)
+      chartdata.datasets[0].borderColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor)
+      var options = {}
       if (!animated) {
-          this.options["animation"] = { duration: 0 }
+          options["animation"] = { duration: 0 }
       }
-      this.options["yAxes"] = [{
+      options["scales"] = {}
+      options["scales"]["yAxes"] = [{
         ticks: {
             min: 0,
-            stepSize: 20
+            beginAtZero: true,
+            max: capacity
         }
       }]
-      this.options["onClick"] = function (e) {
+      options["onClick"] = function (e) {
         preferences.hour = this.getElementsAtEvent(e)[0]._index + 1
       }
       chartdata.datasets[0]["label"] = (reversed) ? 'Occupied parking places' : 'Free parking places'
-      this.options.yAxes[0].ticks["max"] = capacity
-      preferences.view
-      this.renderChart(chartdata, this.options)
+      renderChart(chartdata, options)
     }
   }
 

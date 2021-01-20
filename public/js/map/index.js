@@ -1,5 +1,5 @@
 // initialise Leaflet map
-var map = L.map("map", {zoomControl: false}).setView([51.96, 7.607], 14);
+const map = L.map("map", {zoomControl: false}).setView([51.96, 7.607], 14);
 
 // Basemaps
 let streets = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
@@ -33,6 +33,8 @@ L.control.layers({
     "Dark Mode": dark,
     "Heavy Metal": heavymetal
 }).addTo(map);
+// Geocoder
+L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
@@ -61,6 +63,19 @@ function init_map() {
         onEachFeature: onEachFeature.bind(this)
     })
         .addTo(map);
+
+    // create standard route
+    var routing = L.Routing.control({
+    router: L.routing.mapbox("pk.eyJ1IjoiYmVubmlkaWV0eiIsImEiOiJjamlteXFncDQwOWM0M3BtY25kNW9sbDI3In0.EfqsydBSwDkCAyp8a6Hspw"),
+        routeWhileDragging: true
+    })
+    points = []
+    for (var i in preferences.parkingLots) {
+        points.push([preferences.parkingLots[i]["lat"], preferences.parkingLots[i]["lon"]])
+    }
+    addRoute(routing, points);
+    //routing.addTo(map);
+    
 };
 
 
@@ -97,4 +112,18 @@ function onEachFeature(feature, layer) {
 }
 function whenClicked(e) {
     this.preferences.selectedParkingLot = e.target.feature.properties.index;
+}
+
+
+  /**
+* function called at the beginning for the standard route and with a click
+* on a citiy buttons. Creates a small route around the center of the city
+*/
+function addRoute(routing, points) {
+    //map.setView([latitude, longitude],13);
+    wayPoints = []
+    for (var i = 0; i < 4; i++) {
+        wayPoints.push(L.latLng(points[i][0], points[i][1]))
+    }
+    routing.setWaypoints(wayPoints);
 }
