@@ -4,6 +4,6 @@
     <div class="popup__control-button fas fa-times" @click="selectedParkingLot = null"></div>
   </div>
   <div class="popup__content" :class="{'h-hidden': popupMinimized}">
-    <chart id="chart" ref="chart" :options="{}" style="width: 400px;" />
+    <chart id="chart" ref="chart" :options="{}" style="width: 400px; max-width: 100%;" />
   </div>
 </div>
