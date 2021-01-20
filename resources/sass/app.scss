@@ -55,8 +55,15 @@ th, td {
   }
 }
 
-.leaflet-control { background: $darkGray !important; }
+.leaflet-control { 
+  background: $darkGray !important;
+ }
 .leaflet-control-layers-expanded { 
+  background: $darkGray !important;
+  color: $white !important;
+}
+
+.leaflet-control-zoom-in, .leaflet-control-zoom-out { 
   background: $darkGray !important;
   color: $white !important;
 }
@@ -154,6 +161,10 @@ th, td {
   -moz-transition: 0.75s;
   -webkit-transition: 0.75s;
   -o-transition: 0.75s;
+}
+
+.h-hidden {
+  display: none !important;
 }
 
 /*---------- Slider ----------*/

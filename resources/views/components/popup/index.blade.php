@@ -1,3 +1,6 @@
-<button type="button" class="popupBtn" onclick="if(document.getElementById('chart').style.display != 'none'){document.getElementById('chart').style.display = 'none'} else {document.getElementById('chart').style.display = 'block'}">_</button>
-<button type="button" class="popupBtn" onclick="document.getElementById('chart').style.display = 'block'; preferences.selectedParkingLot = null">X</button>
-<chart id="chart" ref="chart" :options="{}"  />
+
+<button type="button" @click="popupMinimized=!popupMinimized" class="popupBtn">_</button>
+<button type="button" class="popupBtn" @click="selectedParkingLot = null">X</button>
+<div :class="{'h-hidden': popupMinimized}">
+    <chart id="chart" ref="chart" :options="{}"  />
+</div>
