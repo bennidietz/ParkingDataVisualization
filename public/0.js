@@ -40,6 +40,10 @@ chartdata.labels = Array.from({
     options: {
       type: Object,
       "default": null
+    },
+    minimize: {
+      type: Boolean,
+      "default": false
     }
   },
   methods: {
@@ -47,7 +51,7 @@ chartdata.labels = Array.from({
       var output = [];
 
       for (var i = 0; i <= 24; i++) {
-        if (preferences.hour && i == preferences.hour) {
+        if (preferences.hour && i == preferences.hour - 1) {
           output.push(secondColor);
         } else {
           output.push(color);
@@ -134,7 +138,7 @@ chartdata.labels = Array.from({
       }];
 
       this.options["onClick"] = function (e) {
-        preferences.hour = this.getElementsAtEvent(e)[0]._index;
+        preferences.hour = this.getElementsAtEvent(e)[0]._index + 1;
       };
 
       chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places' : 'Free parking places';

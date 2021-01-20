@@ -28,6 +28,7 @@ $(document).ready(function() {
       visualizing: false,
       parkingLots: null,
       selectedParkingLot: null,
+      popupMinimized: false,
       occupancy: null,
     },
     mounted() {
