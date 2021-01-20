@@ -36,22 +36,14 @@ chartdata.labels = Array.from({
 });
 /* harmony default export */ __webpack_exports__["default"] = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Bar"],
-  props: {
-    options: {
-      type: Object,
-      "default": null
-    },
-    minimize: {
-      type: Boolean,
-      "default": false
-    }
-  },
   methods: {
-    dayColor: function dayColor(color, secondColor) {
+    dayColor: function dayColor(data, capacity, color, secondColor) {
+      console.log(data);
+      console.log(capacity);
       var output = [];
 
-      for (var i = 0; i <= 24; i++) {
-        if (preferences.hour && i == preferences.hour - 1) {
+      for (var i = 0; i < 24; i++) {
+        if (preferences.hour && i == preferences.hour) {
           output.push(secondColor);
         } else {
           output.push(color);
@@ -93,7 +85,7 @@ chartdata.labels = Array.from({
       return output;
     },
     render: function render(animated) {
-      var reversed = preferences.view == "citizen";
+      var reversed = preferences.view != "citizen";
       var parkingLot = preferences.selectedParkingLot != null ? preferences.parkingLots[preferences.selectedParkingLot] : null;
       var dayData = preferences.occupancy[preferences.days[preferences.day]];
       var data = [];
@@ -115,36 +107,31 @@ chartdata.labels = Array.from({
       }
 
       chartdata.datasets[0].data = data;
-
-      if (reversed) {
-        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.redColorLight, preferences.redColor);
-        chartdata.datasets[0].borderColor = this.dayColor(preferences.redColorLight, preferences.redColor);
-      } else {
-        chartdata.datasets[0].backgroundColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor);
-        chartdata.datasets[0].borderColor = this.dayColor(preferences.aspectColorLight, preferences.aspectColor);
-      }
+      chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
+      chartdata.datasets[0].borderColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
+      var options = {};
 
       if (!animated) {
-        this.options["animation"] = {
+        options["animation"] = {
           duration: 0
         };
       }
 
-      this.options["yAxes"] = [{
+      options["scales"] = {};
+      options["scales"]["yAxes"] = [{
         ticks: {
           min: 0,
-          stepSize: 20
+          beginAtZero: true,
+          max: capacity
         }
       }];
 
-      this.options["onClick"] = function (e) {
+      options["onClick"] = function (e) {
         preferences.hour = this.getElementsAtEvent(e)[0]._index + 1;
       };
 
       chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places' : 'Free parking places';
-      this.options.yAxes[0].ticks["max"] = capacity;
-      preferences.view;
-      this.renderChart(chartdata, this.options);
+      renderChart(chartdata, options);
     }
   }
 });
