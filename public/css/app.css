@@ -6495,6 +6495,7 @@ td {
 
 .popup > .popup__box > .popup__main > canvas {
   width: 400px;
+  max-width: 100%;
 }
 
 .popup > .popup__box.active > > .popup__main {

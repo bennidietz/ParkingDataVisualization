@@ -94797,9 +94797,13 @@ $(document).ready(function () {
       'chart': chart
     },
     data: {
-      aspectColor: 'rgba(84, 255, 69, 1)',
+      greenColor: 'rgba(84, 255, 69, 1)',
       //#54ff45
-      aspectColorLight: 'rgba(84, 255, 69, 0.1)',
+      greenColorLight: 'rgba(84, 255, 69, 0.1)',
+      yellowColor: 'rgba(255, 208, 22, 1)',
+      yellowColorLight: 'rgba(255, 208, 22, 0.1)',
+      orangeColor: 'rgba(255, 128, 34, 1)',
+      orangeColorLight: 'rgba(255, 128, 34, 0.1)',
       redColor: 'rgba(255, 69, 69, 1)',
       redColorLight: 'rgba(255, 69, 69, 0.1)',
       view: 'citizen',
