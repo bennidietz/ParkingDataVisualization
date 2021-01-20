@@ -6249,6 +6249,7 @@ td {
 .h-clickable,
 .popup > .popup__box > .popup__controls > .popup__control-button,
 .table > .table__row > .table__heading,
+.table > .table__filters > li,
 .slider > .slider__controls > .slider__days > .slider__day,
 .sidebar__tabs > li {
   -moz-user-select: none;
@@ -6267,6 +6268,7 @@ td {
 .h-transition-fast,
 .popup > .popup__box > .popup__controls > .popup__control-button,
 .table > .table__row > .table__heading,
+.table > .table__filters > li,
 .sidebar__tabs > li {
   transition: 0.25s;
   -moz-transition: 0.25s;
@@ -6403,6 +6405,34 @@ td {
   width: 100%;
 }
 
+.table > .table__filters {
+  width: 100%;
+  margin: 0 0 10px 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+}
+
+.table > .table__filters > li {
+  padding: 10px;
+  flex-grow: 1;
+  text-align: center;
+  color: #666666;
+  border-bottom: 1px solid #666666;
+}
+
+.table > .table__filters > li.active {
+  color: #FFFFFF;
+  border-bottom: 1px solid #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.table > .table__filters > li:not(.active):hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .table > .table__row {
   width: 100%;
   border-radius: 3px;
@@ -6414,7 +6444,6 @@ td {
   padding: 5px;
   box-sizing: border-box;
   font-size: 0.9rem;
-  font-weight: bold;
 }
 
 .table > .table__row > .table__heading:not(.active):hover {
@@ -6436,6 +6465,15 @@ td {
   padding: 10px;
   box-sizing: border-box;
   font-size: 0.8rem;
+}
+
+.table .table__no-data {
+  width: 100%;
+  padding: 50px 10px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #999999;
 }
 
 /*---------- Popup ----------*/

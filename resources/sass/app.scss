@@ -287,6 +287,36 @@ th, td {
 .table {
   width: 100%;
 
+  & > .table__filters {
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+
+    & > li {
+      padding: 10px;
+      flex-grow: 1;
+      @extend .h-clickable;
+      @extend .h-transition-fast;
+      text-align: center;
+      color: #666666;
+      border-bottom: 1px solid #666666;
+
+      &.active {
+        color: $white;
+        border-bottom: 1px solid $white;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &:not(.active):hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
   & > .table__row {
     width: 100%;
     border-radius: 3px;
@@ -299,7 +329,6 @@ th, td {
       @extend .h-transition-fast;
       @extend .h-clickable;
       font-size: 0.9rem;
-      font-weight: bold;
 
       &:not(.active):hover {
         background: rgba(255, 255, 255, 0.1);
@@ -322,6 +351,15 @@ th, td {
       box-sizing: border-box;
       font-size: 0.8rem;
     }
+  }
+
+  .table__no-data {
+    width: 100%;
+    padding: 50px 10px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999999;
   }
 }
 

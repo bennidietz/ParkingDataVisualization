@@ -1,10 +1,9 @@
-<h4>Filter:
-  <button class ="btn btn-primary" @click=""><i class="fas fa-wheelchair"></i></button>
-  <button class ="btn btn-primary" @click=""><i class="fas fa-charging-station"></i></button>
-  <button class ="btn btn-primary" @click=""><i class="fas fa-female"></i></button>
-  <button class ="btn btn-primary" @click="">Open <i class="fas fa-door-open"></i></button>
-</h4>
-<div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in parkingLots">
+<ul class="table__filters">
+  <li class="fas fa-wheelchair" :class="{'active': filters.disabled}" @click="filters.disabled = !filters.disabled"></li>
+  <li class="fas fa-female" :class="{'active': filters.women}" @click="filters.women = !filters.women"></li>
+  <li class="fas fa-charging-station" :class="{'active': filters.electric}" @click="filters.electric = !filters.electric"></li>
+</ul>
+<div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in filteredParkingLots">
   <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}</div>
   <table class="table__data" v-if="selectedParkingLot == index">
     <tr v-if="day < 5">
@@ -74,4 +73,4 @@
     </template>
   </table>
 </div>
-<!--    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-mdb-parent="#accordion">-->
+<div class="table__no-data" v-if="filteredParkingLots.length < 1">No parking lot matches your filters.</div>

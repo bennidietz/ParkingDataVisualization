@@ -94811,6 +94811,11 @@ $(document).ready(function () {
       day: null,
       hour: null,
       visualizing: false,
+      filters: {
+        disabled: false,
+        women: false,
+        electric: false
+      },
       parkingLots: null,
       selectedParkingLot: null,
       popupMinimized: false,
@@ -94857,6 +94862,15 @@ $(document).ready(function () {
             day: '',
             hour: ''
           };
+        }
+      },
+      filteredParkingLots: function filteredParkingLots() {
+        var _this2 = this;
+
+        if (this.parkingLots != null) {
+          return this.parkingLots.filter(function (parkingLot) {
+            return (!_this2.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!_this2.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!_this2.filters.electric || parseInt(parkingLot.capacity_electric) > 0);
+          });
         }
       }
     },

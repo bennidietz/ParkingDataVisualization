@@ -50,12 +50,6 @@
 
         <div class="sidebar__main">
 
-          <!-- chart component -->
-
-          <div class="chart">
-            @include('components.chart.index')
-          </div>
-
           <!-- table component -->
 
           <div class="table">

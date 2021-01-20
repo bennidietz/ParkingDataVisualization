@@ -30,6 +30,11 @@ $(document).ready(function() {
       day: null,
       hour: null,
       visualizing: false,
+      filters: {
+        disabled: false,
+        women: false,
+        electric: false,
+      },
       parkingLots: null,
       selectedParkingLot: null,
       popupMinimized: false,
@@ -72,7 +77,14 @@ $(document).ready(function() {
             hour: '',
           }
         }
-      }
+      },
+      filteredParkingLots: function() {
+        if (this.parkingLots != null) {
+          return this.parkingLots.filter(parkingLot => {
+            return ((!this.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!this.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!this.filters.electric || parseInt(parkingLot.capacity_electric) > 0));
+          })
+        }
+      },
     },
     methods: {
       init: function() {
