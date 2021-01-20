@@ -94909,6 +94909,8 @@ $(document).ready(function () {
         }
       },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
+        this.popupMinimized = false;
+
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
         }

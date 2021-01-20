@@ -50,12 +50,6 @@
 
         <div class="sidebar__main">
 
-          <!-- slider component -->
-
-          <div class="slider">
-            @include('components.slider.index')
-          </div>
-
           <!-- chart component -->
 
           <div class="chart">
@@ -68,9 +62,12 @@
             @include('components.table.index')
           </div>
 
-          <!-- popup component -->
+          <!-- popup component (containing slider and chart) -->
 
-          <div class="popup" :class="{'active': selectedParkingLot != null}">
+          <div class="popup">
+            <div class="slider">
+              @include('components.slider.index')
+            </div>
             @include('components.popup.index')
           </div>
 

@@ -6152,10 +6152,10 @@ td {
 
 .map {
   height: 100%;
-  width: 60%;
+  width: 75%;
   position: fixed;
   top: 0;
-  left: 40%;
+  left: 25%;
 }
 
 .map img {
@@ -6172,11 +6172,17 @@ td {
   color: #FFFFFF !important;
 }
 
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background: #333333 !important;
+  color: #FFFFFF !important;
+}
+
 /*---------- Sidebar ----------*/
 
 .sidebar {
   height: 100%;
-  width: 40%;
+  width: 25%;
   position: fixed;
   top: 0;
   left: 0;
@@ -6241,6 +6247,7 @@ td {
 }
 
 .h-clickable,
+.popup > .popup__box > .popup__controls > .popup__control-button,
 .table > .table__row > .table__heading,
 .slider > .slider__controls > .slider__days > .slider__day,
 .sidebar__tabs > li {
@@ -6250,7 +6257,7 @@ td {
 }
 
 .h-box-shadow,
-.popup,
+.popup > .popup__box,
 .slider > .slider__controls,
 .slider > .slider__output,
 .sidebar {
@@ -6258,7 +6265,7 @@ td {
 }
 
 .h-transition-fast,
-.popup,
+.popup > .popup__box > .popup__controls > .popup__control-button,
 .table > .table__row > .table__heading,
 .sidebar__tabs > li {
   transition: 0.25s;
@@ -6274,13 +6281,13 @@ td {
   -o-transition: 0.75s;
 }
 
+.h-hidden {
+  display: none !important;
+}
+
 /*---------- Slider ----------*/
 
 .slider {
-  position: fixed;
-  top: 0;
-  left: 40%;
-  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6434,27 +6441,63 @@ td {
 /*---------- Popup ----------*/
 
 .popup {
-  max-height: 50vh;
   max-width: 30%;
   position: fixed;
-  left: 40%;
+  left: 25%;
   bottom: 0px;
-  margin: 10px;
+  margin: 20px;
+}
+
+.popup > .popup__box {
+  margin-top: 20px;
   padding: 10px;
   background: #333333;
   font-size: 0.8rem;
   border-radius: 5px;
-  transform: scale(0);
   overflow-x: hidden;
   overflow-y: auto;
+  display: none;
 }
 
-.popup.active {
-  transform: none;
+.popup > .popup__box.active {
+  display: block;
 }
 
-.popupBtn {
-  color: #FFFFFF;
-  background: none;
+.popup > .popup__box > .popup__controls {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.popup > .popup__box > .popup__controls > .popup__control-button {
+  margin-right: 5px;
+  padding: 10px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.popup > .popup__box > .popup__controls > .popup__control-button:last-of-type {
+  margin-right: 0;
+}
+
+.popup > .popup__box > .popup__controls > .popup__control-button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  color: #333333;
+}
+
+.popup > .popup__box > .popup__main {
+  display: none;
+}
+
+.popup > .popup__box > .popup__main > canvas {
+  width: 400px;
+}
+
+.popup > .popup__box.active > > .popup__main {
+  display: block;
 }
 

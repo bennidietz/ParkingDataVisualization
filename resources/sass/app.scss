@@ -44,10 +44,10 @@ th, td {
 
 .map {
   height: 100%;
-  width: 60%;
+  width: 75%;
   position: fixed;
   top: 0;
-  left: 40%;
+  left: 25%;
 
   & img {
     height: 100%;
@@ -55,15 +55,15 @@ th, td {
   }
 }
 
-.leaflet-control { 
+.leaflet-control {
   background: $darkGray !important;
  }
-.leaflet-control-layers-expanded { 
+.leaflet-control-layers-expanded {
   background: $darkGray !important;
   color: $white !important;
 }
 
-.leaflet-control-zoom-in, .leaflet-control-zoom-out { 
+.leaflet-control-zoom-in, .leaflet-control-zoom-out {
   background: $darkGray !important;
   color: $white !important;
 }
@@ -72,7 +72,7 @@ th, td {
 
 .sidebar {
   height: 100%;
-  width: 40%;
+  width: 25%;
   position: fixed;
   top: 0;
   left: 0;
@@ -170,10 +170,6 @@ th, td {
 /*---------- Slider ----------*/
 
 .slider {
-  position: fixed;
-  top: 0;
-  left: 40%;
-  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -332,28 +328,67 @@ th, td {
 /*---------- Popup ----------*/
 
 .popup {
-  max-height: 50vh;
   max-width: 30%;
   position: fixed;
-  left: 40%;
+  left: 25%;
   bottom: 0px;
-  margin: 10px;
-  padding: 10px;
-  background: $darkGray;
-  font-size: 0.8rem;
-  border-radius: 5px;
-  @extend .h-box-shadow;
-  @extend .h-transition-fast;
-  transform: scale(0);
-  overflow-x: hidden;
-  overflow-y: auto;
+  margin: 20px;
 
-  &.active {
-    transform: none;
+  & > .popup__box {
+    margin-top: 20px;
+    padding: 10px;
+    background: $darkGray;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    @extend .h-box-shadow;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: none;
+
+    &.active {
+      display: block;
+    }
+
+    & > .popup__controls {
+      width: 100%;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      & > .popup__control-button {
+        margin-right: 5px;
+        padding: 10px;
+        border-radius: 3px;
+        @extend .h-clickable;
+        @extend .h-transition-fast;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        overflow: hidden;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.8);
+          color: $darkGray;
+        }
+      }
+    }
+
+    & > .popup__main {
+      display: none;
+
+      > canvas {
+        width: 400px;
+      }
+    }
+
+    &.active > {
+      & > .popup__main {
+        display: block;
+      }
+    }
   }
-}
-
-.popupBtn {
-  color: $white;
-  background: none;
 }
