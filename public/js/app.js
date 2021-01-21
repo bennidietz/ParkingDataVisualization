@@ -94872,6 +94872,8 @@ $(document).ready(function () {
             return (!_this2.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!_this2.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!_this2.filters.electric || parseInt(parkingLot.capacity_electric) > 0);
           });
         }
+
+        return [];
       }
     },
     methods: {
@@ -95000,8 +95002,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\terbeckc\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\terbeckc\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

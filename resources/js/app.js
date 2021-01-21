@@ -84,6 +84,8 @@ $(document).ready(function() {
             return ((!this.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!this.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!this.filters.electric || parseInt(parkingLot.capacity_electric) > 0));
           })
         }
+
+        return [];
       },
     },
     methods: {

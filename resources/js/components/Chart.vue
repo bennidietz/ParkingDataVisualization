@@ -1,104 +1,117 @@
-
-  <div>
-    <div id="plotArea">
-        <div id="barPlotArea"></div>
-        <div id="canvasBarPlot"></div>
-        <div id="piePlotArea"></div>
-    </div>
-    <canvas></canvas>
-  </div>
-
+<div>
+  <canvas></canvas>
+</div>
 
 <script>
-import { Bar } from 'vue-chartjs'
 
-var chartdata = {datasets: [{
-    fill: false,
-    borderWidth: 1,
-    radius: 4
-}]}
-chartdata.labels = Array.from({length: 24}, (v, k) => k + ":00 - " + (k+1) + ":00")
+import { Bar } from 'vue-chartjs';
 
 export default {
   extends: Bar,
   methods: {
     dayColor: function(data, capacity, color, secondColor) {
-      console.log(data)
-      console.log(capacity)
-      var output = []
+      var output = [];
+
       for (var i = 0; i < 24; i++) {
         if (preferences.hour && i == preferences.hour) {
-          output.push(secondColor)
+          output.push(secondColor);
         } else {
-          output.push(color)
+          output.push(color);
         }
       }
-      return output
+
+      return output;
     },
     getAverageOccupancies: function(reversed) {
-      var output = []
-      const dayData = preferences.occupancy[preferences.days[preferences.day]]
+      var output = [];
+      const dayData = preferences.occupancy[preferences.days[preferences.day]];
+
       for (var h in dayData) {
-        var occupancyHour = 0
+        var occupancyHour = 0;
+
         for (var p in preferences.parkingLots) {
-          var d = dayData[h][preferences.parkingLots[p].name]
-          occupancyHour += d
+          var d = dayData[h][preferences.parkingLots[p].name];
+          occupancyHour += d;
         }
+
         if (reversed) {
-          var c = this.getAllCapacities()
-          occupancyHour = c - occupancyHour
+          var c = this.getAllCapacities();
+          occupancyHour = c - occupancyHour;
         }
-        output.push(occupancyHour)
+
+        output.push(occupancyHour);
       }
-      return output
+
+      return output;
     }, getAllCapacities: function() {
-      var output = 0
+      var output = 0;
+
       for (var p in preferences.parkingLots) {
-        var c = Number(preferences.parkingLots[p].capacity)
-        output += c
+        var c = Number(preferences.parkingLots[p].capacity);
+        output += c;
       }
-      return output
+
+      return output;
     }, render: function(animated) {
-      var reversed = preferences.view != "citizen"
-      const parkingLot = (preferences.selectedParkingLot != null) ? preferences.parkingLots[preferences.selectedParkingLot] : null
-      const dayData = preferences.occupancy[preferences.days[preferences.day]]
-      var data = []
-      var capacity = 0
+      var reversed = preferences.view != "citizen";
+      const parkingLot = (preferences.selectedParkingLot != null) ? preferences.parkingLots[preferences.selectedParkingLot] : null;
+      const dayData = preferences.occupancy[preferences.days[preferences.day]];
+      var data = [];
+      var capacity = 0;
+
       if (parkingLot != null) {
         for (var hr in dayData) {
-          capacity = Number(parkingLot.capacity)
+          capacity = Number(parkingLot.capacity);
+
           if (reversed) {
-            data.push(capacity - dayData[hr][parkingLot.name])
+            data.push(capacity - dayData[hr][parkingLot.name]);
           } else {
-             data.push(dayData[hr][parkingLot.name])
+             data.push(dayData[hr][parkingLot.name]);
           }
         }
       } else {
-        data = this.getAverageOccupancies(reversed)
-        capacity = this.getAllCapacities()
+        data = this.getAverageOccupancies(reversed);
+        capacity = this.getAllCapacities();
       }
-      chartdata.datasets[0].data = data
-      chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor)
-      chartdata.datasets[0].borderColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor)
-      var options = {}
+
+      var chartdata = {
+        datasets: [
+          {
+            fill: false,
+            borderWidth: 1,
+            radius: 4
+          }
+        ]
+      };
+
+      chartdata.labels = Array.from({length: 24}, (v, k) => k + ":00 - " + (k+1) + ":00");
+
+      chartdata.datasets[0].data = data;
+      chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
+      chartdata.datasets[0].borderColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
+      var options = {};
+
       if (!animated) {
-          options["animation"] = { duration: 0 }
+        options["animation"] = { duration: 0 };
       }
-      options["scales"] = {}
+
+      options["scales"] = {};
       options["scales"]["yAxes"] = [{
         ticks: {
-            min: 0,
-            beginAtZero: true,
-            max: capacity
+          min: 0,
+          beginAtZero: true,
+          max: capacity
         }
-      }]
+      }];
+
       options["onClick"] = function (e) {
-        preferences.hour = this.getElementsAtEvent(e)[0]._index + 1
+        preferences.hour = this.getElementsAtEvent(e)[0]._index + 1;
       }
-      chartdata.datasets[0]["label"] = (reversed) ? 'Occupied parking places' : 'Free parking places'
-      renderChart(chartdata, options)
+
+      chartdata.datasets[0]["label"] = (reversed) ? 'Occupied parking places' : 'Free parking places';
+      this.renderChart(chartdata, options);
     }
   }
-
 }
+
 </script>

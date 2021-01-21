@@ -14,32 +14,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
-var chartdata = {
-  datasets: [{
-    fill: false,
-    borderWidth: 1,
-    radius: 4
-  }]
-};
-chartdata.labels = Array.from({
-  length: 24
-}, function (v, k) {
-  return k + ":00 - " + (k + 1) + ":00";
-});
 /* harmony default export */ __webpack_exports__["default"] = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Bar"],
   methods: {
     dayColor: function dayColor(data, capacity, color, secondColor) {
-      console.log(data);
-      console.log(capacity);
       var output = [];
 
       for (var i = 0; i < 24; i++) {
@@ -106,6 +85,18 @@ chartdata.labels = Array.from({
         capacity = this.getAllCapacities();
       }
 
+      var chartdata = {
+        datasets: [{
+          fill: false,
+          borderWidth: 1,
+          radius: 4
+        }]
+      };
+      chartdata.labels = Array.from({
+        length: 24
+      }, function (v, k) {
+        return k + ":00 - " + (k + 1) + ":00";
+      });
       chartdata.datasets[0].data = data;
       chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
       chartdata.datasets[0].borderColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
@@ -131,7 +122,7 @@ chartdata.labels = Array.from({
       };
 
       chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places' : 'Free parking places';
-      renderChart(chartdata, options);
+      this.renderChart(chartdata, options);
     }
   }
 });
