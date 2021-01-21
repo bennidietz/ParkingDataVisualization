@@ -1,5 +1,5 @@
 // initialise Leaflet map
-const map = L.map("map", {zoomControl: false}).setView([51.96, 7.607], 14);
+var map = L.map("map", {zoomControl: false}).setView([51.957, 7.625], 15);
 
 // Basemaps
 let streets = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
@@ -33,49 +33,56 @@ L.control.layers({
     "Dark Mode": dark,
     "Heavy Metal": heavymetal
 }).addTo(map);
-// Geocoder
-L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
+let layers = L.layerGroup().addTo(map);
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 function init_map() {
-    let carParksArray = this.preferences.parkingLots;
+    layers.clearLayers();
+    let carParksArray = this.preferences.filteredParkingLots;
+    let days = Object.keys(this.preferences.occupancy);
+    let currOccupancy = this.preferences.occupancy[days[this.preferences.day - 1]][this.preferences.hour]
     // save the extracted trees into the global variabel, so that future access is easier
     let carParksGeoJSON = constructGeoJSON(carParksArray);
     var rainbow = new Rainbow();
     var style = getComputedStyle(document.body);
     // Set start and end colors
-    rainbow.setSpectrum(style.getPropertyValue('--has-capacity'), style.getPropertyValue('--no-capacity'));
+    rainbow.setSpectrum(style.getPropertyValue('--no-capacity'),
+        style.getPropertyValue('--med-capacity'),
+        style.getPropertyValue('--has-capacity'));
 
     // Set the min/max range
-    rainbow.setNumberRange(0, 793);
+    rainbow.setNumberRange(0, 1);
 
     L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
+            let occPerc;
+            if(currOccupancy) {
+              occPerc = currOccupancy[feature.properties.name]/feature.properties.capacity
+            } else {
+              occPerc = 0;
+            }
+            let html;
+            if(feature.properties.index != this.preferences.selectedParkingLot) {
+                html = '<i class="fas fa-parking fa-2x" style="color:#' + rainbow.colourAt(occPerc) + '"></i>';
+            } else {
+                html = '<span class="fa-stack-4x">' +
+                    '<i class="fas fa-square fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
+                    '-webkit-text-stroke-color: #0046db;"></i>' +
+                    '<i class="fas fa-parking fa-stack-2x" style="color:#' + rainbow.colourAt(occPerc) + '"></i>' +
+                    '</span>'
+            }
             let parkingIcon = L.divIcon({
                 //TODO: the color should be set according to current percentage/amount of free parking spaces
-                html: '<i class="fas fa-parking fa-2x" style="color:#' + rainbow.colourAt(feature.properties.capacity) + '"></i>',
-                iconSize: [20, 20],
+                html: html,
+                iconSize: [1, 1],
                 className: 'myDivIcon'
             });
             return L.marker(latlng, {icon: parkingIcon});
         },
         onEachFeature: onEachFeature.bind(this)
     })
-        .addTo(map);
-
-    // create standard route
-    var routing = L.Routing.control({
-    router: L.routing.mapbox("pk.eyJ1IjoiYmVubmlkaWV0eiIsImEiOiJjamlteXFncDQwOWM0M3BtY25kNW9sbDI3In0.EfqsydBSwDkCAyp8a6Hspw"),
-        routeWhileDragging: true
-    })
-    points = []
-    for (var i in preferences.parkingLots) {
-        points.push([preferences.parkingLots[i]["lat"], preferences.parkingLots[i]["lon"]])
-    }
-    addRoute(routing, points);
-    //routing.addTo(map);
-    
+        .addTo(layers);
 };
 
 
@@ -112,18 +119,4 @@ function onEachFeature(feature, layer) {
 }
 function whenClicked(e) {
     this.preferences.selectedParkingLot = e.target.feature.properties.index;
-}
-
-
-  /**
-* function called at the beginning for the standard route and with a click
-* on a citiy buttons. Creates a small route around the center of the city
-*/
-function addRoute(routing, points) {
-    //map.setView([latitude, longitude],13);
-    wayPoints = []
-    for (var i = 0; i < 4; i++) {
-        wayPoints.push(L.latLng(points[i][0], points[i][1]))
-    }
-    routing.setWaypoints(wayPoints);
 }

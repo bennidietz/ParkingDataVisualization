@@ -139,6 +139,7 @@ $(document).ready(function() {
       'view': function (newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
+          init_map();
         }
       },
       'selectedParkingLot': function (newVal, oldVal) {
@@ -146,16 +147,34 @@ $(document).ready(function() {
 
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
+          init_map();
         }
       },
       'day': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
           this.$refs.chart.render(true);
+          init_map();
         }
       },
       'hour': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(false);
+          init_map();
+        }
+      },
+      'filters.disabled': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
+        }
+      },
+      'filters.women': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
+        }
+      },
+      'filters.electric': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
         }
       }
     }
