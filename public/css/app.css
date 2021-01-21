@@ -1131,6 +1131,11 @@ readers do not read off random characters that represent icons */
   content: "\F080";
 }
 
+.fa-chart-bar {
+  font-size: 4em;
+  color: orange;
+}
+
 .fa-chart-line:before {
   content: "\F201";
 }

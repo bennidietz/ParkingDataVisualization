@@ -7,5 +7,6 @@
     <chart id="chart" ref="chart" style="width: 400px; max-width: 100%;" />
   </div>
   <div class="minimized__content" :class="{'h-hidden': !popupMinimized}">
+  <i class="fas fa-chart-bar"></i>
   </div>
 </div>
