@@ -6,4 +6,6 @@
   <div class="popup__content" :class="{'h-hidden': popupMinimized}">
     <chart id="chart" ref="chart" style="width: 400px; max-width: 100%;" />
   </div>
+  <div class="minimized__content" :class="{'h-hidden': !popupMinimized}">
+  </div>
 </div>
