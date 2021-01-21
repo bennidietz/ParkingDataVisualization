@@ -18,14 +18,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Bar"],
   methods: {
-    dayColor: function dayColor(data, capacity, color, secondColor) {
-      var output = [];
+    dayColor: function dayColor(reversed, data, capacity) {
+      console.log(data);
+      console.log(capacity);
+      var output = []; // preferences.redColorLight, preferences.redColor
 
-      for (var i = 0; i < 24; i++) {
-        if (preferences.hour && i == preferences.hour) {
-          output.push(secondColor);
-        } else {
-          output.push(color);
+      if (reversed) {
+        for (var i = 0; i < 24; i++) {
+          var isSelected = preferences.hour != null && i == preferences.hour;
+          output.push(isSelected ? preferences.orangeColor : preferences.orangeColorLight);
+        }
+      } else {
+        for (var i = 0; i < 24; i++) {
+          var free_ratio = data[i] / capacity;
+          var isSelected = preferences.hour != null && i == preferences.hour;
+
+          if (free_ratio < 0.15) {
+            output.push(isSelected ? preferences.redColor : preferences.redColorLight);
+          } else if (free_ratio < 0.3) {
+            output.push(isSelected ? preferences.orangeColor : preferences.orangeColorLight);
+          } else if (free_ratio < 0.45) {
+            output.push(isSelected ? preferences.yellowColor : preferences.yellowColorLight);
+          } else {
+            output.push(isSelected ? preferences.greenColor : preferences.greenColorLight);
+          }
         }
       }
 
@@ -75,7 +91,8 @@ __webpack_require__.r(__webpack_exports__);
           capacity = Number(parkingLot.capacity);
 
           if (reversed) {
-            data.push(capacity - dayData[hr][parkingLot.name]);
+            var occupancy = ((capacity - dayData[hr][parkingLot.name]) / capacity * 100).toFixed(2);
+            data.push(occupancy);
           } else {
             data.push(dayData[hr][parkingLot.name]);
           }
@@ -98,8 +115,8 @@ __webpack_require__.r(__webpack_exports__);
         return k + ":00 - " + (k + 1) + ":00";
       });
       chartdata.datasets[0].data = data;
-      chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
-      chartdata.datasets[0].borderColor = this.dayColor(data, capacity, preferences.redColorLight, preferences.redColor);
+      chartdata.datasets[0].backgroundColor = this.dayColor(reversed, data, capacity);
+      chartdata.datasets[0].borderColor = this.dayColor(reversed, data, capacity);
       var options = {};
 
       if (!animated) {
@@ -113,15 +130,17 @@ __webpack_require__.r(__webpack_exports__);
         ticks: {
           min: 0,
           beginAtZero: true,
-          max: capacity
+          max: reversed ? 100 : capacity
         }
       }];
 
       options["onClick"] = function (e) {
-        preferences.hour = this.getElementsAtEvent(e)[0]._index + 1;
+        if (this.getElementsAtEvent(e)[0] != undefined) {
+          preferences.hour = this.getElementsAtEvent(e)[0]._index;
+        }
       };
 
-      chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places' : 'Free parking places';
+      chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places in %' : 'Free parking places';
       this.renderChart(chartdata, options);
     }
   }
