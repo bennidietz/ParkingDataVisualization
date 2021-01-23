@@ -58,20 +58,12 @@ function init_map() {
         pointToLayer: function (feature, latlng) {
             let occPerc;
             if(currOccupancy) {
-              occPerc = currOccupancy[feature.properties.name]/feature.properties.capacity
+                occPerc = currOccupancy[feature.properties.name]/feature.properties.capacity
             } else {
-              occPerc = 0;
+                occPerc = 0;
             }
-            let html;
-            if(feature.properties.index != this.preferences.selectedParkingLot) {
-                html = '<i class="fas fa-parking fa-2x" style="color:#' + rainbow.colourAt(occPerc) + '"></i>';
-            } else {
-                html = '<span class="fa-stack-4x">' +
-                    '<i class="fas fa-square fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
-                    '-webkit-text-stroke-color: #0046db;"></i>' +
-                    '<i class="fas fa-parking fa-stack-2x" style="color:#' + rainbow.colourAt(occPerc) + '"></i>' +
-                    '</span>'
-            }
+            let html = basicSymbol(true, rainbow, occPerc, feature.properties.index != this.preferences.selectedParkingLot)
+
             let parkingIcon = L.divIcon({
                 //TODO: the color should be set according to current percentage/amount of free parking spaces
                 html: html,
@@ -119,4 +111,64 @@ function onEachFeature(feature, layer) {
 }
 function whenClicked(e) {
     this.preferences.selectedParkingLot = e.target.feature.properties.index;
+}
+
+function analystSymbol(parkingLot, hour) {
+    $("#piePlotArea").empty()
+    occupied = parkingLot.getDataForHours()[hour]
+    capacity = 0
+    for (i in basedata["0"]) {
+        if(basedata["0"][i][1] == parkingLot.name) {
+            capacity = basedata["0"][i][2]
+        }
+    }
+    console.log("Occupied: " + occupied + " ; Capacity: " + capacity)
+    var id = "pie-chart" + chartNumber
+    chartNumber++
+    $("#piePlotArea").append('<canvas id="' + id + '"></canvas>');
+    new Chart(document.getElementById(id), {
+        type: 'pie',
+        data: {
+            labels: ["Free", "Occupied"],
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3cba9f", "#c45850"],
+                data: [(capacity-occupied), occupied]
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Occupancy of " + parkingLot.name + " between " + hour + ":00 and " + (hour+1) + ":00",
+                fontSize: 18
+            }
+        }
+    });
+}
+
+function basicSymbol(gradient, rainbow, occPerc, selected) {
+
+    let color;
+    if(gradient) {
+        color = "#" + rainbow.colourAt(occPerc);
+    } else {
+        if(occPerc < 0.01) {
+            color = style.getPropertyValue('--no-capacity');
+        } else if (occPerc < 0.5) {
+            color = style.getPropertyValue('--med-capacity');
+        } else {
+            color = style.getPropertyValue('--has-capacity');
+        }
+    }
+    let html;
+    if(selected) {
+        html = '<i class="fas fa-parking fa-2x" style="color:' + color + '"></i>';
+    } else {
+        html = '<span class="fa-stack-4x">' +
+            '<i class="fas fa-square fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
+            '-webkit-text-stroke-color: #0046db;"></i>' +
+            '<i class="fas fa-parking fa-stack-2x" style="color:' + color + '"></i>' +
+            '</span>'
+    }
+    return html
 }
