@@ -1,9 +1,10 @@
 :root {
     --has-capacity:#1B9935;
+    --med-capacity:#C1A01C;
     --no-capacity:#990218;
 }
 
 #map {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }

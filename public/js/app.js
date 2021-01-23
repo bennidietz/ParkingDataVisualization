@@ -3597,7 +3597,7 @@ function getAlpha(string) {
 // generators
 function hexString(rgba, a) {
    var a = (a !== undefined && rgba.length === 3) ? a : rgba[3];
-   return "#" + hexDouble(rgba[0]) 
+   return "#" + hexDouble(rgba[0])
               + hexDouble(rgba[1])
               + hexDouble(rgba[2])
               + (
@@ -82138,7 +82138,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
-RainbowVis-JS 
+RainbowVis-JS
 Released under Eclipse Public License - v 1.0
 */
 
@@ -82148,10 +82148,10 @@ function Rainbow()
 	var gradients = null;
 	var minNum = 0;
 	var maxNum = 100;
-	var colours = ['ff0000', 'ffff00', '00ff00', '0000ff']; 
+	var colours = ['ff0000', 'ffff00', '00ff00', '0000ff'];
 	setColours(colours);
-	
-	function setColours (spectrum) 
+
+	function setColours (spectrum)
 	{
 		if (spectrum.length < 2) {
 			throw new Error('Rainbow must have two or more colours.');
@@ -82161,19 +82161,19 @@ function Rainbow()
 			firstGradient.setGradient(spectrum[0], spectrum[1]);
 			firstGradient.setNumberRange(minNum, minNum + increment);
 			gradients = [ firstGradient ];
-			
+
 			for (var i = 1; i < spectrum.length - 1; i++) {
 				var colourGradient = new ColourGradient();
 				colourGradient.setGradient(spectrum[i], spectrum[i + 1]);
-				colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1)); 
-				gradients[i] = colourGradient; 
+				colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1));
+				gradients[i] = colourGradient;
 			}
 
 			colours = spectrum;
 		}
 	}
 
-	this.setSpectrum = function () 
+	this.setSpectrum = function ()
 	{
 		setColours(arguments);
 		return this;
@@ -82213,7 +82213,7 @@ function Rainbow()
 	}
 }
 
-function ColourGradient() 
+function ColourGradient()
 {
 	"use strict";
 	var startColour = 'ff0000';
@@ -82239,11 +82239,11 @@ function ColourGradient()
 
 	this.colourAt = function (number)
 	{
-		return calcHex(number, startColour.substring(0,2), endColour.substring(0,2)) 
-			+ calcHex(number, startColour.substring(2,4), endColour.substring(2,4)) 
+		return calcHex(number, startColour.substring(0,2), endColour.substring(0,2))
+			+ calcHex(number, startColour.substring(2,4), endColour.substring(2,4))
 			+ calcHex(number, startColour.substring(4,6), endColour.substring(4,6));
 	}
-	
+
 	function calcHex(number, channelStart_Base16, channelEnd_Base16)
 	{
 		var num = number;
@@ -82252,24 +82252,24 @@ function ColourGradient()
 		}
 		if (num > maxNum) {
 			num = maxNum;
-		} 
+		}
 		var numRange = maxNum - minNum;
 		var cStart_Base10 = parseInt(channelStart_Base16, 16);
-		var cEnd_Base10 = parseInt(channelEnd_Base16, 16); 
+		var cEnd_Base10 = parseInt(channelEnd_Base16, 16);
 		var cPerUnit = (cEnd_Base10 - cStart_Base10)/numRange;
 		var c_Base10 = Math.round(cPerUnit * (num - minNum) + cStart_Base10);
 		return formatHex(c_Base10.toString(16));
 	}
 
-	function formatHex(hex) 
+	function formatHex(hex)
 	{
 		if (hex.length === 1) {
 			return '0' + hex;
 		} else {
 			return hex;
 		}
-	} 
-	
+	}
+
 	function isHexColour(string)
 	{
 		var regex = /^#?[0-9a-fA-F]{6}$/i;
@@ -82288,7 +82288,7 @@ function ColourGradient()
 			throw new Error(string + ' is not a valid colour.');
 		}
 	}
-	
+
 	// Extended list of CSS colornames s taken from
 	// http://www.w3.org/TR/css3-color/#svg-color
 	var colourNames = {
@@ -94926,6 +94926,7 @@ $(document).ready(function () {
       'view': function view(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
+          init_map();
         }
       },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
@@ -94933,16 +94934,34 @@ $(document).ready(function () {
 
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
+          init_map();
         }
       },
       'day': function day(newVal, oldVal) {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
           this.$refs.chart.render(true);
+          init_map();
         }
       },
       'hour': function hour(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(false);
+          init_map();
+        }
+      },
+      'filters.disabled': function filters(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
+        }
+      },
+      'filters.women': function filters(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
+        }
+      },
+      'filters.electric': function filters(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
         }
       }
     }
