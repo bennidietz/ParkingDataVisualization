@@ -60,33 +60,13 @@ function init_map() {
     L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
             let currFreeForFeature = (currOccupancy) ? currOccupancy[feature.properties.name] : 0;
-            //return (true) ?
-            //basicSymbol(true, rainbow, feature.properties.capacity, currOccupancy[feature.properties.name], feature.properties.index != this.preferences.selectedParkingLot, style)
-            //    : analystSymbol(latlng, feature.properties.capacity, currOccupancy[feature.properties.name]);
-            //let test = basicSymbol(true, rainbow, feature.properties.capacity, currOccupancy[feature.properties.name], feature.properties.index != this.preferences.selectedParkingLot, style);
-            //let test = basicSymbol(1,2,3,4,5,56)
-            let test = (this.preferences.view !== "analyst") ?
+            return (this.preferences.view !== "analyst") ?
                 basicSymbol(latlng, true, rainbow, feature.properties.capacity, currFreeForFeature , feature.properties.index != this.preferences.selectedParkingLot, style)
-                : analystSymbol(latlng, feature.properties.capacity, currFreeForFeature, style);
-            return test;
+                : analystSymbol(latlng, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeature, style);
         },
         onEachFeature: onEachFeature.bind(this)
     })
         .addTo(layers);
-    /*let markers = document.getElementsByClassName("map-pie-symbol");
-    for (let marker of markers) {
-        new Chart(marker, {
-            type: 'pie',
-            data: {
-                labels: ["Free", "Occupied"],
-                datasets: [{
-                    label: "Population (millions)",
-                    backgroundColor: ["#3cba9f", "#c45850"],
-                    data: [3, 5]
-                }]
-            }
-        });
-    }*/
 };
 
 
@@ -138,10 +118,10 @@ function addRoute(routing, points) {
     }
     routing.setWaypoints(wayPoints);
 }
-function analystSymbol(latlng, capa, currOcc, style) {
+function analystSymbol(latlng, selected, capa, currOcc, style) {
     return L.marker(latlng, {icon: L.canvasIcon({
             iconSize: [40, 40],
-            iconAnchor: [25, 25],
+            iconAnchor: [20, 20],
             drawIcon: function (icon, type) {
                 if (type == 'icon') {
                     var ctx = icon.getContext('2d');
@@ -158,12 +138,18 @@ function analystSymbol(latlng, capa, currOcc, style) {
                         ctx.fillStyle = myColor[i];
                         ctx.beginPath();
                         var size = L.point(this.options.iconSize);
-                        var center = L.point(Math.floor(size.x / 2), Math.floor(size.y / 2));
                         ctx.moveTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
                         // Arc Parameters: x, y, radius, startingAngle (radians), endingAngle (radians), antiClockwise (boolean)
-                        ctx.arc(size.x / 2, size.y / 2, size.y / 2, lastend, lastend + (Math.PI * 2 * (data[i] / myTotal)), false);
+                        ctx.arc(size.x / 2, size.y / 2, (size.y-3) / 2, lastend, lastend + (Math.PI * 2 * (data[i] / myTotal)), false);
                         ctx.lineTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
                         ctx.fill();
+                        if(selected) {
+                            ctx.beginPath();
+                            ctx.arc(size.x / 2, size.y / 2, (size.y - 2) / 2, 0, 2 * Math.PI);
+                            ctx.strokeStyle = '#0046db';
+                            ctx.lineWidth = 2;
+                            ctx.stroke();
+                        }
                         lastend += Math.PI * 2 * (data[i] / myTotal);
                     }
                     /*
@@ -224,7 +210,8 @@ function basicSymbol(latlng, gradient, rainbow, capa, currFree, selected, style)
     return L.marker(latlng, {
         icon: L.divIcon({
             html: html,
-            iconSize: [1, 1],
+            iconSize: [40, 40],
+            iconAnchor: [12, 12],
             className: 'myDivIcon'
         })
     });
