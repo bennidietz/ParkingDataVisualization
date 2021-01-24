@@ -25,6 +25,7 @@
         "chart.js": "^2.9.4",
         "jquery": "^3.5.1",
         "leaflet": "^1.7.1",
+        "leaflet-canvasicon": "^0.1.6",
         "moment": "^2.29.1",
         "popper.js": "^1.14.3",
         "rainbowvis.js": "^1.0.1",

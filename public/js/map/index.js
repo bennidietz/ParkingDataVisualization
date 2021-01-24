@@ -34,6 +34,8 @@ L.control.layers({
     "Heavy Metal": heavymetal
 }).addTo(map);
 let layers = L.layerGroup().addTo(map);
+// Geocoder
+L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
@@ -41,7 +43,9 @@ function init_map() {
     layers.clearLayers();
     let carParksArray = this.preferences.filteredParkingLots;
     let days = Object.keys(this.preferences.occupancy);
-    let currOccupancy = this.preferences.occupancy[days[this.preferences.day - 1]][this.preferences.hour]
+    var daySub = this.preferences.date.day,
+        day = days.filter(function (str) { return str.indexOf(daySub) !== -1; })[0];
+    let currOccupancy = this.preferences.occupancy[day][this.preferences.hour]
     // save the extracted trees into the global variabel, so that future access is easier
     let carParksGeoJSON = constructGeoJSON(carParksArray);
     var rainbow = new Rainbow();
@@ -53,28 +57,36 @@ function init_map() {
 
     // Set the min/max range
     rainbow.setNumberRange(0, 1);
-
     L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
-            let occPerc;
-            if(currOccupancy) {
-                occPerc = currOccupancy[feature.properties.name]/feature.properties.capacity
-            } else {
-                occPerc = 0;
-            }
-            let html = basicSymbol(true, rainbow, occPerc, feature.properties.index != this.preferences.selectedParkingLot)
-
-            let parkingIcon = L.divIcon({
-                //TODO: the color should be set according to current percentage/amount of free parking spaces
-                html: html,
-                iconSize: [1, 1],
-                className: 'myDivIcon'
-            });
-            return L.marker(latlng, {icon: parkingIcon});
+            let currFreeForFeature = (currOccupancy) ? currOccupancy[feature.properties.name] : 0;
+            //return (true) ?
+            //basicSymbol(true, rainbow, feature.properties.capacity, currOccupancy[feature.properties.name], feature.properties.index != this.preferences.selectedParkingLot, style)
+            //    : analystSymbol(latlng, feature.properties.capacity, currOccupancy[feature.properties.name]);
+            //let test = basicSymbol(true, rainbow, feature.properties.capacity, currOccupancy[feature.properties.name], feature.properties.index != this.preferences.selectedParkingLot, style);
+            //let test = basicSymbol(1,2,3,4,5,56)
+            let test = (this.preferences.view !== "analyst") ?
+                basicSymbol(latlng, true, rainbow, feature.properties.capacity, currFreeForFeature , feature.properties.index != this.preferences.selectedParkingLot, style)
+                : analystSymbol(latlng, feature.properties.capacity, currFreeForFeature, style);
+            return test;
         },
         onEachFeature: onEachFeature.bind(this)
     })
         .addTo(layers);
+    /*let markers = document.getElementsByClassName("map-pie-symbol");
+    for (let marker of markers) {
+        new Chart(marker, {
+            type: 'pie',
+            data: {
+                labels: ["Free", "Occupied"],
+                datasets: [{
+                    label: "Population (millions)",
+                    backgroundColor: ["#3cba9f", "#c45850"],
+                    data: [3, 5]
+                }]
+            }
+        });
+    }*/
 };
 
 
@@ -113,41 +125,80 @@ function whenClicked(e) {
     this.preferences.selectedParkingLot = e.target.feature.properties.index;
 }
 
-function analystSymbol(parkingLot, hour) {
-    $("#piePlotArea").empty()
-    occupied = parkingLot.getDataForHours()[hour]
-    capacity = 0
-    for (i in basedata["0"]) {
-        if(basedata["0"][i][1] == parkingLot.name) {
-            capacity = basedata["0"][i][2]
-        }
+
+/**
+ * function called at the beginning for the standard route and with a click
+ * on a citiy buttons. Creates a small route around the center of the city
+ */
+function addRoute(routing, points) {
+    //map.setView([latitude, longitude],13);
+    wayPoints = []
+    for (var i = 0; i < 4; i++) {
+        wayPoints.push(L.latLng(points[i][0], points[i][1]))
     }
-    console.log("Occupied: " + occupied + " ; Capacity: " + capacity)
-    var id = "pie-chart" + chartNumber
-    chartNumber++
-    $("#piePlotArea").append('<canvas id="' + id + '"></canvas>');
-    new Chart(document.getElementById(id), {
-        type: 'pie',
-        data: {
-            labels: ["Free", "Occupied"],
-            datasets: [{
-                label: "Population (millions)",
-                backgroundColor: ["#3cba9f", "#c45850"],
-                data: [(capacity-occupied), occupied]
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Occupancy of " + parkingLot.name + " between " + hour + ":00 and " + (hour+1) + ":00",
-                fontSize: 18
+    routing.setWaypoints(wayPoints);
+}
+function analystSymbol(latlng, capa, currOcc, style) {
+    return L.marker(latlng, {icon: L.canvasIcon({
+            iconSize: [40, 40],
+            iconAnchor: [25, 25],
+            drawIcon: function (icon, type) {
+                if (type == 'icon') {
+                    var ctx = icon.getContext('2d');
+                    var lastend = -1.5708;
+                    var data = [capa-currOcc,currOcc]; // If you add more data values make sure you add more colors
+                    var myTotal = 0; // Automatically calculated so don't touch
+                    var myColor = [style.getPropertyValue('--no-capacity'), style.getPropertyValue('--has-capacity')]; // Colors of each slice
+
+                    for (var e = 0; e < data.length; e++) {
+                        myTotal += data[e];
+                    }
+
+                    for (var i = 0; i < data.length; i++) {
+                        ctx.fillStyle = myColor[i];
+                        ctx.beginPath();
+                        var size = L.point(this.options.iconSize);
+                        var center = L.point(Math.floor(size.x / 2), Math.floor(size.y / 2));
+                        ctx.moveTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
+                        // Arc Parameters: x, y, radius, startingAngle (radians), endingAngle (radians), antiClockwise (boolean)
+                        ctx.arc(size.x / 2, size.y / 2, size.y / 2, lastend, lastend + (Math.PI * 2 * (data[i] / myTotal)), false);
+                        ctx.lineTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
+                        ctx.fill();
+                        lastend += Math.PI * 2 * (data[i] / myTotal);
+                    }
+                    /*
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ["Free", "Occupied"],
+                            datasets: [{
+                                label: "Population (millions)",
+                                backgroundColor: ["#3cba9f", "#c45850"],
+                                data: [3, 5]
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: "Occupancy",
+                                fontSize: 18
+                            }
+                        }
+                    });
+                     */
+                }
             }
-        }
+        })
     });
 }
 
-function basicSymbol(gradient, rainbow, occPerc, selected) {
-
+function basicSymbol(latlng, gradient, rainbow, capa, currFree, selected, style) {
+    let occPerc;
+    if(currFree) {
+        occPerc = currFree/capa
+    } else {
+        occPerc = 0;
+    }
     let color;
     if(gradient) {
         color = "#" + rainbow.colourAt(occPerc);
@@ -170,5 +221,11 @@ function basicSymbol(gradient, rainbow, occPerc, selected) {
             '<i class="fas fa-parking fa-stack-2x" style="color:' + color + '"></i>' +
             '</span>'
     }
-    return html
+    return L.marker(latlng, {
+        icon: L.divIcon({
+            html: html,
+            iconSize: [1, 1],
+            className: 'myDivIcon'
+        })
+    });
 }
