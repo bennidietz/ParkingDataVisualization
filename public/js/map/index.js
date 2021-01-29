@@ -54,15 +54,32 @@ function init_map() {
     rainbow.setSpectrum(style.getPropertyValue('--no-capacity'),
         style.getPropertyValue('--med-capacity'),
         style.getPropertyValue('--has-capacity'));
-
     // Set the min/max range
     rainbow.setNumberRange(0, 1);
     L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
-            let currFreeForFeature = (currOccupancy) ? currOccupancy[feature.properties.name] : 0;
+            let openingTimes;
+            switch(day) {
+                case "Sunday":
+                    openingTimes = feature.properties.opening_times_su;
+                    break;
+                case "Saturday":
+                    openingTimes = feature.properties.opening_times_sa;
+                    break;
+                case "Friday":
+                    openingTimes = feature.properties.opening_times_fr;
+                    break;
+                default:
+                    openingTimes = feature.properties.opening_times_mo_to_th;
+            }
+            openingTimes = (openingTimes) ? JSON.parse(openingTimes.replace(":",",")) : [25,26];
+            openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
+            let hour = this.preferences.hour;
+            let open = (hour>openingTimes[0] && hour<openingTimes[1])
+            let currFreeForFeature = (currOccupancy) ? currOccupancy[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
-                basicSymbol(latlng, true, rainbow, feature.properties.capacity, currFreeForFeature , feature.properties.index != this.preferences.selectedParkingLot, style)
-                : analystSymbol(latlng, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeature, style);
+                basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeature , feature.properties.index != this.preferences.selectedParkingLot, style)
+                : analystSymbol(latlng, open, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeature, style);
         },
         onEachFeature: onEachFeature.bind(this)
     })
@@ -118,7 +135,7 @@ function addRoute(routing, points) {
     }
     routing.setWaypoints(wayPoints);
 }
-function analystSymbol(latlng, selected, capa, currOcc, style) {
+function analystSymbol(latlng, open, selected, capa, currOcc, style) {
     return L.marker(latlng, {icon: L.canvasIcon({
             iconSize: [40, 40],
             iconAnchor: [20, 20],
@@ -128,8 +145,10 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
                     var lastend = -1.5708;
                     var data = [capa-currOcc,currOcc]; // If you add more data values make sure you add more colors
                     var myTotal = 0; // Automatically calculated so don't touch
-                    var myColor = [style.getPropertyValue('--no-capacity'), style.getPropertyValue('--has-capacity')]; // Colors of each slice
-
+                    var myColor = [style.getPropertyValue('--no-data'), style.getPropertyValue('--no-data')]; // Colors of each slice
+                    if (currOcc != -1) {
+                        myColor = [style.getPropertyValue('--no-capacity'), style.getPropertyValue('--has-capacity')];
+                    }
                     for (var e = 0; e < data.length; e++) {
                         myTotal += data[e];
                     }
@@ -178,7 +197,7 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
     });
 }
 
-function basicSymbol(latlng, gradient, rainbow, capa, currFree, selected, style) {
+function basicSymbol(latlng, open, gradient, rainbow, capa, currFree, selected, style) {
     let occPerc;
     if(currFree) {
         occPerc = currFree/capa
@@ -186,25 +205,30 @@ function basicSymbol(latlng, gradient, rainbow, capa, currFree, selected, style)
         occPerc = 0;
     }
     let color;
-    if(gradient) {
-        color = "#" + rainbow.colourAt(occPerc);
+    if (currFree == -1) {
+        color = style.getPropertyValue('--no-data');
     } else {
-        if(occPerc < 0.01) {
-            color = style.getPropertyValue('--no-capacity');
-        } else if (occPerc < 0.5) {
-            color = style.getPropertyValue('--med-capacity');
+        if (gradient) {
+            color = "#" + rainbow.colourAt(occPerc);
         } else {
-            color = style.getPropertyValue('--has-capacity');
+            if (occPerc < 0.01) {
+                color = style.getPropertyValue('--no-capacity');
+            } else if (occPerc < 0.5) {
+                color = style.getPropertyValue('--med-capacity');
+            } else {
+                color = style.getPropertyValue('--has-capacity');
+            }
         }
     }
+    let symbol = (open) ? "fa-parking" : "fa-times"
     let html;
     if(selected) {
-        html = '<i class="fas fa-parking fa-2x" style="color:' + color + '"></i>';
+        html = '<i class="fas '+ symbol + ' fa-2x" style="color:' + color + '"></i>';
     } else {
         html = '<span class="fa-stack-4x">' +
             '<i class="fas fa-square fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
             '-webkit-text-stroke-color: #0046db;"></i>' +
-            '<i class="fas fa-parking fa-stack-2x" style="color:' + color + '"></i>' +
+            '<i class="fas '+ symbol + ' fa-stack-2x" style="color:' + color + '"></i>' +
             '</span>'
     }
     return L.marker(latlng, {
