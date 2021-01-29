@@ -130,6 +130,12 @@ th, td {
   overflow-x: hidden;
   overflow-y: auto;
 }
+.feedback__button {
+    font-size: 10pt;
+    bottom: 3px;
+    position: fixed;
+    background-color: $darkGray;
+}
 
 /*---------- Helper classes ----------*/
 

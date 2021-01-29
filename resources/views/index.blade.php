@@ -64,6 +64,9 @@
             </div>
             @include('components.popup.index')
           </div>
+            <div class="feedback__button">
+                @include('components.feedback.index')
+            </div>
 
         </div>
 

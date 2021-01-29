@@ -6238,6 +6238,13 @@ td {
   overflow-y: auto;
 }
 
+.feedback__button {
+  font-size: 10pt;
+  bottom: 3px;
+  position: fixed;
+  background-color: #333333;
+}
+
 /*---------- Helper classes ----------*/
 
 .h-readonly {
