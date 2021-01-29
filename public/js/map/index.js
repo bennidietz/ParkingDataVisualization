@@ -75,7 +75,7 @@ function init_map() {
             openingTimes = (openingTimes) ? JSON.parse(openingTimes.replace(":",",")) : [25,26];
             openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
             let hour = this.preferences.hour;
-            let open = (hour>openingTimes[0] && hour<openingTimes[1])
+            let open = (hour>=openingTimes[0] && hour<openingTimes[1])
             let currFreeForFeature = (currOccupancy) ? currOccupancy[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
                 basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeature , feature.properties.index != this.preferences.selectedParkingLot, style)
