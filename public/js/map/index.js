@@ -223,19 +223,20 @@ function basicSymbol(latlng, open, gradient, rainbow, capa, currFree, selected, 
     let symbol = (open) ? "fa-parking" : "fa-times"
     let html;
     if(selected) {
-        html = '<i class="fas '+ symbol + ' fa-2x" style="color:' + color + '"></i>';
+        html = '<i class="fas '+ symbol + ' fa-2x" style="color:' + color + ';font-size: 3em;"></i>';
     } else {
         html = '<span class="fa-stack-4x">' +
             '<i class="fas fa-square fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
-            '-webkit-text-stroke-color: #0046db;"></i>' +
-            '<i class="fas '+ symbol + ' fa-stack-2x" style="color:' + color + '"></i>' +
+            '-webkit-text-stroke-color: #0046db;font-size: 3em;"></i>' +
+            '<i class="fas '+ symbol + ' fa-stack-2x" style="color:' + color + ';font-size: 3em;"></i>' +
             '</span>'
     }
+
     return L.marker(latlng, {
         icon: L.divIcon({
             html: html,
             iconSize: [40, 40],
-            iconAnchor: [12, 12],
+            iconAnchor: [20, 20],
             className: 'myDivIcon'
         })
     });
