@@ -8,19 +8,19 @@
   <table class="table__data" v-if="selectedParkingLot == index">
     <tr v-if="day < 5">
       <td><i class="fas fa-clock"></i></td>
-      <td>@{{ parkingLot.opening_times_mo_to_th }}</td>
+      <td>@{{ parkingLot.opening_times_mo_to_th.split(':').join(' - ').substring(1,parkingLot.opening_times_mo_to_th.split(':').join(' - ').length - 1) }}</td>
     </tr>
     <tr v-if="day == 5">
       <td><i class="fas fa-clock"></i></td>
-      <td>@{{ parkingLot.opening_times_fr }}</td>
+      <td>@{{ parkingLot.opening_times_fr.split(':').join(' - ').substring(1,parkingLot.opening_times_fr.split(':').join(' - ').length - 1) }}</td>
     </tr>
     <tr v-if="day == 6">
       <td><i class="fas fa-clock"></i></td>
-      <td>@{{ parkingLot.opening_times_sa }}</td>
+      <td>@{{ parkingLot.opening_times_sa.split(':').join(' - ').substring(1,parkingLot.opening_times_sa.split(':').join(' - ').length - 1) }}</td>
     </tr>
     <tr v-if="day == 7">
       <td><i class="fas fa-clock"></i></td>
-      <td v-if="parkingLot.opening_times_su.length > 0">@{{ parkingLot.opening_times_su }}</td>
+      <td v-if="parkingLot.opening_times_su.length > 0">@{{ parkingLot.opening_times_su.split(':').join(' - ').substring(1,parkingLot.opening_times_su.split(':').join(' - ').length - 1) }}</td>
       <td v-else>CLOSED</td>
     </tr>
     <template v-if="view == 'citizen'">
