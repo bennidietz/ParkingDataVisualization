@@ -33,6 +33,9 @@ L.control.layers({
     "Dark Mode": dark,
     "Heavy Metal": heavymetal
 }).addTo(map);
+map.on({
+        click: whenNothingClicked.bind(this)
+    });;
 let layers = L.layerGroup().addTo(map);
 // Geocoder
 L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
@@ -120,6 +123,14 @@ function onEachFeature(feature, layer) {
 }
 function whenClicked(e) {
     this.preferences.selectedParkingLot = e.target.feature.properties.index;
+}
+
+function whenNothingClicked(e) {
+    if (this.preferences.view == "analystcitizen") {
+        this.preferences.selectedParkingLot = null;
+    } else if (this.preferences.view == "citizen") {
+        //TODO: routing
+    }
 }
 
 
