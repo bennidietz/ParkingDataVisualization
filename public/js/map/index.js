@@ -36,9 +36,10 @@ L.control.layers({
 map.on({
         click: whenNothingClicked.bind(this)
     });;
+let navigationLayer = L.layerGroup().addTo(map);
 let layers = L.layerGroup().addTo(map);
 // Geocoder
-L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
+let geocoder = L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
@@ -129,10 +130,26 @@ function whenNothingClicked(e) {
     if (this.preferences.view == "analystcitizen") {
         this.preferences.selectedParkingLot = null;
     } else if (this.preferences.view == "citizen") {
-        //TODO: routing
+        addMarker(e);
     }
 }
 
+function addMarker(e) {
+    navigationLayer.clearLayers();
+    var newMarker = new L.marker(e.latlng).addTo(navigationLayer);
+    newMarker.bindPopup("<p>Navigate here?</p></br><button onclick='navigate("+ e.latlng.lat +","+ e.latlng.lng +")'>Yes</button><button onclick='closeMarker()'>No</button>").openPopup();
+}
+
+function navigate(lat,lng) {
+    $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng, function(data){
+        let navigationMarker = navigationLayer.getLayers()[0];
+        navigationMarker._popup.setContent(data.display_name);
+    });
+}
+
+function closeMarker(){
+    navigationLayer.clearLayers();
+}
 
 /**
  * function called at the beginning for the standard route and with a click
