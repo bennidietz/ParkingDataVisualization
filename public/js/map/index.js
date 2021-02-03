@@ -37,6 +37,7 @@ map.on({
         click: whenNothingClicked.bind(this)
     });;
 let navigationLayer = L.layerGroup().addTo(map);
+let destinationLayer = L.layerGroup().addTo(map);
 let layers = L.layerGroup().addTo(map);
 // Geocoder
 
@@ -161,6 +162,11 @@ function addMarker(e) {
     newMarker.bindPopup("<p>Navigate here?</p></br><button onclick='onDestinationSelected("+ e.latlng.lat +","+ e.latlng.lng +")'>Yes</button><button onclick='closeMarker()'>No</button>").openPopup();
 }
 
+function addDestinationMarker(lat, lng) {
+    var newMarker = new L.marker(L.latLng(lat,lng));
+    newMarker.addTo(destinationLayer);
+}
+
 function navigate(lat,lng) {
     $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng, function(data){
         let navigationMarker = navigationLayer.getLayers()[0];
@@ -173,12 +179,14 @@ function closeMarker(){
 }
 
 function onDestinationSelected(lat, lng) {
+    navigationLayer.clearLayers();
+    destinationLayer.clearLayers();
+    addDestinationMarker(lat, lng)
     for (var i in this.preferences.filteredParkingLots) {
         var lot = this.preferences.filteredParkingLots[i]
         var lotPoint = [Number(lot.lat), Number(lot.lng)]
         console.log(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))   
     }
-    closeMarker()
 }
 
 // @source: https://stackoverflow.com/a/18883819
