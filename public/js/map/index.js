@@ -127,7 +127,7 @@ function whenClicked(e) {
 }
 
 function whenNothingClicked(e) {
-    if (this.preferences.view == "analystcitizen") {
+    if (this.preferences.view == "analyst") {
         this.preferences.selectedParkingLot = null;
     } else if (this.preferences.view == "citizen") {
         addMarker(e);
