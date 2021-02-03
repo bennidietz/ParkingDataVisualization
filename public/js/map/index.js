@@ -63,13 +63,13 @@ geocoder.addTo(map)
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 function init_map() {
-    console.log(this.preferences.optimizedOcupancies)
     layers.clearLayers();
     let carParksArray = this.preferences.filteredParkingLots;
     let days = Object.keys(this.preferences.optimizedOcupancies);
     var daySub = this.preferences.date.day,
         day = days.filter(function (str) { return str.indexOf(daySub) !== -1; })[0];
-    let currOccupancy = this.preferences.optimizedOcupancies[day][this.preferences.hour]
+    let currOccupancyAnalyst = this.preferences.optimizedOcupancies[day][this.preferences.hour]
+    let currOccupancyCitizen = this.preferences.occupancy[day][this.preferences.hour]
     // save the extracted trees into the global variabel, so that future access is easier
     let carParksGeoJSON = constructGeoJSON(carParksArray);
     var rainbow = new Rainbow();
@@ -100,10 +100,11 @@ function init_map() {
             openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
             let hour = this.preferences.hour;
             let open = (hour>=openingTimes[0] && hour<openingTimes[1])
-            let currFreeForFeature = (currOccupancy) ? currOccupancy[feature.properties.name] : -1;
+            let currFreeForFeatureCitizen = (currOccupancyCitizen) ? currOccupancyCitizen[feature.properties.name] : -1;
+            let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
-                basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeature , feature.properties.index != this.preferences.selectedParkingLot, style)
-                : analystSymbol(latlng, open, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeature, style);
+                basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen , feature.properties.index != this.preferences.selectedParkingLot, style)
+                : analystSymbol(latlng, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeatureAnalyst, style);
         },
         onEachFeature: onEachFeature.bind(this)
     })
@@ -213,7 +214,7 @@ function addRoute(routing, points) {
     }
     routing.setWaypoints(wayPoints);
 }
-function analystSymbol(latlng, open, selected, capa, currOcc, style) {
+function analystSymbol(latlng, selected, capa, currOcc, style) {
     return L.marker(latlng, {icon: L.canvasIcon({
             iconSize: [40, 40],
             iconAnchor: [20, 20],
