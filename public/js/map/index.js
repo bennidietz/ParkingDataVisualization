@@ -63,12 +63,13 @@ geocoder.addTo(map)
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 function init_map() {
+    console.log(this.preferences.optimizedOcupancies)
     layers.clearLayers();
     let carParksArray = this.preferences.filteredParkingLots;
-    let days = Object.keys(this.preferences.occupancy);
+    let days = Object.keys(this.preferences.optimizedOcupancies);
     var daySub = this.preferences.date.day,
         day = days.filter(function (str) { return str.indexOf(daySub) !== -1; })[0];
-    let currOccupancy = this.preferences.occupancy[day][this.preferences.hour]
+    let currOccupancy = this.preferences.optimizedOcupancies[day][this.preferences.hour]
     // save the extracted trees into the global variabel, so that future access is easier
     let carParksGeoJSON = constructGeoJSON(carParksArray);
     var rainbow = new Rainbow();
