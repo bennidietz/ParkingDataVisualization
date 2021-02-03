@@ -94818,7 +94818,8 @@ $(document).ready(function () {
       },
       parkingLots: null,
       selectedParkingLot: null,
-      popupMinimized: false,
+	  popupMinimized: false,
+	  showAllOpeningTimes: false,
       occupancy: null
     },
     mounted: function mounted() {
