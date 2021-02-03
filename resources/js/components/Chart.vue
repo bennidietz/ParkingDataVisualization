@@ -38,7 +38,7 @@ export default {
     },
     getAverageOccupancies: function(reversed) {
       var output = [];
-      const dayData = preferences.occupancy[preferences.days[preferences.day]];
+      const dayData = preferences.optimizedOcupancies[preferences.days[preferences.day]];
 
       for (var h in dayData) {
         var occupancyHour = 0;
@@ -69,7 +69,7 @@ export default {
     }, render: function(animated) {
       var reversed = preferences.view != "citizen";
       const parkingLot = (preferences.selectedParkingLot != null) ? preferences.parkingLots[preferences.selectedParkingLot] : null;
-      const dayData = preferences.occupancy[preferences.days[preferences.day]];
+      const dayData = preferences.optimizedOcupancies[preferences.days[preferences.day]];
       var data = [];
       var capacity = 0;
 
