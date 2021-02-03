@@ -55,7 +55,7 @@ var geocoderControlOptions = {
     }
 }
 var geocoder = new L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58', geocoderControlOptions).addTo(map).on('select', function (e) {
-    alert(e.feature.feature.display_name + "with " + e.latlng.lat + " and " + e.latlng.lng)
+    onDestinationSelected(e.latlng.lat, e.latlng.lng) // e.feature.feature.display_name
 });
 geocoder.addTo(map)
 
@@ -156,7 +156,7 @@ function whenNothingClicked(e) {
 function addMarker(e) {
     navigationLayer.clearLayers();
     var newMarker = new L.marker(e.latlng).addTo(navigationLayer);
-    newMarker.bindPopup("<p>Navigate here?</p></br><button onclick='navigate("+ e.latlng.lat +","+ e.latlng.lng +")'>Yes</button><button onclick='closeMarker()'>No</button>").openPopup();
+    newMarker.bindPopup("<p>Navigate here?</p></br><button onclick='onDestinationSelected("+ e.latlng.lat +","+ e.latlng.lng +")'>Yes</button><button onclick='closeMarker()'>No</button>").openPopup();
 }
 
 function navigate(lat,lng) {
@@ -168,6 +168,36 @@ function navigate(lat,lng) {
 
 function closeMarker(){
     navigationLayer.clearLayers();
+}
+
+function onDestinationSelected(lat, lng) {
+    for (var i in this.preferences.filteredParkingLots) {
+        var lot = this.preferences.filteredParkingLots[i]
+        var lotPoint = [Number(lot.lat), Number(lot.lng)]
+        console.log(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))   
+    }
+    closeMarker()
+}
+
+// @source: https://stackoverflow.com/a/18883819
+// This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+function calcCrow(lat1, lon1, lat2, lon2) {
+    var R = 6371; // km
+    var dLat = toRad(lat2-lat1);
+    var dLon = toRad(lon2-lon1);
+    var lat1 = toRad(lat1);
+    var lat2 = toRad(lat2);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c;
+    return d;
+}
+
+// Converts numeric degrees to radians
+function toRad(Value) {
+    return Value * Math.PI / 180;
 }
 
 /**
