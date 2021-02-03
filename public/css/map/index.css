@@ -9,3 +9,29 @@
     height: 100%;
     width: 100%;
 }
+
+a.leaflet-locationiq-search-icon {
+    display: none;
+}
+div.leaflet-locationiq-close,.leaflet-locationiq-hidden {
+    display: none;
+}
+
+
+
+.leaflet-locationiq-results {
+    background: #000000d8;
+}
+
+.leaflet-locationiq-input {
+    font-size: 1.3em;
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-locationiq-control {
+    width: 300px;
+    height: 30px;
+    background: rebeccapurple;
+    background-color: rebeccapurple;
+}

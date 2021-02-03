@@ -39,7 +39,26 @@ map.on({
 let navigationLayer = L.layerGroup().addTo(map);
 let layers = L.layerGroup().addTo(map);
 // Geocoder
-let geocoder = L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58').addTo(map);
+
+var geocoderControlOptions = {
+    defaultMarkGeocode: false,
+    focus: [51.957, 7.625],
+    panToPoint: false,
+    markers: false,
+    maxLength: 5,
+    params: {
+        bouded: 1,
+        countrycodes: "DE"
+    },
+    textStrings: {
+        INPUT_PLACEHOLDER: "🔍 Find address or location in Münster..."
+    }
+}
+var geocoder = new L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58', geocoderControlOptions).addTo(map).on('select', function (e) {
+    alert(e.feature.feature.display_name + "with " + e.latlng.lat + " and " + e.latlng.lng)
+});
+geocoder.addTo(map)
+
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
