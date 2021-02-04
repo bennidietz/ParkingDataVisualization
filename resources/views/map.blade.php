@@ -21,6 +21,7 @@
 
     <script src="{{ asset('js/map/index.js') }}" defer></script>
     <link href="{{ asset('css/map/index.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/table/index.css') }}" rel="stylesheet">
 
   </head>
   <body>
