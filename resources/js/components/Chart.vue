@@ -122,6 +122,11 @@ export default {
           max: (reversed) ? 100 : capacity
         }
       }];
+      options["scales"]["xAxes"] = [{
+        ticks: {
+          fontSize: 10
+        }
+      }];
 
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {

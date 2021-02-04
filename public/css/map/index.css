@@ -35,3 +35,7 @@ div.leaflet-locationiq-close,.leaflet-locationiq-hidden {
     background: rebeccapurple;
     background-color: rebeccapurple;
 }
+
+.leaflet-routing-container {
+    display: none;
+}
