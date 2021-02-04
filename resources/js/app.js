@@ -29,7 +29,7 @@ $(document).ready(function() {
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
-      hour: null,
+      hour: null, 
       visualizing: false,
       filters: {
         disabled: false,
@@ -40,6 +40,7 @@ $(document).ready(function() {
       parkingLots: null,
       selectedParkingLot: null,
       routes: null,
+      hoveredRoute: null,
       popupMinimized: false,
       occupancy: null,
     },
@@ -196,6 +197,7 @@ $(document).ready(function() {
     },
     watch: {
       'view': function (newVal, oldVal) {
+        preferences.filters.parkandride = false
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
@@ -208,6 +210,9 @@ $(document).ready(function() {
           this.$refs.chart.render(true);
           init_map();
         }
+      },
+      'hoveredRoute': function(newVal, oldVal) {
+        init_map()
       },
       'day': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy && !this.visualizing) {

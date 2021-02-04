@@ -60,7 +60,7 @@ var geocoder = new L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58', geo
 });
 geocoder.addTo(map)
 var routing = null; // assign later
-
+var geojson = null;
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
@@ -82,7 +82,7 @@ function init_map() {
         style.getPropertyValue('--has-capacity'));
     // Set the min/max range
     rainbow.setNumberRange(0, 1);
-    L.geoJSON(carParksGeoJSON,{
+    geojson = L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
             let openingTimes;
             switch(day) {
@@ -105,7 +105,7 @@ function init_map() {
             let currFreeForFeatureCitizen = (currOccupancyCitizen) ? currOccupancyCitizen[feature.properties.name] : -1;
             let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
-                basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen , feature.properties.index != this.preferences.selectedParkingLot, style)
+                basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen , (this.preferences.hoveredRoute != null) ? (feature.properties.index != this.preferences.selectedParkingLot && feature.properties.index != Number(this.preferences.hoveredRoute[3])) : feature.properties.index != this.preferences.selectedParkingLot, style)
                 : analystSymbol(latlng, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeatureAnalyst, style);
         },
         onEachFeature: onEachFeature.bind(this)
@@ -186,6 +186,7 @@ function closeMarker(){
 }
 
 function onDestinationSelected(lat, lng) {
+    map.setView([lat, lng+0.004],16);
     let threshold = 50
     navigationLayer.clearLayers();
     destinationLayer.clearLayers();
@@ -195,7 +196,7 @@ function onDestinationSelected(lat, lng) {
         var lot = this.preferences.filteredParkingLots[i]
         var dist = Number(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))
         var occ = this.preferences.occupancy[preferences.days[preferences.day]][preferences.hour][lot.name]
-        distances.push([Math.round(dist*100)/100, Number(i), occ])
+        distances.push([Math.round(dist*100)/100, Number(i), occ, i])
     }
     var sort = distances.sort(function(a,b){return a[0] > b[0] ? 1 : -1})
     var filter = sort.filter(function(a){return a[2] > threshold})
@@ -203,9 +204,7 @@ function onDestinationSelected(lat, lng) {
     filter[1][1] = this.preferences.filteredParkingLots[filter[1][1]]
     filter[2][1] = this.preferences.filteredParkingLots[filter[2][1]]
     console.log(filter[0])
-    //addRoute(routing, wp)
     preferences.routes = [filter[0], filter[1], filter[2]]
-    return [lot1, lot2, lot3]
 }
 
 function presentRouteAlternatives(routes) {
@@ -241,7 +240,6 @@ function toRad(Value) {
  * on a citiy buttons. Creates a small route around the center of the city
  */
 function addRoute(routing, points) {
-    //map.setView([latitude, longitude],13);
     wayPoints = []
     routing.setWaypoints(wayPoints)
     for (var i in points) {
@@ -356,4 +354,8 @@ function basicSymbol(latlng, open, gradient, rainbow, capa, currFree, selected, 
             className: 'myDivIcon'
         })
     });
+}
+
+function findOut() {
+    console.log(geojson)
 }

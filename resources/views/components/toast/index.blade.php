@@ -1,4 +1,4 @@
-<div class="toast__message" v-for="route in routes" @click="routes=[route]">
+<div class="toast__message" v-if="view =='citizen'" v-for="(route,index) in routes" @click="routes=[route]" @mouseover="hoveredRoute = index" @mouseleave="hoveredRoute = null">
     <div class="toast__header">@{{ route[1].name }}:</div>
     <table style="width:100%">
   <tr>
