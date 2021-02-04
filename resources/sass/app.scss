@@ -444,3 +444,26 @@ th, td {
     }
   }
 }
+
+/*---------- Toast ----------*/
+
+.toast {
+  max-width: 30%;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  margin: 20px;
+
+  & > .toast__message {
+      margin-bottom: 15px;
+      padding: 10px;
+      background: $darkGray;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      @extend .h-box-shadow;
+
+      &:last-of-type {
+          margin-bottom: 0px;
+      }
+  }
+}

@@ -64,9 +64,18 @@
             </div>
             @include('components.popup.index')
           </div>
-            <div class="feedback__button">
-                @include('components.feedback.index')
-            </div>
+
+          <!-- feedback component -->
+
+          <div class="feedback__button">
+            @include('components.feedback.index')
+          </div>
+
+          <!-- toast component -->
+
+          <div class="toast">
+              @include('components.toast.index')
+          </div>
 
         </div>
 
