@@ -7,7 +7,7 @@
   <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}</div>
   <table class="table__data" v-if="selectedParkingLot == index">
     <tr v-if="day < 5">
-      <td><i class="fas fa-clock"></i></td>
+      <td><i class="fas fa-clock"> Today</i></td>
       <td>@{{ parkingLot.opening_times_mo_to_th.split(':').join(' - ').substring(1,parkingLot.opening_times_mo_to_th.split(':').join(' - ').length - 1) }}</td>
     </tr>
     <tr v-if="day == 5">
