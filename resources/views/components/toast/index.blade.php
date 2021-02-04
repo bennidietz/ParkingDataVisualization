@@ -23,9 +23,9 @@
 <table v-if="routes.length == 1">
 <hr v-if="routes.length == 1" style="border-top: dotted 4px; padding-bottom: 20px;">     
 <tr>
-    <td style="padding-left: 30px;"><img height="200px" src="{{ asset('img/google-maps-logo.png') }}" width="300" 
+    <td style="padding-left: 40px; padding-right: 40px;"><small>Open link:</small><br><img class="toast__clickable" height="200px" src="{{ asset('img/google-maps-logo.png') }}" width="300"
     @click="openNavigation(route[1].lat, route[1].lon)"/></td>
-    <td><img :src="qrCodeLinkNavigation(route[1].lat, route[1].lon)"></td>
+    <td style="padding-right: 40px;"><small>Scan Code:</small><img :src="qrCodeLinkNavigation(route[1].lat, route[1].lon)"></td>
 </tr>
 </td>
 </table>

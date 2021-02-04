@@ -468,7 +468,11 @@ th, td {
   }
 
   & > :hover {
-    background: rebeccapurple;
+    background: black;
+    li { cursor: pointer; }
+  }
+
+  & > .toast__clickable {
     li { cursor: pointer; }
   }
 }
