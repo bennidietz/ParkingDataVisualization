@@ -59,6 +59,7 @@ var geocoder = new L.control.geocoder('pk.267a89ad153e3cf0089b019ff949ac58', geo
     onDestinationSelected(e.latlng.lat, e.latlng.lng) // e.feature.feature.display_name
 });
 geocoder.addTo(map)
+var routing = null; // assign later
 
 /**
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
@@ -110,6 +111,12 @@ function init_map() {
         onEachFeature: onEachFeature.bind(this)
     })
         .addTo(layers);
+
+    routing = L.Routing.control({
+        router: L.routing.mapbox("pk.eyJ1IjoiYmVubmlkaWV0eiIsImEiOiJjamlteXFncDQwOWM0M3BtY25kNW9sbDI3In0.EfqsydBSwDkCAyp8a6Hspw"),
+        routeWhileDragging: true,
+        profile: 'walking'
+    }).addTo(map);
 };
 
 
@@ -179,14 +186,30 @@ function closeMarker(){
 }
 
 function onDestinationSelected(lat, lng) {
+    let threshold = 50
     navigationLayer.clearLayers();
     destinationLayer.clearLayers();
     addDestinationMarker(lat, lng)
+    var distances = []
     for (var i in this.preferences.filteredParkingLots) {
         var lot = this.preferences.filteredParkingLots[i]
-        var lotPoint = [Number(lot.lat), Number(lot.lng)]
-        console.log(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))   
+        var dist = Number(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))
+        var occ = this.preferences.occupancy[preferences.days[preferences.day]][preferences.hour][lot.name]
+        distances.push([dist, Number(i), occ])
     }
+    var sort = distances.sort(function(a,b){return a[0] > b[0] ? 1 : -1})
+    var filter = sort.filter(function(a){return a[2] > threshold})
+    lot1 = this.preferences.filteredParkingLots[filter[0][1]]
+    lot2 = this.preferences.filteredParkingLots[filter[1][1]]
+    lot3 = this.preferences.filteredParkingLots[filter[2][1]]
+    return [lot1, lot2, lot3]
+}
+
+function presentRouteAlternatives(routes) {
+    for (var i in routes) {
+        //addRoute(routing, [[lot1.lat, lot1.lon], [lat,lng]])
+    }
+    
 }
 
 // @source: https://stackoverflow.com/a/18883819
@@ -217,9 +240,12 @@ function toRad(Value) {
 function addRoute(routing, points) {
     //map.setView([latitude, longitude],13);
     wayPoints = []
-    for (var i = 0; i < 4; i++) {
-        wayPoints.push(L.latLng(points[i][0], points[i][1]))
+    routing.setWaypoints(wayPoints)
+    for (var i in points) {
+        console.log(L.latLng(Number(points[i][0]), Number(points[i][1])))
+        wayPoints.push(L.latLng(Number(points[i][0]), Number(points[i][1])))
     }
+    console.log(wayPoints)
     routing.setWaypoints(wayPoints);
 }
 function analystSymbol(latlng, selected, capa, currOcc, style) {
