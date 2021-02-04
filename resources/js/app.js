@@ -1,5 +1,7 @@
 require('./bootstrap');
 
+/*require('alpinejs');*/
+
 global.$ = global.jQuery = require('jquery');
 window.L = require('leaflet');
 window.Rainbow = require('rainbowvis.js');
@@ -8,7 +10,6 @@ window.moment = require('moment');
 
 window.Vue = require('vue');
 const chart = Vue.component("chart", () => import("./components/Chart.vue"));
-
 
 $(document).ready(function() {
   window.preferences = new Vue({

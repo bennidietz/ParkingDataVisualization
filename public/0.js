@@ -49,7 +49,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     getAverageOccupancies: function getAverageOccupancies(reversed) {
       var output = [];
-      var dayData = preferences.occupancy[preferences.days[preferences.day]];
+      var dayData = preferences.optimizedOcupancies[preferences.days[preferences.day]];
 
       for (var h in dayData) {
         var occupancyHour = 0;
@@ -82,7 +82,7 @@ __webpack_require__.r(__webpack_exports__);
     render: function render(animated) {
       var reversed = preferences.view != "citizen";
       var parkingLot = preferences.selectedParkingLot != null ? preferences.parkingLots[preferences.selectedParkingLot] : null;
-      var dayData = preferences.occupancy[preferences.days[preferences.day]];
+      var dayData = preferences.optimizedOcupancies[preferences.days[preferences.day]];
       var data = [];
       var capacity = 0;
 
@@ -91,8 +91,14 @@ __webpack_require__.r(__webpack_exports__);
           capacity = Number(parkingLot.capacity);
 
           if (reversed) {
-            var occupancy = ((capacity - dayData[hr][parkingLot.name]) / capacity * 100).toFixed(2);
-            data.push(occupancy);
+            var occ = dayData[hr][parkingLot.name];
+
+            if (occ != -1) {
+              var occupancy = ((capacity - occ) / capacity * 100).toFixed(2);
+              data.push(occupancy);
+            } else {
+              data.push(-1);
+            }
           } else {
             data.push(dayData[hr][parkingLot.name]);
           }
@@ -131,6 +137,11 @@ __webpack_require__.r(__webpack_exports__);
           min: 0,
           beginAtZero: true,
           max: reversed ? 100 : capacity
+        }
+      }];
+      options["scales"]["xAxes"] = [{
+        ticks: {
+          fontSize: 10
         }
       }];
 

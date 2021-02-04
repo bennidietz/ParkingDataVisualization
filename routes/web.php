@@ -14,5 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
+
+Route::get('/map', function () {
+    return view('map');
+})->name('map');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/impressum', function () {
+    return view('impressum');
+})->name('impressum');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
