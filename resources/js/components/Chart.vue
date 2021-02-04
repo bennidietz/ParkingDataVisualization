@@ -76,10 +76,14 @@ export default {
       if (parkingLot != null) {
         for (var hr in dayData) {
           capacity = Number(parkingLot.capacity);
-
           if (reversed) {
-            var occupancy = ((capacity - dayData[hr][parkingLot.name]) / capacity * 100).toFixed(2);
-            data.push(occupancy);
+            var occ = dayData[hr][parkingLot.name]
+            if (occ != -1) {
+              var occupancy = ((capacity - occ) / capacity * 100).toFixed(2);
+              data.push(occupancy);
+            } else {
+              data.push(-1)
+            }
           } else {
              data.push(dayData[hr][parkingLot.name]);
           }
