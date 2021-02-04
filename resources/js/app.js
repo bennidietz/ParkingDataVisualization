@@ -88,11 +88,47 @@ $(document).ready(function() {
 
         return [];
       },
+      optimizedOcupancies: function optimizedOcupancies() {
+        var cpOccupancies = this.occupancy;
+        for (var j in this.filteredParkingLots) {
+        var lot = this.filteredParkingLots[j];
+        var mo_th = this.disableHoursClosed(lot.opening_times_mo_to_th);
+        var fr = this.disableHoursClosed(lot.opening_times_fr);
+        var sa = this.disableHoursClosed(lot.opening_times_sa);
+        var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday"]
+        weekdays.forEach( d => {
+          for (var h in cpOccupancies[d]) {
+            if (h < mo_th[0] || h > mo_th[1]) {		
+              cpOccupancies[d][h][lot.name] = -1
+            }
+          }
+        });
+        for (var h in cpOccupancies["Friday"]) {
+          if (h < fr[0] || h > fr[1]) {		
+            cpOccupancies["Friday"][h][lot.name] = -1
+          }
+          
+        }
+        for (var h in cpOccupancies["Saturday"]) {
+          if (h < sa[0] || h > sa[1]) {		
+            cpOccupancies["Saturday"][h][lot.name] = -1
+          }
+        }
+        }
+      return cpOccupancies;
+      }
     },
     methods: {
       init: function() {
         init_map();
         this.$refs.chart.render(true);
+      },
+      disableHoursClosed: function(string) {
+        var start = string.split(":")[0].match(/[0-9]+/g)
+        if (start.length > 1) start = start[0]
+        var end = string.split(":")[1].match(/[0-9]+/g)
+        if (end.length > 1) end = end[0]
+        return [Number(start), Number(end)]
       },
       resetDate: function() {
         if (!this.visualizing) {

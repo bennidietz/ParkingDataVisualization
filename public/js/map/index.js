@@ -202,6 +202,9 @@ function onDestinationSelected(lat, lng) {
     lot1 = this.preferences.filteredParkingLots[filter[0][1]]
     lot2 = this.preferences.filteredParkingLots[filter[1][1]]
     lot3 = this.preferences.filteredParkingLots[filter[2][1]]
+    var wp = [[lot1.lat, lot1.lon], [lat,lng]]
+    console.log(wp)
+    //addRoute(routing, wp)
     return [lot1, lot2, lot3]
 }
 
