@@ -1,4 +1,6 @@
-# ParkingDataVisualization
+<p align="center"><img src="https://gins.christian-terbeck.de/img/logo_transparent.png" /></p>
+
+# IntelliPark
 
 Geoinformation in Society project at the ifgi in Münster: Visualization of parking data in Münster
 
@@ -6,7 +8,7 @@ Geoinformation in Society project at the ifgi in Münster: Visualization of park
 
 
 We intend to visualize data of parking lots in Münster.
-Two user groups can benefit from our application: 
+Two user groups can benefit from our application:
 1) Car drivers who want to find the best parking solution
 2) Analysts can look at occupancy of parking lots - this may be helpful for city planners or simply citienzens that are interested in parking statistics
 
