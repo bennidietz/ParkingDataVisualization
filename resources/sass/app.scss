@@ -458,12 +458,17 @@ th, td {
       margin-bottom: 15px;
       padding: 10px;
       background: $darkGray;
-      font-size: 0.8rem;
+      font-size: 1.2rem;
       border-radius: 5px;
       @extend .h-box-shadow;
 
       &:last-of-type {
           margin-bottom: 0px;
       }
+  }
+
+  & > :hover {
+    background: rebeccapurple;
+    li { cursor: pointer; }
   }
 }

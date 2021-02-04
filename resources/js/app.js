@@ -39,6 +39,7 @@ $(document).ready(function() {
       },
       parkingLots: null,
       selectedParkingLot: null,
+      routes: null,
       popupMinimized: false,
       occupancy: null,
     },
@@ -175,6 +176,22 @@ $(document).ready(function() {
             setTimeout('window.preferences.runVisualization()', interval);
           }
         }
+      },
+      priceToString: function(parkingLot) {
+        if (parkingLot.price_per_hour.length > 0) {
+          return this.numberToEuroString(parkingLot.price_per_hour) + " / h"
+        } else if (parkingLot.price_per_30_minutes.length > 0) {
+          return this.numberToEuroString(parkingLot.price_per_30_minutes) + " / 30 min"
+        }
+      },
+      numberToEuroString: function(number) {
+        return new Intl.NumberFormat("de-DE", {style: "currency", currency: "EUR"}).format(number)
+      },
+      openNavigation: function(lat,lng) {
+        window.location.href = 'https://maps.google.com/?q=' + lat + ',' + lng
+      },
+      qrCodeLinkNavigation: function(lat,lng) {
+        return 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=' + 'https://maps.google.com/?q=' + lat + ',' + lng
       }
     },
     watch: {

@@ -195,16 +195,16 @@ function onDestinationSelected(lat, lng) {
         var lot = this.preferences.filteredParkingLots[i]
         var dist = Number(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))
         var occ = this.preferences.occupancy[preferences.days[preferences.day]][preferences.hour][lot.name]
-        distances.push([dist, Number(i), occ])
+        distances.push([Math.round(dist*100)/100, Number(i), occ])
     }
     var sort = distances.sort(function(a,b){return a[0] > b[0] ? 1 : -1})
     var filter = sort.filter(function(a){return a[2] > threshold})
-    lot1 = this.preferences.filteredParkingLots[filter[0][1]]
-    lot2 = this.preferences.filteredParkingLots[filter[1][1]]
-    lot3 = this.preferences.filteredParkingLots[filter[2][1]]
-    var wp = [[lot1.lat, lot1.lon], [lat,lng]]
-    console.log(wp)
+    filter[0][1] = this.preferences.filteredParkingLots[filter[0][1]]
+    filter[1][1] = this.preferences.filteredParkingLots[filter[1][1]]
+    filter[2][1] = this.preferences.filteredParkingLots[filter[2][1]]
+    console.log(filter[0])
     //addRoute(routing, wp)
+    preferences.routes = [filter[0], filter[1], filter[2]]
     return [lot1, lot2, lot3]
 }
 
