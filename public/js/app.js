@@ -94816,7 +94816,8 @@ $(document).ready(function () {
       filters: {
         disabled: false,
         women: false,
-        electric: false
+        electric: false,
+        parkandride: false
       },
       parkingLots: null,
       selectedParkingLot: null,
@@ -94871,7 +94872,7 @@ $(document).ready(function () {
 
         if (this.parkingLots != null) {
           return this.parkingLots.filter(function (parkingLot) {
-            return (!_this2.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!_this2.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!_this2.filters.electric || parseInt(parkingLot.capacity_electric) > 0);
+            return (!_this2.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!_this2.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!_this2.filters.electric || parseInt(parkingLot.capacity_electric) > 0) && (!String(parkingLot.name).includes("P+R") || _this2.filters.parkandride && parkingLot.name.includes("P+R"));
           });
         }
 
@@ -95005,6 +95006,11 @@ $(document).ready(function () {
         if (this.parkingLots && this.occupancy) {
           init_map();
         }
+      },
+      'filters.parkandride': function filtersParkandride(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
+        }
       }
     }
   });
@@ -95063,8 +95069,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

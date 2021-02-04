@@ -35,6 +35,7 @@ $(document).ready(function() {
         disabled: false,
         women: false,
         electric: false,
+        parkandride: false,
       },
       parkingLots: null,
       selectedParkingLot: null,
@@ -82,7 +83,10 @@ $(document).ready(function() {
       filteredParkingLots: function() {
         if (this.parkingLots != null) {
           return this.parkingLots.filter(parkingLot => {
-            return ((!this.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!this.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!this.filters.electric || parseInt(parkingLot.capacity_electric) > 0));
+            return ((!this.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0)
+             && (!this.filters.women || parseInt(parkingLot.capacity_women) > 0)
+             && (!this.filters.electric || parseInt(parkingLot.capacity_electric) > 0)
+             && (!String(parkingLot.name).includes("P+R") || (this.filters.parkandride && parkingLot.name.includes("P+R"))));
           })
         }
 
@@ -98,19 +102,19 @@ $(document).ready(function() {
         var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday"]
         weekdays.forEach( d => {
           for (var h in cpOccupancies[d]) {
-            if (h < mo_th[0] || h > mo_th[1]) {		
+            if (h < mo_th[0] || h > mo_th[1]) {
               cpOccupancies[d][h][lot.name] = -1
             }
           }
         });
         for (var h in cpOccupancies["Friday"]) {
-          if (h < fr[0] || h > fr[1]) {		
+          if (h < fr[0] || h > fr[1]) {
             cpOccupancies["Friday"][h][lot.name] = -1
           }
-          
+
         }
         for (var h in cpOccupancies["Saturday"]) {
-          if (h < sa[0] || h > sa[1]) {		
+          if (h < sa[0] || h > sa[1]) {
             cpOccupancies["Saturday"][h][lot.name] = -1
           }
         }
@@ -214,7 +218,12 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy) {
           init_map();
         }
+      },
+      'filters.parkandride': function(newVal, oldVal) {
+        if (this.parkingLots && this.occupancy) {
+          init_map();
       }
+     }
     }
   });
 });

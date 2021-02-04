@@ -2,6 +2,7 @@
   <li class="fas fa-wheelchair" :class="{'active': filters.disabled}" @click="filters.disabled = !filters.disabled"></li>
   <li class="fas fa-female" :class="{'active': filters.women}" @click="filters.women = !filters.women"></li>
   <li class="fas fa-charging-station" :class="{'active': filters.electric}" @click="filters.electric = !filters.electric"></li>
+  <li class="fas fa-exchange-alt" :class="{'active': filters.parkandride}" @click="filters.parkandride = !filters.parkandride"></li>
 </ul>
 <div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in filteredParkingLots">
   <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}</div>
