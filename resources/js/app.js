@@ -128,6 +128,7 @@ $(document).ready(function() {
         if (start.length > 1) start = start[0]
         var end = string.split(":")[1].match(/[0-9]+/g)
         if (end.length > 1) end = end[0]
+        if (end < start) end = 24
         return [Number(start), Number(end)]
       },
       resetDate: function() {
