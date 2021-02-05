@@ -138,7 +138,7 @@ export default {
         tooltips: {
           callbacks: {
             label: function(tooltipItem, data) {
-              return "Occupancy: " + tooltipItem.yLabel  + " %"
+              return (reversed) ? "Occupancy: " + tooltipItem.yLabel  + " %" : tooltipItem.yLabel + " free parking spaces"
             }
           }
         }
