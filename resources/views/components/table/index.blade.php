@@ -11,7 +11,7 @@
   <table class="table__data" v-if="selectedParkingLot == index">
     <template v-if="view == 'citizen'">
     <tr>
-      <td>
+      <td width ="20%">
         <div class="dropdown">
           <button class="dropbtn"><i class="fas fa-clock"></i>&nbsp; Today</button>
           <div class="dropdown-content">
@@ -75,6 +75,7 @@
         <td v-else> <i class="fas fa-coins"></i></td>
         <td v-if="parkingLot.night_price_per_hour_20_to_8 > 0 & (hour >= 20 | hour < 8)">@{{ parkingLot.night_price_per_hour_20_to_8 }} € /hour</td>
         <td v-if="parkingLot.price_per_hour > 0 & (hour < 20 & hour >= 8)">@{{ parkingLot.price_per_hour }} € /hour</td>
+        <td v-if="parkingLot.price_per_hour > 0 & parkingLot.night_price_per_hour_20_to_8 == 0 ">@{{ parkingLot.price_per_hour }} € /hour</td>
         <td v-if="parkingLot.price_per_30_minutes > 0 & day != 7">@{{ parkingLot.price_per_30_minutes }} € /30min</td>
         <td v-if="parkingLot.su_price_30_minutes > 0 & day == 7">@{{ parkingLot.su_price_30_minutes }} € /30min</td>
       </tr>
@@ -83,7 +84,7 @@
           <div class="dropdown">
             <button class="dropbtn"><i class="fas fa-coins"></i></button>
             <div class="dropdown-content"></i></i>
-              <p  v-if="parkingLot.night_price_max > 0">8 PM - 8 AM: @{{ parkingLot.night_price_max	}} € max</p>
+              <p v-if="parkingLot.night_price_max > 0">8 PM - 8 AM: @{{ parkingLot.night_price_max	}} € max</p>
               <p v-if="parkingLot.su_price_day > 0">Mo-Sa: @{{ parkingLot.price_per_day	}} € /day</p>
               <p v-if="parkingLot.su_price_day > 0">Su: @{{ parkingLot.su_price_day	}} € /day</p>
         </td>
@@ -91,12 +92,13 @@
         <td v-if="day == 7 & parkingLot.su_price_day > 0">@{{ parkingLot.su_price_day }} € /day</td>
         <template v-else>
           <td v-if="hour < 20 & hour >= 8">@{{ parkingLot.price_per_day }} € /day</td>
+          <td v-if="parkingLot.night_price_max == 0">@{{ parkingLot.price_per_day }} € /day</td>
           <td v-if="parkingLot.night_price_max > 0 & (hour >= 20 | hour < 8)">@{{ parkingLot.night_price_max }} € /night</td>
         </template>
       </tr>
       <tr>
         <td><i class="fas fa-link"></i></td>
-        <td><a v-bind:href ="parkingLot.website" target="_blank" style="color:yellow;">@{{ parkingLot.website }}</a></td>
+        <td><a v-bind:href ="parkingLot.website" target="_blank" style="color:yellow;">Visit Website</a></td>
       </tr>
       <tr v-if="parkingLot.notes.length > 0">
         <td><i class="fas fa-sticky-note"></i></td>
