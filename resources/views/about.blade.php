@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- 
+    <!--
     	Story by HTML5 UP
     	html5up.net | @ajlkn
     	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
@@ -14,7 +14,6 @@
         margin: 0px;
         padding: 0px;
         background: #444444;
-        font-family: "Montserrat";
         color: #FFFFFF;
         overflow-x: hidden;
         overflow-y: auto;
@@ -29,7 +28,7 @@
       <div class="content">
         <h1>Sick of waiting in a line of cars?</h1>
         <ul class="actions stacked">
-          <li><a href="#first" class="button big wide smooth-scroll-middle">Try out our web app for...</a></li>
+          <li><a href="#first" class="button big wide smooth-scroll-middle">Use our web app to...</a></li>
         </ul>
       </div>
       <!-- Photo by Lisa Fotios from Pexels -->
@@ -40,7 +39,7 @@
 
     <section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="first">
       <div class="content">
-        <h2>finding parking lots that will definitevely have a free spot for you!</h2>
+        <h2>find parking lots that will definitevely have a free spot for you!</h2>
         <ul class="actions stacked">
           <li><a href="#second" class="button">What else?</a></li>
         </ul>
@@ -54,7 +53,7 @@
     <!-- Three -->
       <section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="second">
         <div class="content">
-          <h2>identifying crowded areas where building a new car park would pay off!</h2>
+          <h2>identify crowded areas where building a new car park would pay off!</h2>
           <ul class="actions stacked">
             <li><a href="#third" class="button">That's it?</a></li>
           </ul>
@@ -68,7 +67,7 @@
       <!-- Four -->
         <section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="third">
           <div class="content">
-            <h2>detecting unprofitable opening times of your car park!</h2>
+            <h2>detect unprofitable opening times of your car park!</h2>
             <ul class="actions stacked">
               <li><a href="{{ route('map') }}" class="button">Show me!</a></li>
             </ul>
