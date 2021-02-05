@@ -97,15 +97,16 @@ export default {
         }
       };
 
-      if (!animated) {
-        options["animation"] = { duration: 0 };
-      }
-
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
           preferences.day = this.getElementsAtEvent(e)[0]._index + 1;
         }
       }
+
+      if (!animated) {
+        options["animation"] = { duration: 0 };
+      }
+      
       this.renderChart(chartdata, options);
     }
   }

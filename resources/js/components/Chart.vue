@@ -152,9 +152,7 @@ export default {
 
       if (!animated) {
         options["animation"] = { duration: 0 };
-      }
-
-      
+      }      
 
       chartdata.datasets[0]["label"] = (reversed) ? 'Occupied parking places in %' : 'Free parking places';
       this.renderChart(chartdata, options);

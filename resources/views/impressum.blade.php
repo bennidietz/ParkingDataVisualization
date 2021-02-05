@@ -35,8 +35,7 @@
         Institut für Geoinformatik<br>
         GEO1<br>
         Heisenbergstr. 2<br>
-        48149 Münster<br>
-        Tel.: 0251 8333083<br><br>
+        48149 Münster<br><br>
           <li><a href="https://github.com/bennidietz/ParkingDataVisualization" class="button big wide smooth-scroll-middle">Find our code on Github</a></li>
           <br>
         </ul>
