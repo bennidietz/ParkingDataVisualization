@@ -231,6 +231,7 @@ function onDestinationSelected(lat, lng) {
         var lot = this.preferences.filteredParkingLots[i]
         var dist = Number(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))
         var occ = this.preferences.occupancy[preferences.days[preferences.day]][preferences.hour][lot.name]
+        occ = (occ) ? occ : threshold+1;
         distances.push([Math.round(dist*100)/100, Number(i), occ, i])
     }
     var sort = distances.sort(function(a,b){return a[0] > b[0] ? 1 : -1})
