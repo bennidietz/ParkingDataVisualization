@@ -182,12 +182,12 @@ function whenNothingClicked(e) {
 
 function addMarker(e) {
     navigationLayer.clearLayers();
-    let iconHtlm = '<i class="fas fa-map-marker-alt fa-2x" style="color:#0046db;font-size: 3em;"></i>'
+    let iconHtlm = '<i class="fas fa-location-arrow fa-2x" style="color:#0046db;font-size: 3em;"></i>'
     var newMarker = new L.marker(e.latlng, {
         icon: L.divIcon({
             html: iconHtlm,
             iconSize: [40, 40],
-            iconAnchor: [20, 0],
+            iconAnchor: [40, 0],
             className: 'myDivIcon'
         })
     }).addTo(navigationLayer);
@@ -197,12 +197,12 @@ function addMarker(e) {
 }
 
 function addDestinationMarker(lat, lng) {
-    let iconHtlm = '<i class="fas fa-map-marker-alt fa-2x" style="color:#0046db;font-size: 3em;"></i>'
+    let iconHtlm = '<i class="fas fa-location-arrow fa-2x" style="color:#0046db;font-size: 3em;"></i>'
     var newMarker = new L.marker(L.latLng(lat,lng),{
         icon: L.divIcon({
             html: iconHtlm,
             iconSize: [40, 40],
-            iconAnchor: [20, 0],
+            iconAnchor: [40, 0],
             className: 'myDivIcon'
         })
     });
