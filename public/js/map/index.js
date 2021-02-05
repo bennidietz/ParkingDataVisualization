@@ -182,14 +182,30 @@ function whenNothingClicked(e) {
 
 function addMarker(e) {
     navigationLayer.clearLayers();
-    var newMarker = new L.marker(e.latlng).addTo(navigationLayer);
+    let iconHtlm = '<i class="fas fa-map-marker-alt fa-2x" style="color:#0046db;font-size: 3em;"></i>'
+    var newMarker = new L.marker(e.latlng, {
+        icon: L.divIcon({
+            html: iconHtlm,
+            iconSize: [40, 40],
+            iconAnchor: [20, 0],
+            className: 'myDivIcon'
+        })
+    }).addTo(navigationLayer);
     newMarker.bindPopup("<div class='navigation-question-wrapper'><div class='navigation-question'>Navigate here?</div></br>" +
         "<button onclick='onDestinationSelected("+ e.latlng.lat +","+ e.latlng.lng +")' class='navigation-button'>Yes</button>" +
         "<button onclick='closeMarker()' class='navigation-button'>No</button></div>").openPopup();
 }
 
 function addDestinationMarker(lat, lng) {
-    var newMarker = new L.marker(L.latLng(lat,lng));
+    let iconHtlm = '<i class="fas fa-map-marker-alt fa-2x" style="color:#0046db;font-size: 3em;"></i>'
+    var newMarker = new L.marker(L.latLng(lat,lng),{
+        icon: L.divIcon({
+            html: iconHtlm,
+            iconSize: [40, 40],
+            iconAnchor: [20, 0],
+            className: 'myDivIcon'
+        })
+    });
     newMarker.addTo(destinationLayer);
 }
 
