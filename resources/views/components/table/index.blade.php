@@ -11,7 +11,7 @@
   <table class="table__data" v-if="selectedParkingLot == index">
     <template v-if="view == 'citizen'">
     <tr>
-      <td width ="20%">
+      <td width ="50%">
         <div class="dropdown">
           <button class="dropbtn"><i class="fas fa-clock"></i>&nbsp; Today</button>
           <div class="dropdown-content">
