@@ -22,14 +22,7 @@
   border-radius: 3px;
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: white;
-  padding: 3px 4px;
-  text-decoration: none;
-  display: block;
-}
-
+/* Paragraphs inside the dropdown */
 .dropdown-content p {
   color: white;
   padding: 3px 6px;
@@ -46,6 +39,7 @@
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
+/* put the text in the middle */
 td {
   text-align: center;
 }
