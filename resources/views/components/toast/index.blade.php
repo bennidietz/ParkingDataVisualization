@@ -1,4 +1,4 @@
-<div class="toast__message" v-if="view =='citizen'" v-for="(route,index) in routes" @click="routes=[route]" @mouseover="hoveredRoute = index" @mouseleave="hoveredRoute = null">
+<div class="toast__message" :class="{'h-clickable': routes.length != 1}" v-if="view =='citizen'" v-for="(route,index) in routes" @click="routes=[route]" @mouseover="hoveredRoute = index" @mouseleave="hoveredRoute = null">
     <div class="toast__header">@{{ route[1].name }}:</div>
     <table style="width:100%">
         <tr>
@@ -29,7 +29,7 @@
         <tr>
             <td style="padding-left: 40px; padding-right: 40px;">
                 <small>Open link:</small><br>
-                <img class="toast__clickable" height="200px" src="{{ asset('img/google-maps-logo.png') }}" width="300" @click="openNavigation(route[1].lat, route[1].lon)" />
+                <img class="h-clickable toast__clickable" height="200px" src="{{ asset('img/google-maps-logo.png') }}" width="300" @click="openNavigation(route[1].lat, route[1].lon)" />
             </td>
             <td style="padding-right: 40px;">
                 <small>Scan Code:</small>

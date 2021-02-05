@@ -108,11 +108,6 @@ export default {
       chartdata.datasets[0].data = data;
       chartdata.datasets[0].backgroundColor = this.dayColor(reversed, data, capacity);
       chartdata.datasets[0].borderColor = this.dayColor(reversed, data, capacity);
-      var options = {};
-
-      if (!animated) {
-        options["animation"] = { duration: 0 };
-      }
 
       var options = {
         title: {
@@ -148,6 +143,10 @@ export default {
           }
         }
       };
+
+      if (!animated) {
+        options["animation"] = { duration: 0 };
+      }
 
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
