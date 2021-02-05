@@ -212,7 +212,6 @@ $(document).ready(function() {
     },
     watch: {
       'view': function (newVal, oldVal) {
-        alert("he")
         preferences.filters.parkandride = false
         if (newVal == 'analyst') {
           this.$refs.sumchartoverweek.render(true)
