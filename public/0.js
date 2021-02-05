@@ -123,14 +123,6 @@ __webpack_require__.r(__webpack_exports__);
       chartdata.datasets[0].data = data;
       chartdata.datasets[0].backgroundColor = this.dayColor(reversed, data, capacity);
       chartdata.datasets[0].borderColor = this.dayColor(reversed, data, capacity);
-      var options = {};
-
-      if (!animated) {
-        options["animation"] = {
-          duration: 0
-        };
-      }
-
       var options = {
         title: {
           display: true,
@@ -171,6 +163,12 @@ __webpack_require__.r(__webpack_exports__);
           preferences.hour = this.getElementsAtEvent(e)[0]._index;
         }
       };
+
+      if (!animated) {
+        options["animation"] = {
+          duration: 0
+        };
+      }
 
       chartdata.datasets[0]["label"] = reversed ? 'Occupied parking places in %' : 'Free parking places';
       this.renderChart(chartdata, options);

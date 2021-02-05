@@ -33,10 +33,10 @@ export default {
           dataSet[k] = Math.round(dataSet[k]/6 * 100) / 100
           if (dataSet[k] == 0) dataSet[k] = null
         }
-        //dataSet = dataSet.filter((a) => Math.round(a/6 * 100) / 100) // we have data for six weekday
         allData.push(dataSet)
       }
-      console.log(allData)
+
+      preferences.print(allData)
 
       var chartdata = {
         datasets: []
@@ -101,16 +101,15 @@ export default {
         }
       };
 
-      if (!animated) {
-        options["animation"] = { duration: 0 };
-      }
-
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
           preferences.selectedParkingLot = this.getElementsAtEvent(e)[0]._index;
         }
       }
 
+      if (!animated) {
+        options["animation"] = { duration: 0 };
+      }
 
       this.renderChart(chartdata, options);
     }

@@ -94801,6 +94801,9 @@ var sumchartoverweekall = Vue.component("sumchartoverweekall", function () {
 var sumchartoverhours = Vue.component("sumchartoverhours", function () {
   return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhours.vue */ "./resources/js/components/Sumchartoverhours.vue"));
 });
+var sumchartoverhoursall = Vue.component("sumchartoverhoursall", function () {
+  return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhoursall.vue */ "./resources/js/components/Sumchartoverhoursall.vue"));
+});
 $(document).ready(function () {
   window.preferences = new Vue({
     el: '#preferences',
@@ -94808,7 +94811,8 @@ $(document).ready(function () {
       'chart': chart,
       'sumchartoverweek': sumchartoverweek,
       'sumchartoverweekall': sumchartoverweekall,
-      'sumchartoverhours': sumchartoverhours
+      'sumchartoverhours': sumchartoverhours,
+      'sumchartoverhoursall': sumchartoverhoursall
     },
     data: {
       greenColor: 'rgba(84, 255, 69, 1)',
@@ -94932,6 +94936,7 @@ $(document).ready(function () {
         this.$refs.sumchartoverweek.render(true);
         this.$refs.sumchartoverweekall.render(true);
         this.$refs.sumchartoverhours.render(true);
+        this.$refs.sumchartoverhoursall.render(true);
       },
       print: function print(data) {
         console.log(data);
@@ -95008,33 +95013,34 @@ $(document).ready(function () {
       'view': function view(newVal, oldVal) {
         preferences.filters.parkandride = false;
 
+        if (newVal == 'analyst') {
+          this.$refs.sumchartoverweek.render(true);
+          this.$refs.sumchartoverweekall.render(true);
+          this.$refs.sumchartoverhours.render(true);
+          this.$refs.sumchartoverhoursall.render(true);
+        }
+
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
-
-          if (this.selectedParkingLot == null) {
-            this.$refs.sumchartoverweekall.render(true);
-          } else {
-            this.$refs.sumchartoverweek.render(true);
-          }
-
-          this.$refs.sumchartoverhours.render(true);
         }
+      },
+      'routes': function routes(newVal, oldVal) {
+        this.selectedParkingLot = null;
       },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
         this.popupMinimized = false;
 
+        if (this.view == 'analyst') {
+          this.$refs.sumchartoverweek.render(true);
+          this.$refs.sumchartoverweekall.render(true);
+          this.$refs.sumchartoverhours.render(true);
+          this.$refs.sumchartoverhoursall.render(true);
+        }
+
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
-
-          if (newVal != null) {
-            this.$refs.sumchartoverweek.render(true);
-          } else {
-            this.$refs.sumchartoverweekall.render(true);
-          }
-
-          this.$refs.sumchartoverhours.render(true);
         }
       },
       'hoveredRoute': function hoveredRoute(newVal, oldVal) {
@@ -95042,21 +95048,18 @@ $(document).ready(function () {
       },
       'day': function day(newVal, oldVal) {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
-          this.$refs.chart.render(true);
+          this.$refs.chart.render(false);
           init_map();
           this.$refs.sumchartoverhours.render(false);
+          this.$refs.sumchartoverhoursall.render(false);
         }
       },
       'hour': function hour(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
-          this.$refs.chart.render(false);
           init_map();
-
-          if (this.selectedParkingLot != null) {
-            this.$refs.sumchartoverweek.render(false);
-          } else {
-            this.$refs.sumchartoverweekall.render(true);
-          }
+          this.$refs.chart.render(false);
+          this.$refs.sumchartoverweek.render(false);
+          this.$refs.sumchartoverweekall.render(false);
         }
       },
       'filters.disabled': function filtersDisabled(newVal, oldVal) {

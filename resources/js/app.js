@@ -245,7 +245,7 @@ $(document).ready(function() {
       },
       'day': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
-          this.$refs.chart.render(true);
+          this.$refs.chart.render(false);
           init_map();
           this.$refs.sumchartoverhours.render(false)
           this.$refs.sumchartoverhoursall.render(false)
@@ -253,8 +253,8 @@ $(document).ready(function() {
       },
       'hour': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
-          this.$refs.chart.render(false);
           init_map();
+          this.$refs.chart.render(false);
           this.$refs.sumchartoverweek.render(false)
           this.$refs.sumchartoverweekall.render(false)
         }

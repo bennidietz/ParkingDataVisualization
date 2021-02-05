@@ -4,64 +4,60 @@
 
 <script>
 
-import { Bar } from 'vue-chartjs';
+import { Line } from 'vue-chartjs';
 
 export default {
-  extends: Bar,
+  extends: Line,
   methods: {
-    dayColor: function(data) {
-      var output = [];
-      for (var i = 0; i < 6; i++) {
-        var occ_ratio = Number(data[i])
-        var isSelected = preferences.day == i+1;
-        if (occ_ratio > 85) {
-          output.push((isSelected) ? preferences.redColor : preferences.redColorLight);
-        } else if (occ_ratio > 70) {
-          output.push((isSelected) ? preferences.orangeColor : preferences.orangeColorLight);
-        } else if (occ_ratio > 55) {
-          output.push((isSelected) ? preferences.yellowColor : preferences.yellowColorLight);
-        } else {
-          output.push((isSelected) ? preferences.greenColor : preferences.greenColorLight);
-        }
-      }
-      return output;
-    },
     render: function(animated) {
-      const parkingLot = (preferences.selectedParkingLot != null) ? preferences.parkingLots[preferences.selectedParkingLot] : null;
-      var data = Array.from({length: 6}, () => 0);
+      var allData = []
       var capacity = 0;
 
-      for (var d in preferences.days.slice(1,7)) {
-        const dayData = preferences.optimizedOcupancies[preferences.days.slice(1,7)[d]]
-        if (parkingLot != null) {
-          for (var hr in dayData) {
-            capacity = Number(parkingLot.capacity);
-            var occ = Number(dayData[hr][parkingLot.name])
-            if (occ != -1) {
-              var occupancy = ((capacity - occ) / capacity * 100).toFixed(2);
-              data[d] += Number(occupancy)
+      for (var i in preferences.filteredParkingLots) {
+        var parkingLot = preferences.filteredParkingLots[i]
+        var dataSet = Array.from({length: 6}, () => 0);
+        for (var d in preferences.days.slice(1,7)) {
+          const dayData = preferences.optimizedOcupancies[preferences.days.slice(1,7)[d]]
+          if (parkingLot != null) {
+            for (var hr in dayData) {
+              capacity = Number(parkingLot.capacity);
+              var occ = Number(dayData[hr][parkingLot.name])
+              if (occ != -1) {
+                var occupancy = ((capacity - occ) / capacity * 100).toFixed(2);
+                dataSet[d] += Number(occupancy)
+              }
             }
           }
         }
+        for (var e in dataSet) {
+          dataSet[e] = Math.round(dataSet[e] * 100 / 24) / 100 // we have data for 24 hours
+        }
+        allData.push(dataSet)
       }
 
-      for (var e in data) data[e] = Math.round(data[e] / 24 * 100) / 100 // we have data for 24 hours
-      console.log(data)
+      preferences.print("hier")
+      preferences.print(allData)
       var chartdata = {
-        datasets: [
-          {
-            fill: false,
-            borderWidth: 1,
-            radius: 4
-          }
-        ]
+        datasets: []
       };
+      
 
+      var colors= ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 
+      'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 
+      'silver', 'teal', 'white', 'yellow'];
+
+      for (var i in allData) {
+        chartdata.datasets.push({
+          radius: 1.5,
+            data: allData[i],
+            backgroundColor: colors[i],
+            borderColor: colors[i],
+            fill: false
+          })
+      }
+      
       chartdata.labels = preferences.days.slice(1,7)
 
-      chartdata.datasets[0].data = data;
-      chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity);
-      chartdata.datasets[0].borderColor = this.dayColor(data, capacity);
       var options = {
         title: {
           display: true,
@@ -86,26 +82,34 @@ export default {
           }]
         },
         legend: {
-          display: false
+          display: false,
+          usePointStyle: true
         },
         tooltips: {
           callbacks: {
             label: function(tooltipItem, data) {
               return "Occupancy: " + tooltipItem.yLabel  + " %"
+            },
+            title: function(tooltipItem, data) {
+              return preferences.filteredParkingLots[tooltipItem[0]["datasetIndex"]].name
             }
           }
+        },
+        hover: {
+          mode: 'dataset'
         }
       };
-
-      if (!animated) {
-        options["animation"] = { duration: 0 };
-      }
 
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
           preferences.day = this.getElementsAtEvent(e)[0]._index + 1;
         }
       }
+
+      if (!animated) {
+        options["animation"] = { duration: 0 };
+      }
+
       this.renderChart(chartdata, options);
     }
   }
