@@ -137,6 +137,7 @@ $(document).ready(function() {
         this.$refs.sumchartoverweek.render(true)
         this.$refs.sumchartoverweekall.render(true)
         this.$refs.sumchartoverhours.render(true)
+        this.$refs.sumchartoverhoursall.render(true)
       },
       print: function(data) {
         console.log(data);
@@ -210,29 +211,28 @@ $(document).ready(function() {
     watch: {
       'view': function (newVal, oldVal) {
         preferences.filters.parkandride = false
+        if (newVal == 'analyst') {
+          this.$refs.sumchartoverweek.render(true)
+          this.$refs.sumchartoverweekall.render(true)
+          this.$refs.sumchartoverhours.render(true)
+          this.$refs.sumchartoverhoursall.render(true)
+        }
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
-          if (this.selectedParkingLot == null) {
-            this.$refs.sumchartoverweekall.render(true)
-          } else {
-            this.$refs.sumchartoverweek.render(true)
-          }
-          this.$refs.sumchartoverhours.render(true)
         }
       },
       'selectedParkingLot': function (newVal, oldVal) {
         this.popupMinimized = false;
-
+        if (this.view == 'analyst') {
+          this.$refs.sumchartoverweek.render(true)
+          this.$refs.sumchartoverweekall.render(true)
+          this.$refs.sumchartoverhours.render(true)
+          this.$refs.sumchartoverhoursall.render(true)
+        }
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
-          if (newVal != null) {
-            this.$refs.sumchartoverweek.render(true)
-          } else {
-            this.$refs.sumchartoverweekall.render(true)
-          }
-          this.$refs.sumchartoverhours.render(true)
         }
       },
       'hoveredRoute': function(newVal, oldVal) {
@@ -243,17 +243,15 @@ $(document).ready(function() {
           this.$refs.chart.render(true);
           init_map();
           this.$refs.sumchartoverhours.render(false)
+          this.$refs.sumchartoverhoursall.render(false)
         }
       },
       'hour': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(false);
           init_map();
-          if (this.selectedParkingLot != null) {
-            this.$refs.sumchartoverweek.render(false)
-          } else {
-            this.$refs.sumchartoverweekall.render(true)
-          }
+          this.$refs.sumchartoverweek.render(false)
+          this.$refs.sumchartoverweekall.render(false)
         }
       },
       'filters.disabled': function(newVal, oldVal) {
