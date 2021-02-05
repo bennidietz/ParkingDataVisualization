@@ -1,7 +1,6 @@
-<div>
-<!--<sumchartoverweek v-if="selectedParkingLot != null" ref="sumchartoverweek" :options="{}"  />-->
-<sumchartoverweekall ref="sumchartoverweekall" :options="{}"  />
+<div v-show="selectedParkingLot != null">
+<sumchartoverweek ref="sumchartoverweek" :options="{}"  />
 </div>
-<div>
+<div v-show="selectedParkingLot != null">
 <sumchartoverhours ref="sumchartoverhours" :options="{}"  />
 </div>
