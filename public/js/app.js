@@ -94793,16 +94793,16 @@ var chart = Vue.component("chart", function () {
   return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
 });
 var sumchartoverweek = Vue.component("sumchartoverweek", function () {
-  return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverweek.vue */ "./resources/js/components/Sumchartoverweek.vue"));
+  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverweek.vue */ "./resources/js/components/Sumchartoverweek.vue"));
 });
 var sumchartoverweekall = Vue.component("sumchartoverweekall", function () {
-  return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverweekall.vue */ "./resources/js/components/Sumchartoverweekall.vue"));
+  return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverweekall.vue */ "./resources/js/components/Sumchartoverweekall.vue"));
 });
 var sumchartoverhours = Vue.component("sumchartoverhours", function () {
-  return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhours.vue */ "./resources/js/components/Sumchartoverhours.vue"));
+  return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhours.vue */ "./resources/js/components/Sumchartoverhours.vue"));
 });
 var sumchartoverhoursall = Vue.component("sumchartoverhoursall", function () {
-  return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhoursall.vue */ "./resources/js/components/Sumchartoverhoursall.vue"));
+  return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhoursall.vue */ "./resources/js/components/Sumchartoverhoursall.vue"));
 });
 $(document).ready(function () {
   window.preferences = new Vue({
@@ -95020,7 +95020,7 @@ $(document).ready(function () {
           this.$refs.sumchartoverhoursall.render(true);
         }
 
-        if (this.parkingLots && this.occupancy) {
+        if (this.parkingLots != null && this.occupancy != null) {
           this.$refs.chart.render(true);
           init_map();
         }
@@ -95140,8 +95140,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[4],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sumchartoverhoursall.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Sumchartoverhoursall.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sumchartoverweekall.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Sumchartoverweekall.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25,13 +25,13 @@ __webpack_require__.r(__webpack_exports__);
       for (var i in preferences.filteredParkingLots) {
         var parkingLot = preferences.filteredParkingLots[i];
         var dataSet = Array.from({
-          length: 6
+          length: 24
         }, function () {
           return 0;
         });
 
-        for (var d in preferences.days.slice(1, 7)) {
-          var dayData = preferences.optimizedOcupancies[preferences.days.slice(1, 7)[d]];
+        for (var d in preferences.days) {
+          var dayData = preferences.optimizedOcupancies[preferences.days[d]];
 
           if (parkingLot != null) {
             for (var hr in dayData) {
@@ -40,20 +40,20 @@ __webpack_require__.r(__webpack_exports__);
 
               if (occ != -1) {
                 var occupancy = ((capacity - occ) / capacity * 100).toFixed(2);
-                dataSet[d] += Number(occupancy);
+                dataSet[hr] += Number(occupancy);
               }
             }
           }
         }
 
-        for (var e in dataSet) {
-          dataSet[e] = Math.round(dataSet[e] * 100 / 24) / 100; // we have data for 24 hours
+        for (var k in dataSet) {
+          dataSet[k] = Math.round(dataSet[k] / 6 * 100) / 100;
+          if (dataSet[k] == 0) dataSet[k] = null;
         }
 
         allData.push(dataSet);
       }
 
-      preferences.print("hier");
       preferences.print(allData);
       var chartdata = {
         datasets: []
@@ -62,19 +62,24 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i in allData) {
         chartdata.datasets.push({
+          fill: false,
+          borderWidth: 1,
           radius: 1.5,
           data: allData[i],
           backgroundColor: colors[i],
-          borderColor: colors[i],
-          fill: false
+          borderColor: colors[i]
         });
       }
 
-      chartdata.labels = preferences.days.slice(1, 7);
+      chartdata.labels = Array.from({
+        length: 24
+      }, function (v, k) {
+        return k + ":00 - " + (k + 1) + ":00";
+      });
       var options = {
         title: {
           display: true,
-          text: ["Average daily occupancies", "(24 hours)"],
+          text: ["Average weekly", "(Mo-Sa)"],
           fontSize: 14,
           fontColor: 'orange',
           padding: 20
@@ -115,7 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
-          preferences.day = this.getElementsAtEvent(e)[0]._index + 1;
+          preferences.selectedParkingLot = this.getElementsAtEvent(e)[0]._index;
         }
       };
 
@@ -529,19 +534,19 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "./resources/js/components/Sumchartoverhoursall.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/components/Sumchartoverhoursall.vue ***!
-  \**********************************************************/
+/***/ "./resources/js/components/Sumchartoverweekall.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Sumchartoverweekall.vue ***!
+  \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Sumchartoverhoursall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sumchartoverhoursall.vue?vue&type=script&lang=js& */ "./resources/js/components/Sumchartoverhoursall.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Sumchartoverweekall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sumchartoverweekall.vue?vue&type=script&lang=js& */ "./resources/js/components/Sumchartoverweekall.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-/* harmony import */ var _Sumchartoverhoursall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sumchartoverhoursall.vue?vue&type=custom&index=0&blockType=div */ "./resources/js/components/Sumchartoverhoursall.vue?vue&type=custom&index=0&blockType=div");
-/* harmony import */ var _Sumchartoverhoursall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_Sumchartoverhoursall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Sumchartoverweekall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sumchartoverweekall.vue?vue&type=custom&index=0&blockType=div */ "./resources/js/components/Sumchartoverweekall.vue?vue&type=custom&index=0&blockType=div");
+/* harmony import */ var _Sumchartoverweekall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_Sumchartoverweekall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2__);
 var render, staticRenderFns
 
 
@@ -550,7 +555,7 @@ var render, staticRenderFns
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  _Sumchartoverhoursall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  _Sumchartoverweekall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
   render,
   staticRenderFns,
   false,
@@ -562,19 +567,19 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* custom blocks */
 
-if (typeof _Sumchartoverhoursall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default.a === 'function') _Sumchartoverhoursall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default()(component)
+if (typeof _Sumchartoverweekall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default.a === 'function') _Sumchartoverweekall_vue_vue_type_custom_index_0_blockType_div__WEBPACK_IMPORTED_MODULE_2___default()(component)
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Sumchartoverhoursall.vue"
+component.options.__file = "resources/js/components/Sumchartoverweekall.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Sumchartoverhoursall.vue?vue&type=custom&index=0&blockType=div":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/components/Sumchartoverhoursall.vue?vue&type=custom&index=0&blockType=div ***!
-  \************************************************************************************************/
+/***/ "./resources/js/components/Sumchartoverweekall.vue?vue&type=custom&index=0&blockType=div":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/Sumchartoverweekall.vue?vue&type=custom&index=0&blockType=div ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -582,17 +587,17 @@ component.options.__file = "resources/js/components/Sumchartoverhoursall.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/Sumchartoverhoursall.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/Sumchartoverhoursall.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/Sumchartoverweekall.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Sumchartoverweekall.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Sumchartoverhoursall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Sumchartoverhoursall.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sumchartoverhoursall.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Sumchartoverhoursall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Sumchartoverweekall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Sumchartoverweekall.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Sumchartoverweekall.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Sumchartoverweekall_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ })
 

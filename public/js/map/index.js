@@ -183,7 +183,9 @@ function whenNothingClicked(e) {
 function addMarker(e) {
     navigationLayer.clearLayers();
     var newMarker = new L.marker(e.latlng).addTo(navigationLayer);
-    newMarker.bindPopup("<p>Navigate here?</p></br><button onclick='onDestinationSelected("+ e.latlng.lat +","+ e.latlng.lng +")'>Yes</button><button onclick='closeMarker()'>No</button>").openPopup();
+    newMarker.bindPopup("<div class='navigation-question-wrapper'><div class='navigation-question'>Navigate here?</div></br>" +
+        "<button onclick='onDestinationSelected("+ e.latlng.lat +","+ e.latlng.lng +")' class='navigation-button'>Yes</button>" +
+        "<button onclick='closeMarker()' class='navigation-button'>No</button></div>").openPopup();
 }
 
 function addDestinationMarker(lat, lng) {
