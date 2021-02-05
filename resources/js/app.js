@@ -247,9 +247,9 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
           this.$refs.chart.render(false);
           init_map();
-          this.$refs.sumchartoverhours.render(false)
-          this.$refs.sumchartoverhoursall.render(false)
         }
+        this.$refs.sumchartoverhours.render(false)
+        this.$refs.sumchartoverhoursall.render(false)
       },
       'hour': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
