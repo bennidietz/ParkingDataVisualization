@@ -94822,6 +94822,7 @@ $(document).ready(function () {
       parkingLots: null,
       selectedParkingLot: null,
       routes: null,
+      hoveredRoute: null,
       popupMinimized: false,
       occupancy: null
     },
@@ -94987,6 +94988,8 @@ $(document).ready(function () {
     },
     watch: {
       'view': function view(newVal, oldVal) {
+        preferences.filters.parkandride = false;
+
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
@@ -94999,6 +95002,9 @@ $(document).ready(function () {
           this.$refs.chart.render(true);
           init_map();
         }
+      },
+      'hoveredRoute': function hoveredRoute(newVal, oldVal) {
+        init_map();
       },
       'day': function day(newVal, oldVal) {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
@@ -95089,8 +95095,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
