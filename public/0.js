@@ -152,7 +152,7 @@ __webpack_require__.r(__webpack_exports__);
         tooltips: {
           callbacks: {
             label: function label(tooltipItem, data) {
-              return "Occupancy: " + tooltipItem.yLabel + " %";
+              return reversed ? "Occupancy: " + tooltipItem.yLabel + " %" : tooltipItem.yLabel + " free parking spaces";
             }
           }
         }
