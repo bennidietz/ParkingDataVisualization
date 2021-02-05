@@ -27,8 +27,11 @@
   <body>
     <section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
       <div class="content">
+<<<<<<< HEAD
       <a href="{{ url('/') }}" class="button big wide smooth-scroll-middle">< back to the welcome page</a>
       <br><br>
+=======
+>>>>>>> main
         <h2>Impressum</h2>
         <ul class="actions stacked">
         Westfälische Wilhelms-Universität Münster<br><br>
@@ -38,7 +41,10 @@
         48149 Münster<br>
         Tel.: 0251 8333083<br><br>
           <li><a href="https://github.com/bennidietz/ParkingDataVisualization" class="button big wide smooth-scroll-middle">Find our code on Github</a></li>
+<<<<<<< HEAD
           <br>
+=======
+>>>>>>> main
         </ul>
       </div>
       <!-- Photo by Lisa Fotios from Pexels -->
