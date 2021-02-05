@@ -118,7 +118,7 @@ __webpack_require__.r(__webpack_exports__);
       chartdata.labels = Array.from({
         length: 24
       }, function (v, k) {
-        return k + ":00 - " + (k + 1) + ":00";
+        return (k > 12 ? k - 12 + " PM" : k + " AM") + " - " + (k + 1 > 12 ? k + 1 - 12 + " PM" : k + 1 + " AM");
       });
       chartdata.datasets[0].data = data;
       chartdata.datasets[0].backgroundColor = this.dayColor(reversed, data, capacity);
