@@ -117,7 +117,7 @@ function init_map() {
             let open = (hour>=openingTimes[0] && hour<openingTimes[1]);
             let parkride = feature.properties.name.includes("P+R");
             let selected = feature.properties.index == this.preferences.selectedParkingLot;
-            let hovered = (this.preferences.hoveredRoute != null) ? feature.properties.index == this.preferences.routes[this.preferences.hoveredRoute][1].id
+            let hovered = (this.preferences.hoveredRoute != null) ? feature.properties.id == this.preferences.routes[this.preferences.hoveredRoute][1].id
             : false;
             let currFreeForFeatureCitizen = (currOccupancyCitizen) ? currOccupancyCitizen[feature.properties.name] : -1;
             let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
