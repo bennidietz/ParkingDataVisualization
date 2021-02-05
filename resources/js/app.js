@@ -224,6 +224,9 @@ $(document).ready(function() {
           init_map();
         }
       },
+      'routes': function (newVal, oldVal) {
+        this.selectedParkingLot = null;
+      },
       'selectedParkingLot': function (newVal, oldVal) {
         this.popupMinimized = false;
         if (this.view == 'analyst') {
