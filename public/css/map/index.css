@@ -27,6 +27,7 @@ div.leaflet-locationiq-close,.leaflet-locationiq-hidden {
     font-size: 1.3em;
     width: 100%;
     height: 100%;
+    color: black;
 }
 
 .leaflet-locationiq-control {
