@@ -359,7 +359,7 @@ function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, 
         occPerc = 0;
     }
     let color;
-    if (currFree == -1) {
+    if (currFree == -1 || !open) {
         color = style.getPropertyValue('--no-data');
     } else {
         if (gradient) {
