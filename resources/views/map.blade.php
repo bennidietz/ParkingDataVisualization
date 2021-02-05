@@ -53,7 +53,7 @@
 
           <!-- sumchart component -->
 
-          <div class="sumchartoverweek">
+          <div v-if="view == 'analyst'" class="sumchartoverweek">
             @include('components.sumchart.index')
           </div>
 
