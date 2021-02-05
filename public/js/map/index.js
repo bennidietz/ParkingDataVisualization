@@ -68,8 +68,16 @@ function init_map() {
     layers.clearLayers();
     if (preferences.view == 'analyst') {
         map.removeControl(geocoder);
+        if (map.hasLayer(navigationLayer)) {
+            map.removeLayer(navigationLayer);
+            map.removeLayer(destinationLayer);
+        }
     } else {
         geocoder.addTo(map);
+        if (!map.hasLayer(navigationLayer)) {
+            map.addLayer(navigationLayer);
+            map.addLayer(destinationLayer);
+        }
     }
     let carParksArray = this.preferences.filteredParkingLots;
     let days = Object.keys(this.preferences.optimizedOcupancies);
@@ -106,13 +114,16 @@ function init_map() {
             openingTimes = (openingTimes) ? JSON.parse(openingTimes.replace(":",",")) : [25,26];
             openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
             let hour = this.preferences.hour;
-            let open = (hour>=openingTimes[0] && hour<openingTimes[1])
-            let parkride = feature.properties.name.includes("P+R")
+            let open = (hour>=openingTimes[0] && hour<openingTimes[1]);
+            let parkride = feature.properties.name.includes("P+R");
+            let selected = feature.properties.index == this.preferences.selectedParkingLot;
+            let hovered = (this.preferences.hoveredRoute != null) ? feature.properties.index == this.preferences.routes[this.preferences.hoveredRoute][1].id
+            : false;
             let currFreeForFeatureCitizen = (currOccupancyCitizen) ? currOccupancyCitizen[feature.properties.name] : -1;
             let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
-                basicSymbol(latlng, parkride, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen , (this.preferences.hoveredRoute != null) ? (feature.properties.index != this.preferences.selectedParkingLot && feature.properties.index != Number(this.preferences.hoveredRoute[3])) : feature.properties.index != this.preferences.selectedParkingLot, style)
-                : analystSymbol(latlng, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeatureAnalyst, style);
+                basicSymbol(latlng, parkride, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen, selected, hovered, style)
+                : analystSymbol(latlng, selected, feature.properties.capacity, currFreeForFeatureAnalyst, style);
         },
         onEachFeature: onEachFeature.bind(this)
     })
@@ -290,27 +301,6 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
                             }
                             lastend += Math.PI * 2 * (data[i] / myTotal);
                         }
-
-                        /*
-                        new Chart(ctx, {
-                            type: 'pie',
-                            data: {
-                                labels: ["Free", "Occupied"],
-                                datasets: [{
-                                    label: "Population (millions)",
-                                    backgroundColor: ["#3cba9f", "#c45850"],
-                                    data: [3, 5]
-                                }]
-                            },
-                            options: {
-                                title: {
-                                    display: true,
-                                    text: "Occupancy",
-                                    fontSize: 18
-                                }
-                            }
-                        });
-                         */
                     }
                 }
             })
@@ -342,7 +332,7 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
     }
 }
 
-function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, selected, style) {
+function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, selected, hovered, style) {
     let occPerc;
     if(currFree) {
         occPerc = currFree/capa
@@ -373,8 +363,16 @@ function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, 
     }
     let symbol = (open) ? ((parkride) ? "fa-exchange-alt" : "fa-parking") : "fa-times"
     let html;
-    if(selected) {
-        html = '<i class="fas '+ symbol + ' fa-2x" style="color:' + color + ';font-size: 3em;"></i>';
+    if(!selected) {
+        if (!hovered) {
+            html = '<i class="fas ' + symbol + ' fa-2x" style="color:' + color + ';font-size: 3em;"></i>';
+        } else {
+            html = '<span class="fa-stack-4x">' +
+            '<i class="fas fa-square fa-stack-2x" style="color:black;-webkit-text-stroke-width: 4px;\n' +
+            '-webkit-text-stroke-color: black;font-size: 3em;"></i>' +
+            '<i class="fas '+ symbol + ' fa-stack-2x" style="color:' + color + ';font-size: 3em;"></i>' +
+            '</span>'
+        }
     } else {
         html = '<span class="fa-stack-4x">' +
             '<i class="fas fa-square fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
