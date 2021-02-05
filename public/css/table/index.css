@@ -2,7 +2,7 @@
 .dropbtn {
   background-color: grey;
   padding: 5px;
-  width: 100px;
+  width: 165px;
   border: none;
   border-radius: 3px;
 }
@@ -26,6 +26,7 @@
 .dropdown-content p {
   color: white;
   padding: 3px 6px;
+  width: 165px;
   text-decoration: none;
   display: block;
 }
