@@ -53,7 +53,7 @@
 
           <!-- sumchart component -->
 
-          <div v-if="view == 'analyst'">
+          <div>
             @include('components.sumchart.index')
           </div>
 
