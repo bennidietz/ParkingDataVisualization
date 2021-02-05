@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- 
+    	Story by HTML5 UP
+    	html5up.net | @ajlkn
+    	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+     -->
     <title>Why?</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -18,7 +23,6 @@
       }
     </style>
     <link href="{{ asset('css/about/index.css') }}" rel="stylesheet">
-    <!--<noscript><link rel="stylesheet" href="html5up-story/assets/css/noscript.css" /></noscript>-->
   </head>
   <body>
     <section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
@@ -28,6 +32,7 @@
           <li><a href="#first" class="button big wide smooth-scroll-middle">Try out our web app for...</a></li>
         </ul>
       </div>
+      <!-- Photo by Lisa Fotios from Pexels -->
       <div class="image">
         <img src="{{ asset('img/line_of_cars.jpg') }}" alt="Line of cars" />
       </div>
@@ -40,7 +45,7 @@
           <li><a href="#second" class="button">What else?</a></li>
         </ul>
       </div>
-      <!--Photo by Josh Sorenson from Pexels-->
+      <!--Photo by Josh Sorenson from Pexels -->
       <div class="image">
         <img src="{{ asset('img/free_parking_space.jpg') }}" alt="free parking space" />
       </div>
@@ -49,12 +54,12 @@
     <!-- Three -->
       <section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="second">
         <div class="content">
-          <h2>identifying crowded areas where building a new parking garage would pay off!</h2>
+          <h2>identifying crowded areas where building a new car park would pay off!</h2>
           <ul class="actions stacked">
             <li><a href="#third" class="button">That's it?</a></li>
           </ul>
         </div>
-        <!-- Photo by Stephan Müller from Pexels-->
+        <!-- Photo by Stephan Müller from Pexels -->
         <div class="image">
           <img src="{{ asset('img/crowded_car_park.jpg') }}" alt="Crowded Area?" />
         </div>
@@ -68,6 +73,7 @@
               <li><a href="{{ route('map') }}" class="button">Show me!</a></li>
             </ul>
           </div>
+          <!-- Photo by K HOWARD from Pexels -->
           <div class="image">
             <img src="{{ asset('img/empty_car_park.jpg') }}" alt="Empty car park" />
           </div>
