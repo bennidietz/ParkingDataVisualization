@@ -94792,11 +94792,19 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 var chart = Vue.component("chart", function () {
   return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/Chart.vue */ "./resources/js/components/Chart.vue"));
 });
+var sumchartoverweek = Vue.component("sumchartoverweek", function () {
+  return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverweek.vue */ "./resources/js/components/Sumchartoverweek.vue"));
+});
+var sumchartoverhours = Vue.component("sumchartoverhours", function () {
+  return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/Sumchartoverhours.vue */ "./resources/js/components/Sumchartoverhours.vue"));
+});
 $(document).ready(function () {
   window.preferences = new Vue({
     el: '#preferences',
     components: {
-      'chart': chart
+      'chart': chart,
+      'sumchartoverweek': sumchartoverweek,
+      'sumchartoverhours': sumchartoverhours
     },
     data: {
       greenColor: 'rgba(84, 255, 69, 1)',
@@ -94917,6 +94925,8 @@ $(document).ready(function () {
       init: function init() {
         init_map();
         this.$refs.chart.render(true);
+        this.$refs.sumchartoverweek.render(true);
+        this.$refs.sumchartoverhours.render(true);
       },
       disableHoursClosed: function disableHoursClosed(string) {
         var start = string.split(":")[0].match(/[0-9]+/g);
@@ -94993,6 +95003,8 @@ $(document).ready(function () {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
+          this.$refs.sumchartoverweek.render(true);
+          this.$refs.sumchartoverhours.render(true);
         }
       },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
@@ -95001,6 +95013,8 @@ $(document).ready(function () {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
+          this.$refs.sumchartoverweek.render(true);
+          this.$refs.sumchartoverhours.render(true);
         }
       },
       'hoveredRoute': function hoveredRoute(newVal, oldVal) {
@@ -95010,12 +95024,14 @@ $(document).ready(function () {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
           this.$refs.chart.render(true);
           init_map();
+          this.$refs.sumchartoverhours.render(false);
         }
       },
       'hour': function hour(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(false);
           init_map();
+          this.$refs.sumchartoverweek.render(false);
         }
       },
       'filters.disabled': function filtersDisabled(newVal, oldVal) {

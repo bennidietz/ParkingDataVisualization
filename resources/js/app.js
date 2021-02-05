@@ -10,12 +10,16 @@ window.moment = require('moment');
 
 window.Vue = require('vue');
 const chart = Vue.component("chart", () => import("./components/Chart.vue"));
+const sumchartoverweek = Vue.component("sumchartoverweek", () => import("./components/Sumchartoverweek.vue"));
+const sumchartoverhours = Vue.component("sumchartoverhours", () => import("./components/Sumchartoverhours.vue"));
 
 $(document).ready(function() {
   window.preferences = new Vue({
     el: '#preferences',
     components: {
       'chart': chart,
+      'sumchartoverweek': sumchartoverweek,
+      'sumchartoverhours': sumchartoverhours
     },
     data: {
       greenColor: 'rgba(84, 255, 69, 1)', //#54ff45
@@ -128,6 +132,8 @@ $(document).ready(function() {
       init: function() {
         init_map();
         this.$refs.chart.render(true);
+        this.$refs.sumchartoverweek.render(true)
+        this.$refs.sumchartoverhours.render(true)
       },
       disableHoursClosed: function(string) {
         var start = string.split(":")[0].match(/[0-9]+/g)
@@ -201,6 +207,8 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
+          this.$refs.sumchartoverweek.render(true)
+          this.$refs.sumchartoverhours.render(true)
         }
       },
       'selectedParkingLot': function (newVal, oldVal) {
@@ -209,6 +217,8 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
+          this.$refs.sumchartoverweek.render(true)
+          this.$refs.sumchartoverhours.render(true)
         }
       },
       'hoveredRoute': function(newVal, oldVal) {
@@ -218,12 +228,14 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy && !this.visualizing) {
           this.$refs.chart.render(true);
           init_map();
+          this.$refs.sumchartoverhours.render(false)
         }
       },
       'hour': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(false);
           init_map();
+          this.$refs.sumchartoverweek.render(false)
         }
       },
       'filters.disabled': function(newVal, oldVal) {

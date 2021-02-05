@@ -51,6 +51,12 @@
 
         <div class="sidebar__main">
 
+          <!-- sumchart component -->
+
+          <div class="sumchartoverweek">
+            @include('components.sumchart.index')
+          </div>
+
           <!-- table component -->
 
           <div class="table">
