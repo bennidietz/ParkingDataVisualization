@@ -13,6 +13,7 @@ const chart = Vue.component("chart", () => import("./components/Chart.vue"));
 const sumchartoverweek = Vue.component("sumchartoverweek", () => import("./components/Sumchartoverweek.vue"));
 const sumchartoverweekall = Vue.component("sumchartoverweekall", () => import("./components/Sumchartoverweekall.vue"));
 const sumchartoverhours = Vue.component("sumchartoverhours", () => import("./components/Sumchartoverhours.vue"));
+const sumchartoverhoursall = Vue.component("sumchartoverhoursall", () => import("./components/Sumchartoverhoursall.vue"));
 
 $(document).ready(function() {
   window.preferences = new Vue({
@@ -21,7 +22,8 @@ $(document).ready(function() {
       'chart': chart,
       'sumchartoverweek': sumchartoverweek,
       'sumchartoverweekall': sumchartoverweekall,
-      'sumchartoverhours': sumchartoverhours
+      'sumchartoverhours': sumchartoverhours,
+      'sumchartoverhoursall': sumchartoverhoursall
     },
     data: {
       greenColor: 'rgba(84, 255, 69, 1)', //#54ff45
