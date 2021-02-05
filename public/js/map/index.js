@@ -66,6 +66,11 @@ var geojson = null;
  */
 function init_map() {
     layers.clearLayers();
+    if (preferences.view == 'analyst') {
+        map.removeControl(geocoder);
+    } else {
+        geocoder.addTo(map);
+    }
     let carParksArray = this.preferences.filteredParkingLots;
     let days = Object.keys(this.preferences.optimizedOcupancies);
     var daySub = this.preferences.date.day,

@@ -114,19 +114,40 @@ export default {
         options["animation"] = { duration: 0 };
       }
 
-      options["scales"] = {};
-      options["scales"]["yAxes"] = [{
-        ticks: {
-          min: 0,
-          beginAtZero: true,
-          max: (reversed) ? 100 : capacity
+      var options = {
+        title: {
+          display: true,
+          text: (reversed) ? "Occupancy of parking spaces" : "Free parking spaces",
+          fontSize: 14,
+          fontColor: 'orange',
+          padding: 20
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              beginAtZero: true,
+              max: (reversed) ? 100 : capacity,
+              fontSize: 10
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              fontSize: 10
+            }
+          }]
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return "Occupancy: " + tooltipItem.yLabel  + " %"
+            }
+          }
         }
-      }];
-      options["scales"]["xAxes"] = [{
-        ticks: {
-          fontSize: 10
-        }
-      }];
+      };
 
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
