@@ -4,16 +4,16 @@
 
 <script>
 
-import { Bar, Line } from 'vue-chartjs';
+import { Bar } from 'vue-chartjs';
 
 export default {
   extends: Bar,
   methods: {
     dayColor: function(data) {
       var output = [];
-      for (var i = 0; i < 24; i++) {
+      for (var i = 0; i < 6; i++) {
         var occ_ratio = Number(data[i])
-        var isSelected = preferences.hour != null && i == preferences.hour;
+        var isSelected = preferences.day == i+1;
         if (occ_ratio > 85) {
           output.push((isSelected) ? preferences.redColor : preferences.redColorLight);
         } else if (occ_ratio > 70) {
@@ -28,25 +28,25 @@ export default {
     },
     render: function(animated) {
       const parkingLot = (preferences.selectedParkingLot != null) ? preferences.parkingLots[preferences.selectedParkingLot] : null;
-      var data = Array.from({length: 24}, () => 0);
+      var data = Array.from({length: 6}, () => 0);
       var capacity = 0;
 
-      for (var d in preferences.days) {
-        const dayData = preferences.optimizedOcupancies[preferences.days[d]]
+      for (var d in preferences.days.slice(1,7)) {
+        const dayData = preferences.optimizedOcupancies[preferences.days.slice(1,7)[d]]
         if (parkingLot != null) {
           for (var hr in dayData) {
             capacity = Number(parkingLot.capacity);
             var occ = Number(dayData[hr][parkingLot.name])
             if (occ != -1) {
               var occupancy = ((capacity - occ) / capacity * 100).toFixed(2);
-              data[hr] += Number(occupancy)
+              data[d] += Number(occupancy)
             }
           }
         }
       }
 
-      for (var e in data) data[e] = Math.round(data[e] / 6 * 100) / 100 // we have data for six weekday
-
+      for (var e in data) data[e] = Math.round(data[e] / 24 * 100) / 100 // we have data for 24 hours
+      console.log(data)
       var chartdata = {
         datasets: [
           {
@@ -57,7 +57,7 @@ export default {
         ]
       };
 
-      chartdata.labels = Array.from({length: 24}, (v, k) => k + ":00 - " + (k+1) + ":00");
+      chartdata.labels = preferences.days.slice(1,7)
 
       chartdata.datasets[0].data = data;
       chartdata.datasets[0].backgroundColor = this.dayColor(data, capacity);
@@ -65,7 +65,7 @@ export default {
       var options = {
         title: {
           display: true,
-          text: ["Average weekly", "(Mo-Sa)"],
+          text: ["Average daily occupancies", "(24 hours)"],
           fontSize: 14,
           fontColor: 'orange',
           padding: 20
@@ -103,7 +103,7 @@ export default {
 
       options["onClick"] = function (e) {
         if (this.getElementsAtEvent(e)[0] != undefined) {
-          preferences.hour = this.getElementsAtEvent(e)[0]._index;
+          preferences.day = this.getElementsAtEvent(e)[0]._index + 1;
         }
       }
       this.renderChart(chartdata, options);

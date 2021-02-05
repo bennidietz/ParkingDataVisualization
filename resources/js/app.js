@@ -11,6 +11,7 @@ window.moment = require('moment');
 window.Vue = require('vue');
 const chart = Vue.component("chart", () => import("./components/Chart.vue"));
 const sumchartoverweek = Vue.component("sumchartoverweek", () => import("./components/Sumchartoverweek.vue"));
+const sumchartoverweekall = Vue.component("sumchartoverweekall", () => import("./components/Sumchartoverweekall.vue"));
 const sumchartoverhours = Vue.component("sumchartoverhours", () => import("./components/Sumchartoverhours.vue"));
 
 $(document).ready(function() {
@@ -19,6 +20,7 @@ $(document).ready(function() {
     components: {
       'chart': chart,
       'sumchartoverweek': sumchartoverweek,
+      'sumchartoverweekall': sumchartoverweekall,
       'sumchartoverhours': sumchartoverhours
     },
     data: {
@@ -133,7 +135,11 @@ $(document).ready(function() {
         init_map();
         this.$refs.chart.render(true);
         this.$refs.sumchartoverweek.render(true)
+        this.$refs.sumchartoverweekall.render(true)
         this.$refs.sumchartoverhours.render(true)
+      },
+      print: function(data) {
+        console.log(data);
       },
       disableHoursClosed: function(string) {
         var start = string.split(":")[0].match(/[0-9]+/g)
@@ -207,7 +213,11 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
-          this.$refs.sumchartoverweek.render(true)
+          if (this.selectedParkingLot == null) {
+            this.$refs.sumchartoverweekall.render(true)
+          } else {
+            this.$refs.sumchartoverweek.render(true)
+          }
           this.$refs.sumchartoverhours.render(true)
         }
       },
@@ -217,7 +227,11 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(true);
           init_map();
-          this.$refs.sumchartoverweek.render(true)
+          if (newVal != null) {
+            this.$refs.sumchartoverweek.render(true)
+          } else {
+            this.$refs.sumchartoverweekall.render(true)
+          }
           this.$refs.sumchartoverhours.render(true)
         }
       },
@@ -235,7 +249,11 @@ $(document).ready(function() {
         if (this.parkingLots && this.occupancy) {
           this.$refs.chart.render(false);
           init_map();
-          this.$refs.sumchartoverweek.render(false)
+          if (this.selectedParkingLot != null) {
+            this.$refs.sumchartoverweek.render(false)
+          } else {
+            this.$refs.sumchartoverweekall.render(true)
+          }
         }
       },
       'filters.disabled': function(newVal, oldVal) {
