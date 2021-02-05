@@ -74,9 +74,9 @@
 
           <!-- feedback component -->
 
-          <div class="feedback__button">
+          <!--div class="feedback__button">
             @include('components.feedback.index')
-          </div>
+          </div-->
 
           <!-- toast component -->
 

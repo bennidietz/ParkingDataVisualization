@@ -107,10 +107,11 @@ function init_map() {
             openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
             let hour = this.preferences.hour;
             let open = (hour>=openingTimes[0] && hour<openingTimes[1])
+            let parkride = feature.properties.name.includes("P+R")
             let currFreeForFeatureCitizen = (currOccupancyCitizen) ? currOccupancyCitizen[feature.properties.name] : -1;
             let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
-                basicSymbol(latlng, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen , (this.preferences.hoveredRoute != null) ? (feature.properties.index != this.preferences.selectedParkingLot && feature.properties.index != Number(this.preferences.hoveredRoute[3])) : feature.properties.index != this.preferences.selectedParkingLot, style)
+                basicSymbol(latlng, parkride, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen , (this.preferences.hoveredRoute != null) ? (feature.properties.index != this.preferences.selectedParkingLot && feature.properties.index != Number(this.preferences.hoveredRoute[3])) : feature.properties.index != this.preferences.selectedParkingLot, style)
                 : analystSymbol(latlng, !(feature.properties.index != this.preferences.selectedParkingLot), feature.properties.capacity, currFreeForFeatureAnalyst, style);
         },
         onEachFeature: onEachFeature.bind(this)
@@ -216,7 +217,7 @@ function presentRouteAlternatives(routes) {
     for (var i in routes) {
         //addRoute(routing, [[lot1.lat, lot1.lon], [lat,lng]])
     }
-    
+
 }
 
 // @source: https://stackoverflow.com/a/18883819
@@ -229,8 +230,8 @@ function calcCrow(lat1, lon1, lat2, lon2) {
     var lat2 = toRad(lat2);
 
     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d;
 }
@@ -255,68 +256,93 @@ function addRoute(routing, points) {
     routing.setWaypoints(wayPoints);
 }
 function analystSymbol(latlng, selected, capa, currOcc, style) {
-    return L.marker(latlng, {icon: L.canvasIcon({
-            iconSize: [40, 40],
-            iconAnchor: [20, 20],
-            drawIcon: function (icon, type) {
-                if (type == 'icon') {
-                    var ctx = icon.getContext('2d');
-                    var lastend = -1.5708;
-                    var data = [capa-currOcc,currOcc]; // If you add more data values make sure you add more colors
-                    var myTotal = 0; // Automatically calculated so don't touch
-                    var myColor = [style.getPropertyValue('--no-data'), style.getPropertyValue('--no-data')]; // Colors of each slice
-                    if (currOcc != -1) {
-                        myColor = [style.getPropertyValue('--no-capacity'), style.getPropertyValue('--has-capacity')];
-                    }
-                    for (var e = 0; e < data.length; e++) {
-                        myTotal += data[e];
-                    }
+    if (currOcc != -1) {
+        return L.marker(latlng, {
+            icon: L.canvasIcon({
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+                drawIcon: function (icon, type) {
+                    if (type == 'icon') {
+                        var ctx = icon.getContext('2d');
+                        var lastend = -1.5708;
+                        var data = [capa - currOcc, currOcc]; // If you add more data values make sure you add more colors
+                        var myTotal = 0; // Automatically calculated so don't touch
+                        let myColor = [style.getPropertyValue('--no-capacity'), style.getPropertyValue('--has-capacity')];
+                        for (var e = 0; e < data.length; e++) {
+                            myTotal += data[e];
+                        }
 
-                    for (var i = 0; i < data.length; i++) {
-                        ctx.fillStyle = myColor[i];
-                        ctx.beginPath();
-                        var size = L.point(this.options.iconSize);
-                        ctx.moveTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
-                        // Arc Parameters: x, y, radius, startingAngle (radians), endingAngle (radians), antiClockwise (boolean)
-                        ctx.arc(size.x / 2, size.y / 2, (size.y-3) / 2, lastend, lastend + (Math.PI * 2 * (data[i] / myTotal)), false);
-                        ctx.lineTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
-                        ctx.fill();
-                        if(selected) {
+                        for (var i = 0; i < data.length; i++) {
+                            ctx.fillStyle = myColor[i];
                             ctx.beginPath();
-                            ctx.arc(size.x / 2, size.y / 2, (size.y - 2) / 2, 0, 2 * Math.PI);
-                            ctx.strokeStyle = '#0046db';
-                            ctx.lineWidth = 2;
-                            ctx.stroke();
-                        }
-                        lastend += Math.PI * 2 * (data[i] / myTotal);
-                    }
-                    /*
-                    new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: ["Free", "Occupied"],
-                            datasets: [{
-                                label: "Population (millions)",
-                                backgroundColor: ["#3cba9f", "#c45850"],
-                                data: [3, 5]
-                            }]
-                        },
-                        options: {
-                            title: {
-                                display: true,
-                                text: "Occupancy",
-                                fontSize: 18
+                            var size = L.point(this.options.iconSize);
+                            ctx.moveTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
+                            // Arc Parameters: x, y, radius, startingAngle (radians), endingAngle (radians), antiClockwise (boolean)
+                            ctx.arc(size.x / 2, size.y / 2, (size.y - 3) / 2, lastend, lastend + (Math.PI * 2 * (data[i] / myTotal)), false);
+                            ctx.lineTo(Math.floor(size.x / 2), Math.floor(size.y / 2));
+                            ctx.fill();
+                            if (selected) {
+                                ctx.beginPath();
+                                ctx.arc(size.x / 2, size.y / 2, (size.y - 2) / 2, 0, 2 * Math.PI);
+                                ctx.strokeStyle = '#0046db';
+                                ctx.lineWidth = 2;
+                                ctx.stroke();
                             }
+                            lastend += Math.PI * 2 * (data[i] / myTotal);
                         }
-                    });
-                     */
+
+                        /*
+                        new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: ["Free", "Occupied"],
+                                datasets: [{
+                                    label: "Population (millions)",
+                                    backgroundColor: ["#3cba9f", "#c45850"],
+                                    data: [3, 5]
+                                }]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    text: "Occupancy",
+                                    fontSize: 18
+                                }
+                            }
+                        });
+                         */
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
+    } else {
+        let html;
+        if(!selected) {
+            html = '<span class="fa-stack-4x" style="display:flex;justify-content:center;align-items:center;">' +
+                '<i class="fas fa-info-circle fa-stack-2x" style="color:' + style.getPropertyValue('--no-data') + ';font-size: 3em;"></i>' +
+                '<i class="fas fa-slash fa-stack-1x" style="color: white;font-size: 1.5em;"></i>' +
+                '</span>'
+        } else {
+            html = '<span class="fa-stack-4x" style="display:flex;justify-content:center;align-items:center;">' +
+                '<i class="fas fa-circle fa-stack-2x" style="color:#0046db;-webkit-text-stroke-width: 4px;\n' +
+                '-webkit-text-stroke-color: #0046db;font-size: 3em;"></i>' +
+                '<i class="fas fa-info-circle fa-stack-2x" style="color:' + style.getPropertyValue('--no-data') + ';font-size: 3em;"></i>' +
+                '<i class="fas fa-slash fa-stack-2x" style="color: #0046db;font-size: 1.5em;"></i>' +
+                '</span>'
+        }
+
+        return L.marker(latlng, {
+            icon: L.divIcon({
+                html: html,
+                iconSize: [40, 40],
+                iconAnchor: [20, 0],
+                className: 'myDivIcon'
+            })
+        });
+    }
 }
 
-function basicSymbol(latlng, open, gradient, rainbow, capa, currFree, selected, style) {
+function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, selected, style) {
     let occPerc;
     if(currFree) {
         occPerc = currFree/capa
@@ -328,9 +354,15 @@ function basicSymbol(latlng, open, gradient, rainbow, capa, currFree, selected, 
         color = style.getPropertyValue('--no-data');
     } else {
         if (gradient) {
-            color = "#" + rainbow.colourAt(occPerc);
+            if (parkride) {
+                color = style.getPropertyValue('--has-capacity');
+            } else {
+                color = "#" + rainbow.colourAt(occPerc);
+            }
         } else {
-            if (occPerc < 0.01) {
+            if (parkride) {
+                color = style.getPropertyValue('--has-capacity');
+            } else if (occPerc < 0.01) {
                 color = style.getPropertyValue('--no-capacity');
             } else if (occPerc < 0.5) {
                 color = style.getPropertyValue('--med-capacity');
@@ -339,7 +371,7 @@ function basicSymbol(latlng, open, gradient, rainbow, capa, currFree, selected, 
             }
         }
     }
-    let symbol = (open) ? "fa-parking" : "fa-times"
+    let symbol = (open) ? ((parkride) ? "fa-exchange-alt" : "fa-parking") : "fa-times"
     let html;
     if(selected) {
         html = '<i class="fas '+ symbol + ' fa-2x" style="color:' + color + ';font-size: 3em;"></i>';
