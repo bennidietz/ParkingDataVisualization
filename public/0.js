@@ -126,7 +126,7 @@ __webpack_require__.r(__webpack_exports__);
       var options = {
         title: {
           display: true,
-          text: reversed ? "Occupancy of parking spaces" : "Free parking spaces",
+          text: reversed ? preferences.days[preferences.day] + ": Occupancy of parking spaces" : preferences.days[preferences.day] + ": Free parking spaces",
           fontSize: 14,
           fontColor: 'orange',
           padding: 20
