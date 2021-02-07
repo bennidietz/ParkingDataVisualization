@@ -1,6 +1,6 @@
 <div class="toast__message" :class="{'h-clickable': routes.length != 1}" v-if="view =='citizen'" v-for="(route,index) in routes" @click="routes=[route]" @mouseover="hoveredRoute = index" @mouseleave="hoveredRoute = null">
     <div class="toast__controls">
-        <div class="toast__control-button fas fa-times" @click="routes=[]" onclick="event.stopPropagation()"  v-if="routes.length == 1"></div>
+        <div class="toast__control-button fas fa-times" @click="routes=[]; hoveredRoute = null" onclick="event.stopPropagation()"  v-if="routes.length == 1"></div>
     </div>
     <div class="toast__header">@{{ route[1].name }}:</div>
     <table style="width:100%">
