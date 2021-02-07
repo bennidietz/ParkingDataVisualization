@@ -94952,7 +94952,8 @@ $(document).ready(function () {
       resetDate: function resetDate() {
         if (!this.visualizing) {
           var date = new Date();
-          this.day = date.getDay();
+          this.day = 1; //date.getDay();
+
           this.hour = date.getHours();
         } else {
           this.day = 1;
