@@ -329,6 +329,7 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
         if(!selected) {
             html = '<span class="fa-stack-4x" style="display:flex;justify-content:center;align-items:center;">' +
                 '<i class="fas fa-info-circle fa-stack-2x" style="color:' + style.getPropertyValue('--no-data') + ';font-size: 3em;"></i>' +
+                '<i class="fas fa-info fa-stack-2x" style="color: white;font-size: 1.5em;"></i>' +
                 '<i class="fas fa-slash fa-stack-1x" style="color: white;font-size: 1.5em;"></i>' +
                 '</span>'
         } else {

@@ -1,9 +1,9 @@
 <template v-if="view == 'citizen'">
   <ul class="table__filters">
-    <li class="fas fa-wheelchair" :class="{'active': filters.disabled}" @click="filters.disabled = !filters.disabled"></li>
-    <li class="fas fa-female" :class="{'active': filters.women}" @click="filters.women = !filters.women"></li>
-    <li class="fas fa-charging-station" :class="{'active': filters.electric}" @click="filters.electric = !filters.electric"></li>
-    <li class="fas fa-exchange-alt" :class="{'active': filters.parkandride}" @click="filters.parkandride = !filters.parkandride"></li>
+    <li class="fas fa-wheelchair" :class="{'active': filters.disabled}" @click="filters.disabled = !filters.disabled" title="has disabled parking"></li>
+    <li class="fas fa-female" :class="{'active': filters.women}" @click="filters.women = !filters.women" title="has womens parking area"></li>
+    <li class="fas fa-charging-station" :class="{'active': filters.electric}" @click="filters.electric = !filters.electric"  title="has charging stations"></li>
+    <li class="fas fa-exchange-alt" :class="{'active': filters.parkandride}" @click="filters.parkandride = !filters.parkandride" title="Park and Ride"></li>
   </ul>
 </template>
 <div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in filteredParkingLots">
