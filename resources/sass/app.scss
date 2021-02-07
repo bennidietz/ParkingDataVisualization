@@ -485,6 +485,34 @@ th, td {
       &:last-of-type {
           margin-bottom: 0px;
       }
+
+      & > .toast__controls {
+          width: 100%;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          & > .toast__control-button {
+              margin-right: 5px;
+              padding: 10px;
+              border-radius: 3px;
+              @extend .h-clickable;
+              @extend .h-transition-fast;
+              background: rgba(0, 0, 0, 0.2);
+              border-radius: 5px;
+              overflow: hidden;
+
+              &:last-of-type {
+                  margin-right: 0;
+              }
+
+              &:hover {
+                  background: rgba(255, 255, 255, 0.8);
+                  color: $darkGray;
+              }
+          }
+      }
   }
 
   & > :hover {
