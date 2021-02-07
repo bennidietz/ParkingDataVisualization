@@ -103,7 +103,7 @@ export default {
         ]
       };
 
-      chartdata.labels = Array.from({length: 24}, (v, k) => k + ":00 - " + (k+1) + ":00");
+      chartdata.labels = Array.from({length: 24}, (v, k) => ((k > 12) ? (k-12) + " PM" : k + " AM") + " - " + ((k+1 > 12) ? (k+1-12) + " PM" : (k+1) + " AM"));
 
       chartdata.datasets[0].data = data;
       chartdata.datasets[0].backgroundColor = this.dayColor(reversed, data, capacity);
@@ -112,7 +112,7 @@ export default {
       var options = {
         title: {
           display: true,
-          text: (reversed) ? "Occupancy of parking spaces" : "Free parking spaces",
+          text: (reversed) ?  preferences.days[preferences.day] + ": Occupancy of parking spaces" : preferences.days[preferences.day] + ": Free parking spaces",
           fontSize: 14,
           fontColor: 'orange',
           padding: 20
@@ -138,7 +138,7 @@ export default {
         tooltips: {
           callbacks: {
             label: function(tooltipItem, data) {
-              return "Occupancy: " + tooltipItem.yLabel  + " %"
+              return (reversed) ? "Occupancy: " + tooltipItem.yLabel  + " %" : tooltipItem.yLabel + " free parking spaces"
             }
           }
         }

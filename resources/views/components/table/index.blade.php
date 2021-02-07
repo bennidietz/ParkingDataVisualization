@@ -13,7 +13,7 @@
     <tr>
       <td width ="50%">
         <div class="dropdown">
-          <button class="dropbtn"><i class="fas fa-clock"></i>&nbsp; Today</button>
+          <p class="dropbtn"><i class="fas fa-clock"></i>&nbsp; Today</p>
           <div class="dropdown-content">
             <p>Mo-Th: @{{ parkingLot.opening_times_mo_to_th.substring(1,parkingLot.opening_times_mo_to_th.indexOf(':')) +
               " AM - " + String(parseFloat(parkingLot.opening_times_mo_to_th.substring(parkingLot.opening_times_mo_to_th.indexOf(':') + 1 ,parkingLot.opening_times_mo_to_th.length -1)) - 12) + " PM"}}</p>
@@ -64,7 +64,7 @@
       <tr>
         <td v-if="parkingLot.price_1st_hour > 0 | parkingLot.night_price_per_hour_20_to_8">
           <div class="dropdown">
-            <button class="dropbtn"><i class="fas fa-coins"></i></button>
+            <p class="dropbtn"><i class="fas fa-coins"></i></p>
             <div class="dropdown-content"></i>
               <p v-if="parkingLot.price_until_30_minutes> 0"> @{{ parkingLot.price_until_30_minutes }} € /max 30 min</p>
               <p v-if="parkingLot.price_1st_hour > 0">1st & 2nd hour: @{{ parkingLot.price_1st_hour }} € ea</p>
@@ -74,7 +74,7 @@
         </td>
         <td v-else> <i class="fas fa-coins"></i></td>
         <td v-if="parkingLot.night_price_per_hour_20_to_8 > 0 & (hour >= 20 | hour < 8)">@{{ parkingLot.night_price_per_hour_20_to_8 }} € /hour</td>
-        <td v-if="parkingLot.price_per_hour > 0 & (hour < 20 & hour >= 8)">@{{ parkingLot.price_per_hour }} € /hour</td>
+        <td v-if="parkingLot.price_per_hour > 0 & (hour < 20 & hour >= 8) & parkingLot.night_price_per_hour_20_to_8 > 0">@{{ parkingLot.price_per_hour }} € /hour</td>
         <td v-if="parkingLot.price_per_hour > 0 & parkingLot.night_price_per_hour_20_to_8 == 0 ">@{{ parkingLot.price_per_hour }} € /hour</td>
         <td v-if="parkingLot.price_per_30_minutes > 0 & day != 7">@{{ parkingLot.price_per_30_minutes }} € /30min</td>
         <td v-if="parkingLot.su_price_30_minutes > 0 & day == 7">@{{ parkingLot.su_price_30_minutes }} € /30min</td>
@@ -82,7 +82,7 @@
       <tr>
         <td v-if="parkingLot.night_price_max > 0 | parkingLot.su_price_day > 0">
           <div class="dropdown">
-            <button class="dropbtn"><i class="fas fa-coins"></i></button>
+            <p class="dropbtn"><i class="fas fa-coins"></i></p>
             <div class="dropdown-content"></i></i>
               <p v-if="parkingLot.night_price_max > 0">8 PM - 8 AM: @{{ parkingLot.night_price_max	}} € max</p>
               <p v-if="parkingLot.su_price_day > 0">Mo-Sa: @{{ parkingLot.price_per_day	}} € /day</p>
@@ -91,7 +91,7 @@
         <td v-else> <i class="fas fa-coins"></i></td>
         <td v-if="day == 7 & parkingLot.su_price_day > 0">@{{ parkingLot.su_price_day }} € /day</td>
         <template v-else>
-          <td v-if="hour < 20 & hour >= 8">@{{ parkingLot.price_per_day }} € /day</td>
+          <td v-if="hour < 20 & hour >= 8 & parkingLot.night_price_max > 0">@{{ parkingLot.price_per_day }} € /day</td>
           <td v-if="parkingLot.night_price_max == 0">@{{ parkingLot.price_per_day }} € /day</td>
           <td v-if="parkingLot.night_price_max > 0 & (hour >= 20 | hour < 8)">@{{ parkingLot.night_price_max }} € /night</td>
         </template>
