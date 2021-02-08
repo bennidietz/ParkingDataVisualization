@@ -216,6 +216,10 @@ function addDestinationMarker(lat, lng) {
             className: 'myDivIcon'
         })
     });
+    $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng, function(data){
+        newMarker.bindPopup((data.name == null)? data.display_name : data.name).openPopup();
+    });
+
     newMarker.addTo(destinationLayer);
 }
 
