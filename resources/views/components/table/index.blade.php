@@ -10,7 +10,11 @@
   </ul>
 </template>
 <div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in filteredParkingLots">
-  <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}</div>
+  <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}
+    <div class="table__heading-icon fas fa-wheelchair" v-if="parkingLot.capacity_disabled > 0"></div>
+    <div class="table__heading-icon fas fa-female" v-if="parkingLot.capacity_women > 0"></div>
+    <div class="table__heading-icon fas fa-charging-station" v-if="parkingLot.capacity_electric > 0"></div>
+  </div>
   <table class="table__data" v-if="selectedParkingLot == index">
     <template v-if="view == 'citizen'">
     <tr>

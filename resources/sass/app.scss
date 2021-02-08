@@ -371,6 +371,12 @@ th, td {
       &:not(.active):hover {
         background: rgba(255, 255, 255, 0.1);
       }
+
+      & > .table__heading-icon {
+          margin-left: 3px;
+          font-size: 0.8rem;
+          color: #DDDDDD;
+      }
     }
 
     &.active {
