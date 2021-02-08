@@ -1,8 +1,9 @@
 /* Dropdown Button */
 .dropbtn {
+  position: relative;
   background-color: grey;
   padding: 5px;
-  width: 165px;
+  width: 100px;
   border: none;
   border-radius: 3px;
 }
@@ -25,7 +26,7 @@
 /* Paragraphs inside the dropdown */
 .dropdown-content p {
   color: white;
-  padding: 3px 6px;
+  padding: 12px 6px;
   width: 165px;
   text-decoration: none;
   display: block;
@@ -43,4 +44,12 @@
 /* put the text in the middle */
 td {
   text-align: center;
+  word-break: break-word;
+}
+td i {
+  font-size: 1.7em;
+}
+
+.table__filters li{
+  font-size: 2.2em;
 }

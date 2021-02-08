@@ -16,9 +16,17 @@ export default {
       // preferences.redColorLight, preferences.redColor
       if (reversed) {
         for (var i = 0; i < 24; i++) {
-          var isSelected = preferences.hour != null && i == preferences.hour;
+        var occ_ratio = Number(data[i])
+        if (occ_ratio > 85) {
+          output.push((isSelected) ? preferences.redColor : preferences.redColorLight);
+        } else if (occ_ratio > 70) {
           output.push((isSelected) ? preferences.orangeColor : preferences.orangeColorLight);
+        } else if (occ_ratio > 55) {
+          output.push((isSelected) ? preferences.yellowColor : preferences.yellowColorLight);
+        } else {
+          output.push((isSelected) ? preferences.greenColor : preferences.greenColorLight);
         }
+      }
       } else {
         for (var i = 0; i < 24; i++) {
           var free_ratio = data[i] / capacity
@@ -112,10 +120,10 @@ export default {
       var options = {
         title: {
           display: true,
-          text: (reversed) ?  preferences.days[preferences.day] + ": Occupancy of parking spaces" : preferences.days[preferences.day] + ": Free parking spaces",
+          text: (reversed) ?  preferences.days[preferences.day] + ": Occupancy of parking spaces of " + parkingLot.name : preferences.days[preferences.day] + ": Free parking spaces of " + parkingLot.name,
           fontSize: 14,
           fontColor: 'orange',
-          padding: 20
+          padding: 20,
         },
         scales: {
           yAxes: [{
@@ -123,12 +131,14 @@ export default {
               min: 0,
               beginAtZero: true,
               max: (reversed) ? 100 : capacity,
-              fontSize: 10
+              fontSize: 10,
+              fontColor: 'rgb(192,192,192)'
             }
           }],
           xAxes: [{
             ticks: {
-              fontSize: 10
+              fontSize: 10,
+              fontColor: 'rgb(192,192,192)'
             }
           }]
         },

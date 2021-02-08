@@ -218,8 +218,14 @@ function whenNothingClicked(e) {
     }
 }
 
+function clearDestinationLayers() {
+    destinationLayer.clearLayers();
+}
+
 function addMarker(e) {
     navigationLayer.clearLayers();
+    destinationLayer.clearLayers();
+    preferences.routes = []
     let iconHtlm = '<i class="fas fa-location-arrow fa-2x" style="color:#0046db;font-size: 3em;"></i>'
     var newMarker = new L.marker(e.latlng, {
         icon: L.divIcon({

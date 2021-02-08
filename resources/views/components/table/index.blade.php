@@ -18,38 +18,39 @@
   <table class="table__data" v-if="selectedParkingLot == index">
     <template v-if="view == 'citizen'">
     <tr>
-      <td width ="50%">
+      <td width ="40%">
         <div class="dropdown">
-          <p class="dropbtn"><i class="fas fa-clock"></i>&nbsp; Today</p>
+          <p class="dropbtn" style="font-size: 1.3em; "><i style="vertical-align: -15%;" class="fas fa-clock"></i>&nbsp; Today</p>
           <div class="dropdown-content">
             <p>Mo-Th: @{{ parkingLot.opening_times_mo_to_th.substring(1,parkingLot.opening_times_mo_to_th.indexOf(':')) +
-              " AM - " + String(parseFloat(parkingLot.opening_times_mo_to_th.substring(parkingLot.opening_times_mo_to_th.indexOf(':') + 1 ,parkingLot.opening_times_mo_to_th.length -1)) - 12) + " PM"}}</p>
+              " AM - " + String((parseFloat(parkingLot.opening_times_mo_to_th.substring(parkingLot.opening_times_mo_to_th.indexOf(':') + 1 ,parkingLot.opening_times_mo_to_th.length -1)) - 12).toFixed(2)) + " PM"}}</p>
             <p>Fr:  @{{ (parseInt(parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1)) - 12) > 0 ? parkingLot.opening_times_fr.substring(1,parkingLot.opening_times_fr.indexOf(':')) +
-              " AM - " + String(parseFloat(parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1)) - 12) + " PM" :
+              " AM - " + String((parseFloat(parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1)) - 12).toFixed(2)) + " PM" :
               parkingLot.opening_times_fr.substring(1,parkingLot.opening_times_fr.indexOf(':')) +
                 " AM - " + parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1) + " AM"}}</p>
             <p>Sa:  @{{ (parseInt(parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1)) - 12) > 0 ? parkingLot.opening_times_sa.substring(1,parkingLot.opening_times_sa.indexOf(':')) +
-              " AM - " + String(parseFloat(parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1)) - 12) + " PM" :
+              " AM - " + String((parseFloat(parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1)) - 12).toFixed(2)) + " PM" :
               parkingLot.opening_times_sa.substring(1,parkingLot.opening_times_sa.indexOf(':')) +
                 " AM - " + parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1) + " AM"}}</p>
             <p v-if="parkingLot.opening_times_su.length > 0">Su: @{{ parkingLot.opening_times_su.substring(1,parkingLot.opening_times_su.indexOf(':')) +
-              " AM - " + String(parseFloat(parkingLot.opening_times_su.substring(parkingLot.opening_times_su.indexOf(':') + 1 ,parkingLot.opening_times_su.length -1)) - 12) + " PM"}}</p>
+              " AM - " + String((parseFloat(parkingLot.opening_times_su.substring(parkingLot.opening_times_su.indexOf(':') + 1 ,parkingLot.opening_times_su.length -1)) - 12).toFixed(2)) + " PM"}}</p>
             <p v-else>Su: CLOSED</p>
           </div>
         </div>
       </td>
       <td v-if="day < 5">  @{{ parkingLot.opening_times_mo_to_th.substring(1,parkingLot.opening_times_mo_to_th.indexOf(':')) +
-        " AM - " + String(parseFloat(parkingLot.opening_times_mo_to_th.substring(parkingLot.opening_times_mo_to_th.indexOf(':') + 1 ,parkingLot.opening_times_mo_to_th.length -1)) - 12) + " PM"}}</td>
+        " AM - " + String((parseFloat(parkingLot.opening_times_mo_to_th.substring(parkingLot.opening_times_mo_to_th.indexOf(':') + 1 ,
+        parkingLot.opening_times_mo_to_th.length -1)) - 12).toFixed(2)) + " PM"}}</td>
       <td v-if="day == 5"> @{{ (parseInt(parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1)) - 12) > 0 ? parkingLot.opening_times_fr.substring(1,parkingLot.opening_times_fr.indexOf(':')) +
-        " AM - " + String(parseFloat(parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1)) - 12) + " PM" :
+        " AM - " + String((parseFloat(parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1)) - 12).toFixed(2)) + " PM" :
         parkingLot.opening_times_fr.substring(1,parkingLot.opening_times_fr.indexOf(':')) +
           " AM - " + parkingLot.opening_times_fr.substring(parkingLot.opening_times_fr.indexOf(':') + 1 ,parkingLot.opening_times_fr.length -1) + " AM"}}</td>
       <td v-if="day == 6"> @{{ (parseInt(parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1)) - 12) > 0 ? parkingLot.opening_times_sa.substring(1,parkingLot.opening_times_sa.indexOf(':')) +
-        " AM - " + String(parseFloat(parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1)) - 12) + " PM" :
+        " AM - " + String((parseFloat(parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1)) - 12).toFixed(2)) + " PM" :
         parkingLot.opening_times_sa.substring(1,parkingLot.opening_times_sa.indexOf(':')) +
           " AM - " + parkingLot.opening_times_sa.substring(parkingLot.opening_times_sa.indexOf(':') + 1 ,parkingLot.opening_times_sa.length -1) + " AM"}}</td>
       <td v-if="day == 7 & parkingLot.opening_times_su.length > 0"> @{{ parkingLot.opening_times_su.substring(1,parkingLot.opening_times_su.indexOf(':')) +
-        " AM - " + String(parseFloat(parkingLot.opening_times_su.substring(parkingLot.opening_times_su.indexOf(':') + 1 ,parkingLot.opening_times_su.length -1)) - 12) + " PM"}}</td>
+        " AM - " + String((parseFloat(parkingLot.opening_times_su.substring(parkingLot.opening_times_su.indexOf(':') + 1 ,parkingLot.opening_times_su.length -1)) - 12).toFixed(2)) + " PM"}}</td>
       <td v-if="day == 7 & parkingLot.opening_times_su.length == 0">CLOSED</td>
     </tr>
       <tr v-if="parkingLot.capacity_disabled > 0">
@@ -63,10 +64,6 @@
       <tr v-if="parkingLot.capacity_women > 0">
         <td><i class="fas fa-female"></i></td>
         <td>@{{ parkingLot.capacity_women }}</td>
-      </tr>
-      <tr v-if="parkingLot.height > 0">
-        <td><i class="fas fa-ruler-vertical"></i></td>
-        <td>@{{ parkingLot.height }} m</td>
       </tr>
       <tr>
         <td v-if="parkingLot.price_1st_hour > 0 | parkingLot.night_price_per_hour_20_to_8">
@@ -103,13 +100,17 @@
           <td v-if="parkingLot.night_price_max > 0 & (hour >= 20 | hour < 8)">@{{ parkingLot.night_price_max }} € /night</td>
         </template>
       </tr>
+      <tr v-if="parkingLot.height > 0">
+        <td><i class="fas fa-ruler-vertical"></i></td>
+        <td>@{{ parkingLot.height }} m</td>
+      </tr>
       <tr>
         <td><i class="fas fa-link"></i></td>
         <td><a v-bind:href ="parkingLot.website" target="_blank" style="color:yellow;">Visit Website</a></td>
       </tr>
       <tr v-if="parkingLot.notes.length > 0">
         <td><i class="fas fa-sticky-note"></i></td>
-        <td>@{{ parkingLot.notes }}</td>
+        <td :title = "parkingLot.notes">@{{ parkingLot.notes.length < 40 ? parkingLot.notes : parkingLot.notes.substring(0,40) + " ..." }}</td>
       </tr>
     </template>
   </table>

@@ -226,7 +226,9 @@ $(document).ready(function() {
         }
       },
       'routes': function (newVal, oldVal) {
+        if (newVal == null || newVal.length == 0) clearDestinationLayers();
         this.selectedParkingLot = null;
+
       },
       'selectedParkingLot': function (newVal, oldVal) {
         this.popupMinimized = false;
@@ -275,7 +277,7 @@ $(document).ready(function() {
           init_map();
         }
       },
-      'filters.parkandride': function(newVal, oldVal) {
+      'showParkAndRide': function(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           init_map();
       }
