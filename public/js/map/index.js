@@ -24,6 +24,9 @@ var heavymetal = L.tileLayer('https://{s}.tile.thunderforest.com/spinal-map/{z}/
     apikey: '2d840ed962cc48a193313a8c0eda33e7',
     maxZoom: 22
 });
+var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
 // Controls
 new L.control.zoom({ position: 'topright' }).addTo(map);
 L.control.layers({
@@ -31,7 +34,8 @@ L.control.layers({
     "OSM Mapnik": streets_Mapnik,
     "OpenTopoMap": topo,
     "Dark Mode": dark,
-    "Heavy Metal": heavymetal
+    "Heavy Metal": heavymetal,
+    "Satellite": esri
 }).addTo(map);
 map.on({
         click: whenNothingClicked.bind(this)
