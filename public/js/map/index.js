@@ -39,7 +39,7 @@ L.control.layers({
 }).addTo(map);
 map.on({
         click: whenNothingClicked.bind(this)
-    });;
+    });
 let navigationLayer = L.layerGroup().addTo(map);
 let destinationLayer = L.layerGroup().addTo(map);
 let layers = L.layerGroup().addTo(map);
@@ -104,24 +104,7 @@ function init_map() {
     rainbow.setNumberRange(0, 1);
     geojson = L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
-            let openingTimes;
-            switch(day) {
-                case "Sunday":
-                    openingTimes = feature.properties.opening_times_su;
-                    break;
-                case "Saturday":
-                    openingTimes = feature.properties.opening_times_sa;
-                    break;
-                case "Friday":
-                    openingTimes = feature.properties.opening_times_fr;
-                    break;
-                default:
-                    openingTimes = feature.properties.opening_times_mo_to_th;
-            }
-            openingTimes = (openingTimes) ? JSON.parse(openingTimes.replace(":",",")) : [25,26];
-            openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
-            let hour = this.preferences.hour;
-            let open = (hour>=openingTimes[0] && hour<openingTimes[1]);
+            let open = isOpen(day, feature.properties);
             let parkride = feature.properties.name.includes("P+R");
             let selected = feature.properties.index == this.preferences.selectedParkingLot;
             let hovered = (this.preferences.hoveredRoute != null) ? feature.properties.id == this.preferences.routes[this.preferences.hoveredRoute][1].id
@@ -239,14 +222,19 @@ function onDestinationSelected(lat, lng) {
     let threshold = 50
     navigationLayer.clearLayers();
     destinationLayer.clearLayers();
-    addDestinationMarker(lat, lng)
+    addDestinationMarker(lat, lng);
+    let days = Object.keys(this.preferences.optimizedOcupancies);
+    let day = days.filter(function (str) { return str.indexOf(this.preferences.date.day) !== -1; })[0];
     var distances = []
     for (var i in this.preferences.filteredParkingLots) {
         var lot = this.preferences.filteredParkingLots[i]
         var dist = Number(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))
         var occ = this.preferences.occupancy[preferences.days[preferences.day]][preferences.hour][lot.name]
         occ = (occ) ? occ : threshold+1;
-        distances.push([Math.round(dist*100)/100, Number(i), occ, i])
+        let open = isOpen(day, lot);
+        if (open) {
+            distances.push([Math.round(dist * 100) / 100, Number(i), occ, i])
+        }
     }
     var sort = distances.sort(function(a,b){return a[0] > b[0] ? 1 : -1})
     var filter = sort.filter(function(a){return a[2] > threshold})
@@ -255,6 +243,27 @@ function onDestinationSelected(lat, lng) {
     filter[2][1] = this.preferences.filteredParkingLots[filter[2][1]]
     console.log(filter[0])
     preferences.routes = [filter[0], filter[1], filter[2]]
+}
+
+function isOpen(day,properties) {
+    let openingTimes;
+    switch(day) {
+        case "Sunday":
+            openingTimes = properties.opening_times_su;
+            break;
+        case "Saturday":
+            openingTimes = properties.opening_times_sa;
+            break;
+        case "Friday":
+            openingTimes = properties.opening_times_fr;
+            break;
+        default:
+            openingTimes = properties.opening_times_mo_to_th;
+    }
+    openingTimes = (openingTimes) ? JSON.parse(openingTimes.replace(":",",")) : [25,26];
+    openingTimes[1] = (openingTimes[1]<openingTimes[0]) ? openingTimes[1] + 23 : openingTimes[1];
+    let hour = this.preferences.hour;
+    return (hour>=openingTimes[0] && hour<openingTimes[1]);
 }
 
 function presentRouteAlternatives(routes) {
