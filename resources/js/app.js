@@ -213,7 +213,8 @@ $(document).ready(function() {
     },
     watch: {
       'view': function (newVal, oldVal) {
-        preferences.filters.parkandride = false
+        preferences.filters.parkandride = false;
+        changeMapToUseCase();
         if (newVal == 'analyst') {
           this.$refs.sumchartoverweek.render(true)
           this.$refs.sumchartoverweekall.render(true)

@@ -3597,7 +3597,7 @@ function getAlpha(string) {
 // generators
 function hexString(rgba, a) {
    var a = (a !== undefined && rgba.length === 3) ? a : rgba[3];
-   return "#" + hexDouble(rgba[0])
+   return "#" + hexDouble(rgba[0]) 
               + hexDouble(rgba[1])
               + hexDouble(rgba[2])
               + (
@@ -18254,7 +18254,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
  * heatmap.js v2.0.5 | JavaScript Heatmap Library
  *
  * Copyright 2008-2016 Patrick Wied <heatmapjs@patrick-wied.at> - All rights reserved.
- * Dual licensed under MIT and Beerware license
+ * Dual licensed under MIT and Beerware license 
  *
  * :: 2016-09-05 01:16
  */
@@ -18283,7 +18283,7 @@ var HeatmapConfig = {
   defaultBlur: .85,
   defaultXField: 'x',
   defaultYField: 'y',
-  defaultValueField: 'value',
+  defaultValueField: 'value', 
   plugins: {}
 };
 var Store = (function StoreClosure() {
@@ -18345,13 +18345,13 @@ var Store = (function StoreClosure() {
           }
           return false;
         } else {
-          return {
-            x: x,
+          return { 
+            x: x, 
             y: y,
-            value: value,
+            value: value, 
             radius: radius,
             min: min,
-            max: max
+            max: max 
           };
         }
     },
@@ -18392,7 +18392,7 @@ var Store = (function StoreClosure() {
           this.addData.call(this, dataArr[dataLen]);
         }
       } else {
-        // add to store
+        // add to store  
         var organisedEntry = this._organiseData(arguments[0], true);
         if (organisedEntry) {
           // if it's the first datapoint initialize the extremas with it
@@ -18422,7 +18422,7 @@ var Store = (function StoreClosure() {
       }
       this._max = data.max;
       this._min = data.min || 0;
-
+      
       this._onExtremaChange();
       this._coordinator.emit('renderall', this._getInternalData());
       return this;
@@ -18446,11 +18446,11 @@ var Store = (function StoreClosure() {
       this._coordinator = coordinator;
     },
     _getInternalData: function() {
-      return {
+      return { 
         max: this._max,
-        min: this._min,
+        min: this._min, 
         data: this._data,
-        radi: this._radi
+        radi: this._radi 
       };
     },
     getData: function() {
@@ -18484,7 +18484,7 @@ var Store = (function StoreClosure() {
                 }
               } else {
                 continue;
-              }
+              } 
             }
           }
         }
@@ -29928,7 +29928,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
       if (!this._heatmap) {
         this._heatmap = h337.create(this.cfg);
-      }
+      } 
 
       // this resets the origin and redraws whenever
       // the zoom changed or the map has been moved
@@ -29949,9 +29949,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     },
     _draw: function() {
       if (!this._map) { return; }
-
+      
       var mapPane = this._map.getPanes().mapPane;
-      var point = mapPane._leaflet_pos;
+      var point = mapPane._leaflet_pos;      
 
       // reposition the layer
       this._el.style[HeatmapOverlay.CSS_TRANSFORM] = 'translate(' +
@@ -29982,7 +29982,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       var localMin = 0;
       var valueField = this.cfg.valueField;
       var len = this._data.length;
-
+    
       while (len--) {
         var entry = this._data[len];
         var value = entry[valueField];
@@ -30026,12 +30026,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       var latField = this.cfg.latField || 'lat';
       var lngField = this.cfg.lngField || 'lng';
       var valueField = this.cfg.valueField || 'value';
-
+    
       // transform data to latlngs
       var data = data.data;
       var len = data.length;
       var d = [];
-
+    
       while (len--) {
         var entry = data[len];
         var latlng = new L.LatLng(entry[latField], entry[lngField]);
@@ -30043,7 +30043,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         d.push(dataObj);
       }
       this._data = d;
-
+    
       this._draw();
     },
     // experimential... not ready.
@@ -30060,7 +30060,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var entry = pointOrArray;
         var latlng = new L.LatLng(entry[latField], entry[lngField]);
         var dataObj = { latlng: latlng };
-
+        
         dataObj[valueField] = entry[valueField];
         this._max = Math.max(this._max, dataObj[valueField]);
         this._min = Math.min(this._min, dataObj[valueField]);
@@ -30074,7 +30074,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     },
     _reset: function () {
       this._origin = this._map.layerPointToLatLng(new L.Point(0, 0));
-
+      
       var size = this._map.getSize();
       if (this._width !== size.x || this._height !== size.y) {
         this._width  = size.x;
@@ -30086,7 +30086,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         this._heatmap._renderer.setDimensions(this._width, this._height);
       }
       this._draw();
-    }
+    } 
   });
 
   HeatmapOverlay.CSS_TRANSFORM = (function() {
@@ -83124,7 +83124,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
-RainbowVis-JS
+RainbowVis-JS 
 Released under Eclipse Public License - v 1.0
 */
 
@@ -83134,10 +83134,10 @@ function Rainbow()
 	var gradients = null;
 	var minNum = 0;
 	var maxNum = 100;
-	var colours = ['ff0000', 'ffff00', '00ff00', '0000ff'];
+	var colours = ['ff0000', 'ffff00', '00ff00', '0000ff']; 
 	setColours(colours);
-
-	function setColours (spectrum)
+	
+	function setColours (spectrum) 
 	{
 		if (spectrum.length < 2) {
 			throw new Error('Rainbow must have two or more colours.');
@@ -83147,19 +83147,19 @@ function Rainbow()
 			firstGradient.setGradient(spectrum[0], spectrum[1]);
 			firstGradient.setNumberRange(minNum, minNum + increment);
 			gradients = [ firstGradient ];
-
+			
 			for (var i = 1; i < spectrum.length - 1; i++) {
 				var colourGradient = new ColourGradient();
 				colourGradient.setGradient(spectrum[i], spectrum[i + 1]);
-				colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1));
-				gradients[i] = colourGradient;
+				colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1)); 
+				gradients[i] = colourGradient; 
 			}
 
 			colours = spectrum;
 		}
 	}
 
-	this.setSpectrum = function ()
+	this.setSpectrum = function () 
 	{
 		setColours(arguments);
 		return this;
@@ -83199,7 +83199,7 @@ function Rainbow()
 	}
 }
 
-function ColourGradient()
+function ColourGradient() 
 {
 	"use strict";
 	var startColour = 'ff0000';
@@ -83225,11 +83225,11 @@ function ColourGradient()
 
 	this.colourAt = function (number)
 	{
-		return calcHex(number, startColour.substring(0,2), endColour.substring(0,2))
-			+ calcHex(number, startColour.substring(2,4), endColour.substring(2,4))
+		return calcHex(number, startColour.substring(0,2), endColour.substring(0,2)) 
+			+ calcHex(number, startColour.substring(2,4), endColour.substring(2,4)) 
 			+ calcHex(number, startColour.substring(4,6), endColour.substring(4,6));
 	}
-
+	
 	function calcHex(number, channelStart_Base16, channelEnd_Base16)
 	{
 		var num = number;
@@ -83238,24 +83238,24 @@ function ColourGradient()
 		}
 		if (num > maxNum) {
 			num = maxNum;
-		}
+		} 
 		var numRange = maxNum - minNum;
 		var cStart_Base10 = parseInt(channelStart_Base16, 16);
-		var cEnd_Base10 = parseInt(channelEnd_Base16, 16);
+		var cEnd_Base10 = parseInt(channelEnd_Base16, 16); 
 		var cPerUnit = (cEnd_Base10 - cStart_Base10)/numRange;
 		var c_Base10 = Math.round(cPerUnit * (num - minNum) + cStart_Base10);
 		return formatHex(c_Base10.toString(16));
 	}
 
-	function formatHex(hex)
+	function formatHex(hex) 
 	{
 		if (hex.length === 1) {
 			return '0' + hex;
 		} else {
 			return hex;
 		}
-	}
-
+	} 
+	
 	function isHexColour(string)
 	{
 		var regex = /^#?[0-9a-fA-F]{6}$/i;
@@ -83274,7 +83274,7 @@ function ColourGradient()
 			throw new Error(string + ' is not a valid colour.');
 		}
 	}
-
+	
 	// Extended list of CSS colornames s taken from
 	// http://www.w3.org/TR/css3-color/#svg-color
 	var colourNames = {
@@ -95999,6 +95999,7 @@ $(document).ready(function () {
     watch: {
       'view': function view(newVal, oldVal) {
         preferences.filters.parkandride = false;
+        changeMapToUseCase();
 
         if (newVal == 'analyst') {
           this.$refs.sumchartoverweek.render(true);
@@ -96128,8 +96129,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\paula\Documents\NotFun\Studium\Master_Geoinformatics\7.Semester\Geoinformation in Society\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

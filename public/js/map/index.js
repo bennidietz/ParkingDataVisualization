@@ -69,6 +69,8 @@ let analystControl = L.control.layers({
     "Heatmap": heatmapLayer
 });
 
+citizenControl.addTo(map);
+
 map.on({
     click: whenNothingClicked.bind(this)
 });
@@ -101,9 +103,6 @@ var geojson = null;
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 function init_map() {
-    map.removeLayer(heatmapLayer);
-    map.removeControl(citizenControl);
-    map.removeControl(analystControl);
     let nocapacity = rgba2hex(this.preferences.redColor)
     let medcapacity = rgba2hex(this.preferences.yellowColor)
     let hascapacity = rgba2hex(this.preferences.greenColor)
@@ -162,17 +161,24 @@ function init_map() {
         routeWhileDragging: true,
         profile: 'walking'
     }).addTo(map);
-
     if (this.preferences.view == "analyst") {
         heatmapLayer.setData({
             max: 100,
             data: dataHeat
         });
+    }
+};
+
+function changeMapToUseCase() {
+    map.removeLayer(heatmapLayer);
+    map.removeControl(citizenControl);
+    map.removeControl(analystControl);
+    if (this.preferences.view == "analyst") {
         analystControl.addTo(map);
     } else {
         citizenControl.addTo(map);
     }
-};
+}
 
 
 function constructGeoJSON(carParksArray) {
