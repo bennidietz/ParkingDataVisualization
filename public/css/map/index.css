@@ -32,6 +32,7 @@ div.leaflet-locationiq-close,.leaflet-locationiq-hidden {
     font-size: 14px;
     padding-top: 4px;
     font-weight: bold;
+    color: #fdc452;
 }
 .leaflet-locationiq-results .name strong{
     text-decoration: underline;
