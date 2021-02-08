@@ -209,6 +209,8 @@ th, td {
   z-index: 1;
 
   & > .slider__output {
+    width: 90px;
+    margin-right: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
