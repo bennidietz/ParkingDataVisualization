@@ -94952,8 +94952,7 @@ $(document).ready(function () {
       resetDate: function resetDate() {
         if (!this.visualizing) {
           var date = new Date();
-          this.day = 1; //date.getDay();
-
+          this.day = date.getDay();
           this.hour = date.getHours();
         } else {
           this.day = 1;
@@ -95028,6 +95027,7 @@ $(document).ready(function () {
       },
       'routes': function routes(newVal, oldVal) {
         this.selectedParkingLot = null;
+        if (newVal.length == 0) clearDestinationLayers();
       },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
         this.popupMinimized = false;
