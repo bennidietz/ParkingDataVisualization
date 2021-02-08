@@ -1,9 +1,12 @@
 <template v-if="view == 'citizen'">
+  <div style="margin-bottom: 10px;">
+    <input id="show-park-and-ride" type="checkbox" name="showRarkAndRide" v-model="showParkAndRide" />
+    <label for="show-park-and-ride" style="color: #DDDDDD; font-size: 0.8rem;">Show Park and Ride</label>
+  </div>
   <ul class="table__filters">
     <li class="fas fa-wheelchair" :class="{'active': filters.disabled}" @click="filters.disabled = !filters.disabled" title="has disabled parking"></li>
     <li class="fas fa-female" :class="{'active': filters.women}" @click="filters.women = !filters.women" title="has womens parking area"></li>
     <li class="fas fa-charging-station" :class="{'active': filters.electric}" @click="filters.electric = !filters.electric"  title="has charging stations"></li>
-    <li class="fas fa-exchange-alt" :class="{'active': filters.parkandride}" @click="filters.parkandride = !filters.parkandride" title="Park and Ride"></li>
   </ul>
 </template>
 <div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in filteredParkingLots">
