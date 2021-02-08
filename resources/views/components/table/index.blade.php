@@ -1,13 +1,20 @@
 <template v-if="view == 'citizen'">
+  <div>
+    <input id="show-park-and-ride" type="checkbox" name="showRarkAndRide" v-model="showParkAndRide" />
+    <label for="show-park-and-ride" style="color: #DDDDDD; font-size: 0.8rem;">Show Park and Ride</label>
+  </div>
   <ul class="table__filters">
     <li class="fas fa-wheelchair" :class="{'active': filters.disabled}" @click="filters.disabled = !filters.disabled" title="has disabled parking"></li>
     <li class="fas fa-female" :class="{'active': filters.women}" @click="filters.women = !filters.women" title="has womens parking area"></li>
     <li class="fas fa-charging-station" :class="{'active': filters.electric}" @click="filters.electric = !filters.electric"  title="has charging stations"></li>
-    <li class="fas fa-exchange-alt" :class="{'active': filters.parkandride}" @click="filters.parkandride = !filters.parkandride" title="Park and Ride"></li>
   </ul>
 </template>
 <div class="table__row" :class="{'active': index == selectedParkingLot}" v-for="(parkingLot, index) in filteredParkingLots">
-  <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}</div>
+  <div class="table__heading" @click="selectedParkingLot = index">@{{ parkingLot.name }}
+    <div class="table__heading-icon fas fa-wheelchair" v-if="parkingLot.capacity_disabled > 0"></div>
+    <div class="table__heading-icon fas fa-female" v-if="parkingLot.capacity_women > 0"></div>
+    <div class="table__heading-icon fas fa-charging-station" v-if="parkingLot.capacity_electric > 0"></div>
+  </div>
   <table class="table__data" v-if="selectedParkingLot == index">
     <template v-if="view == 'citizen'">
     <tr>

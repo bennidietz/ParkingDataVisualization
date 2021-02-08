@@ -37,13 +37,13 @@ $(document).ready(function() {
       view: 'citizen',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       day: null,
-      hour: null, 
+      hour: null,
       visualizing: false,
+      showParkAndRide: false,
       filters: {
         disabled: false,
         women: false,
         electric: false,
-        parkandride: false,
       },
       parkingLots: null,
       selectedParkingLot: null,
@@ -96,7 +96,7 @@ $(document).ready(function() {
             return ((!this.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0)
              && (!this.filters.women || parseInt(parkingLot.capacity_women) > 0)
              && (!this.filters.electric || parseInt(parkingLot.capacity_electric) > 0)
-             && (!String(parkingLot.name).includes("P+R") || (this.filters.parkandride && parkingLot.name.includes("P+R"))));
+             && (!String(parkingLot.name).includes("P+R") || this.showParkAndRide));
           })
         }
 
