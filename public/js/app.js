@@ -94829,11 +94829,11 @@ $(document).ready(function () {
       day: null,
       hour: null,
       visualizing: false,
+      showParkAndRide: false,
       filters: {
         disabled: false,
         women: false,
-        electric: false,
-        parkandride: false
+        electric: false
       },
       parkingLots: null,
       selectedParkingLot: null,
@@ -94890,7 +94890,7 @@ $(document).ready(function () {
 
         if (this.parkingLots != null) {
           return this.parkingLots.filter(function (parkingLot) {
-            return (!_this2.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!_this2.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!_this2.filters.electric || parseInt(parkingLot.capacity_electric) > 0) && (!String(parkingLot.name).includes("P+R") || _this2.filters.parkandride && parkingLot.name.includes("P+R"));
+            return (!_this2.filters.disabled || parseInt(parkingLot.capacity_disabled) > 0) && (!_this2.filters.women || parseInt(parkingLot.capacity_women) > 0) && (!_this2.filters.electric || parseInt(parkingLot.capacity_electric) > 0) && (!String(parkingLot.name).includes("P+R") || _this2.showParkAndRide);
           });
         }
 
