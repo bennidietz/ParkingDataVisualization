@@ -7,6 +7,7 @@ window.L = require('leaflet');
 window.Rainbow = require('rainbowvis.js');
 window.chart = require('chart.js');
 window.moment = require('moment');
+window.HeatmapOverlay = require('leaflet-heatmap')
 
 window.Vue = require('vue');
 const chart = Vue.component("chart", () => import("./components/Chart.vue"));

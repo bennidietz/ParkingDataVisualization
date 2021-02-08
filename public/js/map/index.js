@@ -1,5 +1,25 @@
 // initialise Leaflet map
-var map = L.map("map", {zoomControl: false}).setView([51.957, 7.625], 15);
+var cfg = {
+    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+    // if scaleRadius is false it will be the constant radius used in pixels
+    "radius": 0.005,
+    "maxOpacity": .8,
+    // scales the radius based on map zoom
+    "scaleRadius": true,
+    // if set to false the heatmap uses the global maximum for colorization
+    // if activated: uses the data maximum within the current map boundaries
+    //   (there will always be a red spot with useLocalExtremas true)
+    "useLocalExtrema": false,
+    // which field name in your data represents the latitude - default "lat"
+    latField: 'lat',
+    // which field name in your data represents the longitude - default "lng"
+    lngField: 'lng',
+    // which field name in your data represents the data value - default "value"
+    valueField: 'count'
+};
+
+var heatmapLayer = new HeatmapOverlay(cfg);
+var map = L.map("map", {zoomControl: false,layers: [heatmapLayer]}).setView([51.957, 7.625], 15);
 
 // Basemaps
 let streets = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
@@ -27,19 +47,31 @@ var heavymetal = L.tileLayer('https://{s}.tile.thunderforest.com/spinal-map/{z}/
 var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
+
 // Controls
 new L.control.zoom({ position: 'topright' }).addTo(map);
-L.control.layers({
+let citizenControl = L.control.layers({
     "OpenStreetMap": streets,
     "OSM Mapnik": streets_Mapnik,
     "OpenTopoMap": topo,
     "Dark Mode": dark,
     "Heavy Metal": heavymetal,
     "Satellite": esri
-}).addTo(map);
+});
+let analystControl = L.control.layers({
+    "OpenStreetMap": streets,
+    "OSM Mapnik": streets_Mapnik,
+    "OpenTopoMap": topo,
+    "Dark Mode": dark,
+    "Heavy Metal": heavymetal,
+    "Satellite": esri
+},{
+    "Heatmap": heatmapLayer
+});
+
 map.on({
-        click: whenNothingClicked.bind(this)
-    });
+    click: whenNothingClicked.bind(this)
+});
 let navigationLayer = L.layerGroup().addTo(map);
 let destinationLayer = L.layerGroup().addTo(map);
 let layers = L.layerGroup().addTo(map);
@@ -69,6 +101,9 @@ var geojson = null;
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 function init_map() {
+    map.removeLayer(heatmapLayer);
+    map.removeControl(citizenControl);
+    map.removeControl(analystControl);
     let nocapacity = rgba2hex(this.preferences.redColor)
     let medcapacity = rgba2hex(this.preferences.yellowColor)
     let hascapacity = rgba2hex(this.preferences.greenColor)
@@ -102,6 +137,7 @@ function init_map() {
         hascapacity);
     // Set the min/max range
     rainbow.setNumberRange(0, 1);
+    let dataHeat = [];
     geojson = L.geoJSON(carParksGeoJSON,{
         pointToLayer: function (feature, latlng) {
             let open = isOpen(day, feature.properties);
@@ -111,6 +147,8 @@ function init_map() {
             : false;
             let currFreeForFeatureCitizen = (currOccupancyCitizen) ? currOccupancyCitizen[feature.properties.name] : -1;
             let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
+            let percOcc = (currFreeForFeatureAnalyst >= 0) ? ((feature.properties.capacity - currFreeForFeatureAnalyst)/feature.properties.capacity * 100) : 0;
+            dataHeat.push({lat: latlng.lat, lng:latlng.lng, count: percOcc})
             return (this.preferences.view !== "analyst") ?
                 basicSymbol(latlng, parkride, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen, selected, hovered, style)
                 : analystSymbol(latlng, selected, feature.properties.capacity, currFreeForFeatureAnalyst, style, nocapacity, hascapacity);
@@ -124,6 +162,16 @@ function init_map() {
         routeWhileDragging: true,
         profile: 'walking'
     }).addTo(map);
+
+    if (this.preferences.view == "analyst") {
+        heatmapLayer.setData({
+            max: 100,
+            data: dataHeat
+        });
+        analystControl.addTo(map);
+    } else {
+        citizenControl.addTo(map);
+    }
 };
 
 
