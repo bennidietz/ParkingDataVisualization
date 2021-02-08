@@ -485,6 +485,20 @@ th, td {
   bottom: 0px;
   margin: 20px;
 
+  & > .toast__close {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+
+      & > div {
+          padding: 10px;
+          background: $darkGray;
+          font-size: 1.2rem;
+          border-radius: 5px;
+      }
+  }
+
   & > .toast__message {
       margin-bottom: 15px;
       padding: 10px;
@@ -496,42 +510,5 @@ th, td {
       &:last-of-type {
           margin-bottom: 0px;
       }
-
-      & > .toast__controls {
-          width: 100%;
-          margin-bottom: 10px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-
-          & > .toast__control-button {
-              margin-right: 5px;
-              padding: 10px;
-              border-radius: 3px;
-              @extend .h-clickable;
-              @extend .h-transition-fast;
-              background: rgba(0, 0, 0, 0.2);
-              border-radius: 5px;
-              overflow: hidden;
-
-              &:last-of-type {
-                  margin-right: 0;
-              }
-
-              &:hover {
-                  background: rgba(255, 255, 255, 0.8);
-                  color: $darkGray;
-              }
-          }
-      }
-  }
-
-  & > :hover {
-    background: black;
-    li { cursor: pointer; }
-  }
-
-  & > .toast__clickable {
-    li { cursor: pointer; }
   }
 }

@@ -71,7 +71,7 @@
         </div>
 
         <div class="relative flex items-top justify-center min-h-screen sm:items-center sm:pt-0">
-            @if (Route::has('login'))
+            @if (Route::has('login') && 0)
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="text-sm text-white underline" style="color: #fff;">Dashboard</a>
