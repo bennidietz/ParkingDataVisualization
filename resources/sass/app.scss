@@ -324,8 +324,11 @@ th, td {
 
   & > .table__filters {
     width: 100%;
+    position: sticky;
+    top: -25px;
     margin: 0 0 10px 0;
-    padding: 0;
+    padding: 10px 0px 0px 0px;
+    background: $darkGray;
     display: flex;
     justify-content: space-between;
     align-items: center;

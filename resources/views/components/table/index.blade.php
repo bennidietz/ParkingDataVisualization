@@ -1,5 +1,5 @@
 <template v-if="view == 'citizen'">
-  <div style="margin-bottom: 10px;">
+  <div>
     <input id="show-park-and-ride" type="checkbox" name="showRarkAndRide" v-model="showParkAndRide" />
     <label for="show-park-and-ride" style="color: #DDDDDD; font-size: 0.8rem;">Show Park and Ride</label>
   </div>
