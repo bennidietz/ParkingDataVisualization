@@ -65,6 +65,9 @@ var geojson = null;
  * When the window is loaded the parking data is retrieved from the server and the visualized on the map.
  */
 function init_map() {
+    let nocapacity = rgba2hex(this.preferences.redColor)
+    let medcapacity = rgba2hex(this.preferences.yellowColor)
+    let hascapacity = rgba2hex(this.preferences.greenColor)
     layers.clearLayers();
     if (preferences.view == 'analyst') {
         map.removeControl(geocoder);
@@ -90,9 +93,9 @@ function init_map() {
     var rainbow = new Rainbow();
     var style = getComputedStyle(document.body);
     // Set start and end colors
-    rainbow.setSpectrum(style.getPropertyValue('--no-capacity'),
-        style.getPropertyValue('--med-capacity'),
-        style.getPropertyValue('--has-capacity'));
+    rainbow.setSpectrum(nocapacity,
+        medcapacity,
+        hascapacity);
     // Set the min/max range
     rainbow.setNumberRange(0, 1);
     geojson = L.geoJSON(carParksGeoJSON,{
@@ -123,7 +126,7 @@ function init_map() {
             let currFreeForFeatureAnalyst = (currOccupancyAnalyst) ? currOccupancyAnalyst[feature.properties.name] : -1;
             return (this.preferences.view !== "analyst") ?
                 basicSymbol(latlng, parkride, open, true, rainbow, feature.properties.capacity, currFreeForFeatureCitizen, selected, hovered, style)
-                : analystSymbol(latlng, selected, feature.properties.capacity, currFreeForFeatureAnalyst, style);
+                : analystSymbol(latlng, selected, feature.properties.capacity, currFreeForFeatureAnalyst, style, nocapacity, hascapacity);
         },
         onEachFeature: onEachFeature.bind(this)
     })
@@ -194,6 +197,9 @@ function addMarker(e) {
     newMarker.bindPopup("<div class='navigation-question-wrapper'><div class='navigation-question'>Navigate here?</div></br>" +
         "<button onclick='onDestinationSelected("+ e.latlng.lat +","+ e.latlng.lng +")' class='navigation-button'>Yes</button>" +
         "<button onclick='closeMarker()' class='navigation-button'>No</button></div>").openPopup();
+    newMarker.getPopup().on('remove', function() {
+        navigationLayer.clearLayers();
+    });
 }
 
 function addDestinationMarker(lat, lng) {
@@ -285,7 +291,7 @@ function addRoute(routing, points) {
     console.log(wayPoints)
     routing.setWaypoints(wayPoints);
 }
-function analystSymbol(latlng, selected, capa, currOcc, style) {
+function analystSymbol(latlng, selected, capa, currOcc, style, red, green) {
     if (currOcc != -1) {
         return L.marker(latlng, {
             icon: L.canvasIcon({
@@ -297,7 +303,7 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
                         var lastend = -1.5708;
                         var data = [capa - currOcc, currOcc]; // If you add more data values make sure you add more colors
                         var myTotal = 0; // Automatically calculated so don't touch
-                        let myColor = [style.getPropertyValue('--no-capacity'), style.getPropertyValue('--has-capacity')];
+                        let myColor = [red, green];
                         for (var e = 0; e < data.length; e++) {
                             myTotal += data[e];
                         }
@@ -329,6 +335,7 @@ function analystSymbol(latlng, selected, capa, currOcc, style) {
         if(!selected) {
             html = '<span class="fa-stack-4x" style="display:flex;justify-content:center;align-items:center;">' +
                 '<i class="fas fa-info-circle fa-stack-2x" style="color:' + style.getPropertyValue('--no-data') + ';font-size: 3em;"></i>' +
+                '<i class="fas fa-info fa-stack-2x" style="color: white;font-size: 1.5em;"></i>' +
                 '<i class="fas fa-slash fa-stack-1x" style="color: white;font-size: 1.5em;"></i>' +
                 '</span>'
         } else {
@@ -370,13 +377,13 @@ function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, 
             }
         } else {
             if (parkride) {
-                color = style.getPropertyValue('--has-capacity');
+                color = rgba2hex(this.preferences.greenColor);
             } else if (occPerc < 0.01) {
-                color = style.getPropertyValue('--no-capacity');
+                color = rgba2hex(this.preferences.redColor);
             } else if (occPerc < 0.5) {
-                color = style.getPropertyValue('--med-capacity');
+                color = rgba2hex(this.preferences.yellowColor);
             } else {
-                color = style.getPropertyValue('--has-capacity');
+                color = rgba2hex(this.preferences.greenColor);
             }
         }
     }
@@ -412,4 +419,11 @@ function basicSymbol(latlng, parkride, open, gradient, rainbow, capa, currFree, 
 
 function findOut() {
     console.log(geojson)
+}
+function rgba2hex(rgb){
+    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+    return (rgb && rgb.length === 4) ? "#" +
+        ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }

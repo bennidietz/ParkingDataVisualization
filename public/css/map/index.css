@@ -21,6 +21,20 @@ div.leaflet-locationiq-close,.leaflet-locationiq-hidden {
 
 .leaflet-locationiq-results {
     background: #000000d8;
+    cursor: pointer;
+}
+
+.leaflet-locationiq-results .address{
+    padding-bottom: 4px;
+}
+
+.leaflet-locationiq-results .name{
+    font-size: 14px;
+    padding-top: 4px;
+    font-weight: bold;
+}
+.leaflet-locationiq-results .name strong{
+    text-decoration: underline;
 }
 
 .leaflet-locationiq-input {
