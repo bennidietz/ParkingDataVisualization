@@ -95079,7 +95079,7 @@ $(document).ready(function () {
           init_map();
         }
       },
-      'filters.parkandride': function filtersParkandride(newVal, oldVal) {
+      'showParkAndRide': function showParkAndRide(newVal, oldVal) {
         if (this.parkingLots && this.occupancy) {
           init_map();
         }
@@ -95141,8 +95141,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\GitHub\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

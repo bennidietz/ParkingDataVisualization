@@ -44,3 +44,10 @@
 td {
   text-align: center;
 }
+td i {
+  font-size: 1.7em;
+}
+
+.table__filters li{
+  font-size: 2.2em;
+}

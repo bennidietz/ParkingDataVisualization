@@ -85,12 +85,14 @@ __webpack_require__.r(__webpack_exports__);
               min: 0,
               beginAtZero: true,
               max: 100,
-              fontSize: 10
+              fontSize: 10,
+              fontColor: 'rgb(192,192,192)'
             }
           }],
           xAxes: [{
             ticks: {
-              fontSize: 10
+              fontSize: 10,
+              fontColor: 'rgb(192,192,192)'
             }
           }]
         },
