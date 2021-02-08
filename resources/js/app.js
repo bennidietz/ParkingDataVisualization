@@ -225,7 +225,9 @@ $(document).ready(function() {
         }
       },
       'routes': function (newVal, oldVal) {
+        if (newVal == null || newVal.length == 0) clearDestinationLayers();
         this.selectedParkingLot = null;
+        
       },
       'selectedParkingLot': function (newVal, oldVal) {
         this.popupMinimized = false;

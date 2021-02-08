@@ -57,7 +57,7 @@ export default {
           })
       }
 
-      chartdata.labels = Array.from({length: 24}, (v, k) => k + ":00 - " + (k+1) + ":00");
+      chartdata.labels = Array.from({length: 24}, (v, k) => ((k > 12) ? (k-12) + " PM" : k + " AM") + " - " + ((k+1 > 12) ? (k+1-12) + " PM" : (k+1) + " AM"));
 
       var options = {
         title: {
@@ -73,12 +73,14 @@ export default {
               min: 0,
               beginAtZero: true,
               max: 100,
-              fontSize: 10
+              fontSize: 10,
+              fontColor: 'rgb(192,192,192)'
             }
           }],
           xAxes: [{
             ticks: {
-              fontSize: 10
+              fontSize: 10,
+              fontColor: 'rgb(192,192,192)'
             }
           }]
         },

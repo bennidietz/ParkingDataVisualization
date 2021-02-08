@@ -95026,8 +95026,8 @@ $(document).ready(function () {
         }
       },
       'routes': function routes(newVal, oldVal) {
+        if (newVal == null || newVal.length == 0) clearDestinationLayers();
         this.selectedParkingLot = null;
-        if (newVal.length == 0) clearDestinationLayers();
       },
       'selectedParkingLot': function selectedParkingLot(newVal, oldVal) {
         this.popupMinimized = false;
@@ -95141,8 +95141,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Christian\github\ParkingDataVisualization\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/benjamindietz/Desktop/LocalGeoinformatics/GinS/ParkingDataVisualization/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
