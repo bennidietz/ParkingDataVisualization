@@ -117,10 +117,11 @@ export default {
       chartdata.datasets[0].backgroundColor = this.dayColor(reversed, data, capacity);
       chartdata.datasets[0].borderColor = this.dayColor(reversed, data, capacity);
 
+      let name = (parkingLot != null) ? parkingLot.name : "";
       var options = {
         title: {
           display: true,
-          text: (reversed) ?  preferences.days[preferences.day] + ": Occupancy of parking spaces of " + parkingLot.name : preferences.days[preferences.day] + ": Free parking spaces of " + parkingLot.name,
+          text: (reversed) ?  preferences.days[preferences.day] + ": Occupancy of parking spaces of " + name : preferences.days[preferences.day] + ": Free parking spaces of " + name,
           fontSize: 14,
           fontColor: 'orange',
           padding: 20,
@@ -162,7 +163,7 @@ export default {
 
       if (!animated) {
         options["animation"] = { duration: 0 };
-      }      
+      }
 
       chartdata.datasets[0]["label"] = (reversed) ? 'Occupied parking places in %' : 'Free parking places';
       this.renderChart(chartdata, options);
