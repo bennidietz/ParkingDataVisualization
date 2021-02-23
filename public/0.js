@@ -26,6 +26,10 @@ __webpack_require__.r(__webpack_exports__);
       if (reversed) {
         for (var i = 0; i < 24; i++) {
           var occ_ratio = Number(data[i]);
+<<<<<<< Updated upstream
+=======
+          var isSelected = preferences.hour != null && i == preferences.hour;
+>>>>>>> Stashed changes
 
           if (occ_ratio > 85) {
             output.push(isSelected ? preferences.redColor : preferences.redColorLight);
@@ -136,7 +140,11 @@ __webpack_require__.r(__webpack_exports__);
       var options = {
         title: {
           display: true,
+<<<<<<< Updated upstream
           text: reversed ? preferences.days[preferences.day] + ": Occupancy of parking spaces of " + name : preferences.days[preferences.day] + ": Free parking spaces of " + name,
+=======
+          text: reversed ? preferences.days[preferences.day] + ": Occupancy of parking spaces of " + parkingLot.name : preferences.days[preferences.day] + ": Free parking spaces of " + parkingLot.name,
+>>>>>>> Stashed changes
           fontSize: 14,
           fontColor: 'orange',
           padding: 20
