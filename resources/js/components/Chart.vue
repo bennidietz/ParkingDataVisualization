@@ -17,7 +17,6 @@ export default {
       if (reversed) {
         for (var i = 0; i < 24; i++) {
         var occ_ratio = Number(data[i])
-        var isSelected = preferences.hour != null && i == preferences.hour;
         if (occ_ratio > 85) {
           output.push((isSelected) ? preferences.redColor : preferences.redColorLight);
         } else if (occ_ratio > 70) {

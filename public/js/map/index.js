@@ -278,7 +278,7 @@ function closeMarker(){
 }
 
 function onDestinationSelected(lat, lng) {
-    map.setView([lat, lng + 0.004] ,16);
+    map.setView([lat, lng+0.004],16);
     let threshold = 50
     navigationLayer.clearLayers();
     destinationLayer.clearLayers();
@@ -290,7 +290,7 @@ function onDestinationSelected(lat, lng) {
         var lot = this.preferences.filteredParkingLots[i]
         var dist = Number(calcCrow(Number(lot.lat), Number(lot.lon), lat, lng))
         var occ = this.preferences.occupancy[preferences.days[preferences.day]][preferences.hour][lot.name]
-        occ = (occ) ? occ : threshold + 1;
+        occ = (occ) ? occ : threshold+1;
         let open = isOpen(day, lot);
         if (open) {
             distances.push([Math.round(dist * 100) / 100, Number(i), occ, i])
